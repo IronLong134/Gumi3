@@ -1,0 +1,19 @@
+[2019-04-22 04:11:23] local.ERROR: Command "server" is not defined.
+
+Did you mean one of these?
+    dump-server
+    make:observer
+    serve {"exception":"[object] (Symfony\\Component\\Console\\Exception\\CommandNotFoundException(code: 0): Command \"server\" is not defined.
+
+Did you mean one of these?
+    dump-server
+    make:observer
+    serve at D:\\laravelproject\\laravel-blog\\vendor\\symfony\\console\\Application.php:639)
+[stacktrace]
+#0 D:\\laravelproject\\laravel-blog\\vendor\\symfony\\console\\Application.php(233): Symfony\\Component\\Console\\Application->find('server')
+#1 D:\\laravelproject\\laravel-blog\\vendor\\symfony\\console\\Application.php(145): Symfony\\Component\\Console\\Application->doRun(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#2 D:\\laravelproject\\laravel-blog\\vendor\\laravel\\framework\\src\\Illuminate\\Console\\Application.php(90): Symfony\\Component\\Console\\Application->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#3 D:\\laravelproject\\laravel-blog\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\Kernel.php(122): Illuminate\\Console\\Application->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#4 D:\\laravelproject\\laravel-blog\\artisan(37): Illuminate\\Foundation\\Console\\Kernel->handle(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#5 {main}
+"} 
