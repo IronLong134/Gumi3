@@ -219,3 +219,15 @@ body {
     opacity: 0.5;
     font-size: 13px;
 }
+.request
+{
+    height: 60px;
+    margin-top: 10px;
+    padding-top: 10px;
+    margin-bottom:10px;
+    text-align: center;
+}
+.inline
+{
+    display: inline;
+}

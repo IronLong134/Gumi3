@@ -3,6 +3,8 @@ namespace App\Http\Controllers;
 
 use App\Posts;
 use App\User;
+use App\Friend;
+
 use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
@@ -24,24 +26,22 @@ class HomeController extends Controller
      */
     public function index()
     {
-        //return view('home');
+        
         $user = Auth::user();
-        //$post = new Post();
+        
+        
         $post = new Posts();
         $data = $post->getAllPost();
-        // foreach ($data as $key) {
-        //     # code...
-        //     echo $key['id'];
-        //     echo $key->content.'<br>';
-        // }
-        // dd($data);
-        //$data1 = $data->get_all();
+        $id=Auth::user()->id;
+        $count_friends=Friend::where('sender_id','=',$id)->orwhere('receive_id','=',$id)->where('accept','=',1)->where('delete_at','=',0)->get();
+        $request=Friend::where('receive_id','=',$id)->where('accept','=',0)->where('delete_at','=',0)->get();
 
-        return view('wall')->with('user', $user)->with('datas', $data);
+        return view('wall')->with('user', $user)->with('datas', $data)->with('count_friends',$count_friends)->with('request',$request);
 
     }
     /**
      * @param $users_id
      */
+   
 
 }

@@ -6,6 +6,7 @@ use App\Comment;
 use App\Like;
 use App\Posts;
 use App\User;
+use App\Friend;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
@@ -22,7 +23,12 @@ class PostController extends Controller
         $user = Auth::user();
         $post = new Posts();
         $data = $post->getPostID($users_id);
-        return view('add_post')->with('users_id', $users_id)->with('data', $data)->with('user', $user);
+    
+        $id=Auth::user()->id;
+        $count_friends=Friend::where('sender_id','=',$id)->orwhere('receive_id','=',$id)->where('accept','=',1)->get();
+        $request=Friend::where('receive_id','=',$id)->where('accept','=',0)->get();
+        
+        return view('add_post')->with('users_id', $users_id)->with('data', $data)->with('user', $user)->with('count_friends',$count_friends)->with('request',$request);
     }
     /**
      * @param request $rq
@@ -37,7 +43,8 @@ class PostController extends Controller
         $new_post = new Posts();
         $data = $new_post->getPostID($id);
         $new_post->addPost($request);
-        return Redirect()->route('profilePost', ['id' => $id]);
+        
+        return Redirect()->back();
     }
     public function test()
     {
@@ -52,7 +59,7 @@ class PostController extends Controller
     {
         $new_comment = new Comment();
         $new_comment->addComment($rq);
-        return Redirect()->route('home');
+        return Redirect()->back();
 
     }
     /**
@@ -65,12 +72,12 @@ class PostController extends Controller
         //  $post1 = App\Posts::leftjoin('users', 'posts.users_id', '=', 'users.id')->where('posts.id', '=', $id)->get();
         $data = $post->getPost($id);
         $post1 = $post->getUserPost($id);
-
-        //dd($data);
-        // dd($post1[0]['name']);
-        //echo $post1[0]['name'];
-        //dd($id);
-        return view('post')->with('data', $data)->with('post', $post1)->with('user', $user)->with('posts_id', $id);
+    
+        $id=Auth::user()->id;
+        $count_friends=Friend::where('sender_id','=',$id)->orwhere('receive_id','=',$id)->where('accept','=',1)->get();
+        $request=Friend::where('receive_id','=',$id)->where('accept','=',0)->get();
+        
+        return view('post')->with('data', $data)->with('post', $post1)->with('user', $user)->with('posts_id', $id)->with('count_friends',$count_friends)->with('request',$request);
     }
     /**
      * @param Request $rq
@@ -80,7 +87,7 @@ class PostController extends Controller
         $new_comment = new Comment();
         $new_comment->addComment($rq);
         $id = $rq->posts_id;
-        return redirect()->route('post', ['id' => $id]);
+        return redirect()->back();
 
     }
     /**
@@ -101,7 +108,7 @@ class PostController extends Controller
         $image->move(public_path('imgs'), $new_name);
         $new->avatar = $new_name;
         $new->save();
-        return Redirect()->route('profilePost', ['id' => $request->id]);
+        return Redirect()->back();
 
     }
     /**
@@ -117,16 +124,18 @@ class PostController extends Controller
         $post->deletePost($posts_id);
         // Schema::enableForeignKeyConstraints();
 
-        return Redirect()->route('profilePost', ['id' => $id]);
+        return Redirect()->back();
     }
+
     /**
      * @param $posts_id
+     * @return array
      */
     public function addLike($posts_id)
     {
         $like = new Like();
-        //dd($posts_id);
-        $like->addLike($posts_id);
-        return redirect()->back();
+        return response()->json([
+            'data' => $like->addLike($posts_id)
+        ]);
     }
 }

@@ -10,6 +10,7 @@ class Messenger extends Model
      * @var string
      */
     protected $table = 'messengers';
+
     /**
      * @param $sender_id
      * @param $content
@@ -22,9 +23,10 @@ class Messenger extends Model
         $msg->save();
 
     }
+
     public function getMsg()
     {
-        $data = Messenger::OderBy('id','ASC');
+        $data = Messenger::OderBy('id', 'ASC');
         return $data;
     }
     //

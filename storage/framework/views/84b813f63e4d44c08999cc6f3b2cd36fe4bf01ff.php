@@ -1,10 +1,9 @@
-@extends('layouts.app')
-@section('content')
+<?php $__env->startSection('content'); ?>
 
     <body class="hold-transition skin-blue sidebar-mini" style="font-family:Arial;">
     <div class="container">
         <div class="wrapper">
-            <input type="hidden" name="csrf-token" content="{{ csrf_token() }}">
+            <input type="hidden" name="csrf-token" content="<?php echo e(csrf_token()); ?>">
             <!-- Content Wrapper. Contains page content -->
             <div class="content-wrapper">
                 <!-- Content Header (Page header) -->
@@ -22,8 +21,8 @@
                             <div class="box box-primary">
                                 <div class="box-body box-profile bg-primary" style="padding-top:8px;">
                                     <img class="rounded mx-auto d-block avatar 11111"
-                                         src="{{ url('/') }}/imgs/{{$user->avatar}}" alt="User profile picture">
-                                    <h3 class="profile-username text-center text-white name1">{{$user->name}}</h3>
+                                         src="<?php echo e(url('/')); ?>/imgs/<?php echo e($user->avatar); ?>" alt="User profile picture">
+                                    <h3 class="profile-username text-center text-white name1"><?php echo e($user->name); ?></h3>
 
                                     <p class=" text-center text-white">Software Engineer</p>
 
@@ -39,7 +38,7 @@
                                         </li>
                                     </ul>
 
-                                    <a href="/profile_post/{{$user->id}}" class="btn btn-primary btn-block"><b>Trang cá
+                                    <a href="/profile_post/<?php echo e($user->id); ?>" class="btn btn-primary btn-block"><b>Trang cá
                                             nhân</b></a>
                                 </div>
                                 <!-- /.box-body -->
@@ -100,23 +99,24 @@
                                 <div class="tab-content">
                                     <div class="active tab-pane card post" id="activity">
                                         <!-- Post -->
-                                        @foreach ($datas as $data)
+                                        <?php $__currentLoopData = $datas; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $data): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
 
                                             <div class="post">
                                                 <div class="user-block">
                                                     <img class=" avatar1"
-                                                         src="{{ url('/') }}/imgs/{{$data->user->avatar}}"
+                                                         src="<?php echo e(url('/')); ?>/imgs/<?php echo e($data->user->avatar); ?>"
                                                          alt="user image">
                                                     <span class="username">
-                        <a class="name" href="#">{{$data->user->name}}</a>
+                        <a class="name" href="#"><?php echo e($data->user->name); ?></a>
                           <a href="#" class="pull-right btn-box-tool"></a>
                         </span>
                                                     <div class="description"><i class="fas fa-globe-americas"></i>Shared
-                                                        publicly - {{$data->created_at}}</div>
+                                                        publicly - <?php echo e($data->created_at); ?></div>
                                                 </div>
                                                 <!-- /.user-block -->
                                                 <p>
-                                                    {{$data->content}}
+                                                    <?php echo e($data->content); ?>
+
                                                 </p>
                                                 <?php
                                                 $Like = 'Like';
@@ -129,13 +129,14 @@
                                                 ?>
                                                 <div class="row">
                                                     <div class="col-md-1">
-                                                        <div id="like{{$data->id}}">
+                                                        <div id="like<?php echo e($data->id); ?>">
 
                                                             <a id="like_btn" href="javascript:void(0)"
-                                                               class="@if($Like == 'Like')btn btn-primary @elseif($Like=='Liked')btn btn-danger @endif"
-                                                               posts_id="{{$data->id}}"><i
-                                                                    class="far fa-thumbs-up"></i> {{$Like}}
-                                                                (<b>{{count($data->likes)}}</b>)</a>
+                                                               class="<?php if($Like == 'Like'): ?>btn btn-primary <?php elseif($Like=='Liked'): ?>btn btn-danger <?php endif; ?>"
+                                                               posts_id="<?php echo e($data->id); ?>"><i
+                                                                    class="far fa-thumbs-up"></i> <?php echo e($Like); ?>
+
+                                                                (<b><?php echo e(count($data->likes)); ?></b>)</a>
 
 
 
@@ -144,8 +145,9 @@
 
                                                     </div>
                                                     <div class="col-md-2" style="margin-left:40px">
-                                                        <a href="post/{{$data->id}}" class="btn btn-primary"> <i
-                                                                class="fas fa-comments"></i>Comments({{count($data->comments)}}
+                                                        <a href="post/<?php echo e($data->id); ?>" class="btn btn-primary"> <i
+                                                                class="fas fa-comments"></i>Comments(<?php echo e(count($data->comments)); ?>
+
                                                             )</a>
 
                                                     </div>
@@ -154,15 +156,16 @@
 
 
                                                 <form class="form-horizontal" style="margin-top:8px;"
-                                                      action="add_comment/{{$data->id}}/{{$user->id}}" method="POST">
-                                                    {{csrf_field()}}
+                                                      action="add_comment/<?php echo e($data->id); ?>/<?php echo e($user->id); ?>" method="POST">
+                                                    <?php echo e(csrf_field()); ?>
+
                                                     <div class="form-group margin-bottom-none">
                                                         <div class="row">
                                                             <div class="col-sm-8">
                                                                 <input type="hidden" name="users_id"
-                                                                       value="{{$user->id}}">
+                                                                       value="<?php echo e($user->id); ?>">
                                                                 <input type="hidden" name="posts_id"
-                                                                       value="{{$data->id}}">
+                                                                       value="<?php echo e($data->id); ?>">
                                                                 <input class="form-control input-sm" name="content"
                                                                        placeholder="type a comment">
                                                             </div>
@@ -176,7 +179,7 @@
                                                     </div>
                                                 </form>
                                             </div>
-                                    @endforeach
+                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                     <!-- /.post -->
 
                                         <!-- Post -->
@@ -361,13 +364,7 @@
                 <!-- /.content -->
             </div>
             <!-- /.content-wrapper -->
-        {{--
-        <footer class="main-footer">
-          <div class="pull-right hidden-xs">
-            <b>Version</b> 2.4.0
-          </div>
-          <strong>Copyright &copy; 2014-2016 <a href="https://adminlte.io">Almsaeed Studio</a>.</strong>
-        </footer> --}}
+        
 
         <!-- Control Sidebar -->
             <aside class="control-sidebar control-sidebar-dark">
@@ -604,4 +601,6 @@
         });
     </script>
     </body>
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\git-laravel\resources\views/wall.blade.php ENDPATH**/ ?>
