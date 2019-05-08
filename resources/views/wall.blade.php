@@ -45,7 +45,6 @@
                                 <!-- /.box-body -->
                             </div>
                             <!-- /.box -->
-
                             <!-- About Me Box -->
                             <div class="box box-primary bg-white">
                                 <div class="box-header with-border center text-primary" style="margin-top:7px">
@@ -59,17 +58,11 @@
                                     <p class="text-muted ">
                                         B.S. in Computer Science from the University of Tennessee at Knoxville
                                     </p>
-
                                     <hr>
-
                                     <strong class="text-primary"><i class="fas fa-map-marker-alt"></i> Location</strong>
-
                                     <p class="text-muted">Malibu, California</p>
-
                                     <hr>
-
                                     <strong class="text-primary"><i class="fas fa-pen-nib"></i> Skills</strong>
-
                                     <p>
                                         <span class="badge badge-primary">UI Design</span>
                                         <span class="badge badge-secondary">Coding</span>
@@ -98,9 +91,10 @@
                                     <li><a href="#settings" data-toggle="tab">Settings</a></li>
                                 </ul>
                                 <div class="tab-content">
-                                    <div class="active tab-pane card post" id="activity">
+                                    <div class="active tab-pane card post" id="myTable">
                                         <!-- Post -->
                                         @foreach ($datas as $data)
+
 
                                             <div class="post">
                                                 <div class="user-block">
@@ -108,9 +102,9 @@
                                                          src="{{ url('/') }}/imgs/{{$data->user->avatar}}"
                                                          alt="user image">
                                                     <span class="username">
-                        <a class="name" href="#">{{$data->user->name}}</a>
-                          <a href="#" class="pull-right btn-box-tool"></a>
-                        </span>
+                                                    <a class="name" href="#">{{$data->user->name}}</a>
+                                                    <a href="#" class="pull-right btn-box-tool"></a>
+                                                    </span>
                                                     <div class="description"><i class="fas fa-globe-americas"></i>Shared
                                                         publicly - {{$data->created_at}}</div>
                                                 </div>
@@ -120,9 +114,9 @@
                                                 </p>
                                                 <?php
                                                 $Like = 'Like';
-                                                foreach ($data->likes as $value) {
+                                                foreach ($data->like as $value) {
                                                     # code...
-                                                    if ($value->users_id == $user->id) {
+                                                    if ($value->user_id == $user->id && $value->delete_at == 0) {
                                                         $Like = "Liked";
                                                     }
                                                 }
@@ -133,35 +127,27 @@
 
                                                             <a id="like_btn" href="javascript:void(0)"
                                                                class="@if($Like == 'Like')btn btn-primary @elseif($Like=='Liked')btn btn-danger @endif"
-                                                               posts_id="{{$data->id}}"><i
-                                                                    class="far fa-thumbs-up"></i> {{$Like}}
-                                                                (<b>{{count($data->likes)}}</b>)</a>
-
-
-
+                                                               post_id="{{$data->id}}"><i
+                                                                    class="far fa-thumbs-up"></i> Like
+                                                                (<b>{{count($data->like)}}</b>)</a>
                                                         </div>
-
-
                                                     </div>
                                                     <div class="col-md-2" style="margin-left:40px">
                                                         <a href="post/{{$data->id}}" class="btn btn-primary"> <i
-                                                                class="fas fa-comments"></i>Comments({{count($data->comments)}}
+                                                                class="fas fa-comments"></i>Comments({{count($data->comment)}}
                                                             )</a>
-
                                                     </div>
-
                                                 </div>
-
-
                                                 <form class="form-horizontal" style="margin-top:8px;"
-                                                      action="add_comment/{{$data->id}}/{{$user->id}}" method="POST">
+                                                      action="add_comment/{{$data->id}}/{{$user->id}}"
+                                                      method="POST">
                                                     {{csrf_field()}}
                                                     <div class="form-group margin-bottom-none">
                                                         <div class="row">
                                                             <div class="col-sm-8">
-                                                                <input type="hidden" name="users_id"
+                                                                <input type="hidden" name="user_id"
                                                                        value="{{$user->id}}">
-                                                                <input type="hidden" name="posts_id"
+                                                                <input type="hidden" name="post_id"
                                                                        value="{{$data->id}}">
                                                                 <input class="form-control input-sm" name="content"
                                                                        placeholder="type a comment">
@@ -177,14 +163,9 @@
                                                 </form>
                                             </div>
                                     @endforeach
+
                                     <!-- /.post -->
 
-                                        <!-- Post -->
-
-                                        <!-- /.post -->
-
-
-                                        <!-- /.post -->
                                     </div>
                                     <!-- /.tab-pane -->
                                     <div class="tab-pane" id="timeline">
@@ -192,9 +173,9 @@
                                         <ul class="timeline timeline-inverse">
                                             <!-- timeline time label -->
                                             <li class="time-label">
-                        <span class="bg-red">
-                          10 Feb. 2014
-                        </span>
+                                                    <span class="bg-red">
+                                                     10 Feb. 2014
+                                                     </span>
                                             </li>
                                             <!-- /.timeline-label -->
                                             <!-- timeline item -->
@@ -256,9 +237,9 @@
                                             <!-- END timeline item -->
                                             <!-- timeline time label -->
                                             <li class="time-label">
-                        <span class="bg-green">
-                          3 Jan. 2014
-                        </span>
+                                                <span class="bg-green">
+                                                    3 Jan. 2014
+                                                </span>
                                             </li>
                                             <!-- /.timeline-label -->
                                             <!-- timeline item -->
@@ -361,15 +342,7 @@
                 <!-- /.content -->
             </div>
             <!-- /.content-wrapper -->
-        {{--
-        <footer class="main-footer">
-          <div class="pull-right hidden-xs">
-            <b>Version</b> 2.4.0
-          </div>
-          <strong>Copyright &copy; 2014-2016 <a href="https://adminlte.io">Almsaeed Studio</a>.</strong>
-        </footer> --}}
 
-        <!-- Control Sidebar -->
             <aside class="control-sidebar control-sidebar-dark">
                 <!-- Create the tabs -->
                 <ul class="nav nav-tabs nav-justified control-sidebar-tabs">
@@ -574,7 +547,7 @@
 
             $(".row").on('click', '#like_btn', function () {
                 var this_a = $(this);
-                var id = this_a.attr("posts_id"); //lay id video\
+                var id = this_a.attr("post_id"); //lay id video\
                 var url = '/' + id + '/addLike';
 
                 $.ajaxSetup({
@@ -604,4 +577,16 @@
         });
     </script>
     </body>
+    <script>
+        $(document).ready(function () {
+            $('#myInput').on('keyup', function (event) {
+                event.preventDefault();
+                /* Act on the event */
+                var tukhoa = $(this).val().toLowerCase();
+                $('#myTable > div').filter(function () {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(tukhoa) > -1);
+                });
+            });
+        });
+    </script>
 @endsection

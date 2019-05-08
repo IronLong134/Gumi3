@@ -28,7 +28,7 @@ class Comment extends Model
      */
     public function post()
     {
-        return $this->belongsTo('App\Posts');
+        return $this->belongsTo('App\Post');
     }
     /**
      * @param Request $rq
@@ -36,18 +36,18 @@ class Comment extends Model
     public function addComment(Request $rq)
     {
         $new_comment = new Comment();
-        $new_comment->users_id = $rq->users_id;
-        $new_comment->posts_id = $rq->posts_id;
+        $new_comment->user_id = $rq->user_id;
+        $new_comment->post_id = $rq->post_id;
         $new_comment->content = $rq->content;
         $new_comment->save();
 
     }
     /**
-     * @param $posts_id
+     * @param $post_id
      */
-    public function deleteComment($posts_id)
+    public function deleteComment($post_id)
     {
-        $new = Comment::where('posts_id', '=', $posts_id)->delete();
+        $new = Comment::where('post_id', '=', $post_id)->delete();
 
     }
 }

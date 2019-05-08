@@ -1,11 +1,7 @@
 @extends('layouts.app')
 @section('content')
     <div class="container">
-
-
         <div class="row justify-content-center">
-
-
             <div class="card-body">
                 @if (session('status'))
                     <div class="alert alert-success" role="alert">
@@ -34,13 +30,11 @@
                                         <b>Friends</b> <a class="pull-right">13,287</a>
                                     </li>
                                 </ul>
-
                                 <a href="\profile_post\{{$user1->id}}" class="btn btn-primary btn-block"><b>Trang cá
                                         nhân</b></a>
                             </div>
                             <!-- /.box-body -->
                         </div>
-
                     </div>
                     @foreach ($user as $key)
                         <div class="col-md-4">
@@ -64,18 +58,14 @@
                                             <b>Friends</b> <a class="pull-right">13,287</a>
                                         </li>
                                     </ul>
-
                                     <a href="#" class="btn btn-primary btn-block"><b>Follow</b></a>
                                 </div>
                                 <!-- /.box-body -->
                             </div>
                         </div>
                     @endforeach
-
                 </div>
             </div>
         </div>
-
-
     </div>
 @endsection

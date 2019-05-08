@@ -4,7 +4,7 @@
     
     use Illuminate\Database\Eloquent\Model;
     use Illuminate\Support\Facades\Auth;
-    use App\Posts;
+    use App\Post;
     
     class Like extends Model {
         /**
@@ -15,45 +15,57 @@
         /**
          * @return mixed
          */
-        public function posts() {
-            return $this->belongsTo('App\Posts', 'posts_id');
+        public function post() {
+            return $this->belongsTo('App\Post', 'post_id');
         }
         
         /**
-         * @param $posts_id
+         * @param $post_id
          *
          * @return array
          */
-        public function addLike($posts_id) {
+        public function addLike($post_id) {
             $user = Auth::user();
             
-            $users_id = $user->id;
-            $check = Like::checkLike($posts_id, $users_id);
-            $post = new Posts();
-            if (0 == $check) {
+            $user_id = $user->id;
+            $check = Like::checkLike($post_id, $user_id);
+            $post = new Post();
+            if ($check == 'no') {
+                //return 0;
                 $like = new Like();
-                $like->posts_id = $posts_id;
-                $like->users_id = $users_id;
+                $like->post_id = $post_id;
+                $like->user_id = $user_id;
                 if ($like->save()) {
+                    
                     $success = 1;
                 } else {
                     $success = 0;
                 }
-                $post = new Posts();
+                $post = new Post();
                 
-                return ['success' => $success, 'fail' => 0, 'likes' => $post->getLike($posts_id)];
+                return ['success' => $success, 'fail' => 0, 'likes' => $post->getLike($post_id)];
                 
-            } else {
+            } else if ($check == 'unlike') {
                 
-                $like = Like::where('posts_id', '=', $posts_id)->where('users_id', '=', $users_id);
+                if (Like::where('post_id', '=', $post_id)->where('user_id', '=', $user_id)->update(['delete_at' => 0])) {
+                    $success = 1;
+                } else {
+                    $success = 0;
+                }
+                //dd($check);
+                $post = new Post();
                 
-                if ($like->delete()) {
+                return ['success' => $success, 'fail' => 0, 'likes' => $post->getLike($post_id)];
+            } else if ($check == 'liked') {
+                
+                $like = Like::where('post_id', '=', $post_id)->where('user_id', '=', $user_id)->update(['delete_at' => 1]);
+                if ($like) {
                     $fail = 1;
                 } else {
                     $fail = 0;
                 }
-                $post1 = new Posts();
-                $like1 = $post1->getLike($posts_id);
+                $post1 = new Post();
+                $like1 = $post1->getLike($post_id);
                 
                 return ['fail' => $fail, 'success' => 0, 'likes' => $like1];
             }
@@ -61,13 +73,27 @@
         }
         
         /**
-         * @param $posts_id
-         * @param $users_id
+         * @param $post_id
+         * @param $user_id
          */
-        public function checkLike($posts_id, $users_id) {
-            $data = Like::where('posts_id', '=', $posts_id)->where('users_id', '=', $users_id)->count();
+        public
+        function checkLike($post_id, $user_id) {
+            $check = 'no';
+            $data = Like::where('post_id', '=', $post_id)->where('user_id', '=', $user_id)->count();
+            $data1 = Like::where('post_id', '=', $post_id)->where('user_id', '=', $user_id)->where('delete_at', '=', 1)->count();
+            $data2 = Like::where('post_id', '=', $post_id)->where('user_id', '=', $user_id)->where('delete_at', '=', 0)->count();
+            if ($data > 0) {
+                if ($data2 > 0 && $data1 == 0) {
+                    $check = 'liked';
+                } else if ($data1 > 0) {
+                    $check = 'unlike';
+                }
+                
+            } else if ($data == 0) {
+                $check = 'no';
+            }
             
-            return $data;
+            return $check;
         }
         //
         

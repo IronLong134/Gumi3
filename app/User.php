@@ -43,21 +43,23 @@
          *
          * @return mixed
          */
-        public function posts() {
+        public function post() {
             return $this->hasMany('App\Post');
         }
         
         /**
          * @return mixed
          */
-        public function comments() {
-            return $this->hasMany('App\Comment','users_id');
+        public function comment() {
+            return $this->hasMany('App\Comment','user_id');
         }
         
-        public function friends() {
+        public function sender() {
             return $this->hasMany('App\Friend','sender_id');
         }
-        
+        public function receive() {
+            return $this->hasMany('App\Friend','receive_id');
+        }
         /**
          * @return mixed
          */
@@ -72,7 +74,7 @@
          */
         public function getAll() {
             $id = Auth::id();
-            $user = User::where('id','!=',$id)->with('friends','comments')->orderBy('id','DESC')->get();
+            $user = User::where('id','!=',$id)->with('sender','comment')->orderBy('id','DESC')->get();
            
             return $user;
         }

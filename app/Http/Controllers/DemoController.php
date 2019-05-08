@@ -28,9 +28,15 @@
          */
         public function admin(Request $request) {
             $user1 = Auth::user();
+            $id = $user1->id;
             $user = User::all();
-            $count_friends = Friend::where('sender_id', '=', $id)->orwhere('receive_id', '=', $id)->where('accept', '=', 1)->where('delete_at','=',0)->get();
-            $request = Friend::where('receive_id', '=', $id)->where('accept', '=', 0)->where('delete_at','=',0)->get();
+            $count_friends = Friend::where(function ($q) {
+                $q->where('sender_id', '=', Auth::user()->id)->orWhere('receive_id', '=', Auth::user()->id);
+            })
+                                   ->where('accept', '=', 1)
+                                   ->where('delete_at', '=', 0)
+                                   ->get();
+            $request = Friend::where('receive_id', '=', $id)->where('accept', '=', 0)->where('delete_at', '=', 0)->get();
             
             return view('admin')->with('user', $user)->with('user1', $user1)->with('count_friends', $count_friends)->with('request', $request);
         }
@@ -42,12 +48,17 @@
         
         public function allPeople() {
             $id = Auth::id();
-            $user1 = User::where('id', '=', $id)->with('friends')->get();
+            $user1 = User::where('id', '=', $id)->with('sender')->get();
             $user = new User();
             $data = $user->getAll();
             //dd($user1);
-            $count_friends = Friend::where('sender_id', '=', $id)->orwhere('receive_id', '=', $id)->where('accept', '=', 1)->where('delete_at','=',0)->get();
-            $request = Friend::where('receive_id', '=', $id)->where('accept', '=', 0)->where('delete_at','=',0)->get();
+            $count_friends = Friend::where(function ($q) {
+                $q->where('sender_id', '=', Auth::user()->id)->orWhere('receive_id', '=', Auth::user()->id);
+            })
+                                   ->where('accept', '=', 1)
+                                   ->where('delete_at', '=', 0)
+                                   ->get();
+            $request = Friend::where('receive_id', '=', $id)->where('accept', '=', 0)->where('delete_at', '=', 0)->get();
             
             return view('all_people')->with('users', $data)->with('user1', $user1)->with('count_friends', $count_friends)->with('request', $request);
         }
@@ -55,6 +66,7 @@
         public function addFriend($friend_id) {
             $id = Auth::id();
             $friend = Friend::where('sender_id', '=', $id)->where('receive_id', '=', $friend_id)->get();
+            //$friend2= Friend::where('sender_id', '=', $friend_id)->where('receive_id','=',$id)->get();
             if (count($friend) == 0) {
                 $rq_friend = new Friend();
                 $rq_friend->sender_id = $id;
@@ -62,7 +74,7 @@
                 //dd($friend_id);
                 $rq_friend->save();
             } else {
-                Friend::where('sender_id', '=', $id)->where('receive_id', '=', $friend_id)->update(['delete_at'=>0]);
+                Friend::where('sender_id', '=', $id)->where('receive_id', '=', $friend_id)->update(['delete_at' => 0, 'accept' => 0]);
             }
             
             return redirect()->back();
@@ -70,13 +82,33 @@
         
         public function getRqfriend($id) {
             $user = Auth::user();
-            $data = Friend::where('receive_id', '=', $id)->where('accept', '=', 0)->with('sender')->where('delete_at','=',0)->orderBy('id', 'desc')->get();
+            
+            $data = Friend::where('receive_id', '=', $id)
+                          ->where('accept', '=', 0)
+                          ->with('sender')
+                          ->where('delete_at', '=', 0)
+                          ->orderBy('id', 'desc')
+                          ->get();
             //($data);
             // dd($data);
-            $count_friends = Friend::where('sender_id', '=', $id)->orwhere('receive_id', '=', $id)->where('accept', '=', 1)->where('delete_at','=',0)->get();
-            $request = Friend::where('receive_id', '=', $id)->where('accept', '=', 0)->where('delete_at','=',0)->get();
+            $count_friends = Friend::where(function ($q) {
+                $q->where('sender_id', '=', Auth::user()->id)->orWhere('receive_id', '=', Auth::user()->id);
+            })
+                                   ->where('accept', '=', 1)
+                                   ->where('delete_at', '=', 0)
+                                   ->get();
+            $request = Friend::where('receive_id', '=', $id)
+                             ->where('accept', '=', 0)
+                             ->where('delete_at', '=', 0)
+                             ->get();
             
-            return view('rq_friends')->with('friends', $data)->with('user', $user)->with('count_friends', $count_friends)->with('request', $request);
+            // dd($count_friends);
+            
+            return view('rq_friends')
+                ->with('friends', $data)
+                ->with('user', $user)
+                ->with('count_friends', $count_friends)
+                ->with('request', $request);
         }
         
         public function accept($user_id, $friend_id) {
@@ -90,24 +122,28 @@
         
         public function listFriend($id) {
             $user = Auth::user();
-            $friends = Friend::where('sender_id', '=', $id)->orwhere('receive_id', '=', $id)->where('accept', '=', 1)->with('sender')->with('receive')->where('delete_at','=',0)->orderBy('updated_at', 'DESC')->get();
-            $count_friends = Friend::where('sender_id', '=', $id)->orwhere('receive_id', '=', $id)->where('accept', '=', 1)->where('delete_at','=',0)->get();
-            $request = Friend::where('receive_id', '=', $id)->where('accept', '=', 0)->where('delete_at','=',0)->get();
+            $friends = Friend::where(function ($q) {
+                $q->where('sender_id', '=', Auth::user()->id)->orWhere('receive_id', '=', Auth::user()->id);
+            })
+                             ->where('accept', '=', 1)
+                             ->where('delete_at', '=', 0)
+                             ->orderBy('updated_at', 'DESC')
+                             ->get();
+            $count_friends = $friends;
+            $request = Friend::where('receive_id', '=', $id)->where('accept', '=', 0)->where('delete_at', '=', 0)->get();
             
             //dd($friends);
             return view('list_friend')->with('friends', $friends)->with('user', $user)->with('count_friends', $count_friends)->with('request', $request);
         }
-        public function refuse($sender_id,$receive_id)
-        {
-            $relation=Friend::where('sender_id', '=', $sender_id)->where('receive_id', '=', $receive_id)->where('delete_at','=',0)->get();
-            if(count($relation)>0)
-            {
-               Friend::where('sender_id', '=', $sender_id)->where('receive_id', '=', $receive_id)->where('delete_at','=',0)->update(['delete_at'=>1]);
+        
+        public function refuse($sender_id, $receive_id) {
+            $relation = Friend::where('sender_id', '=', $sender_id)->where('receive_id', '=', $receive_id)->where('delete_at', '=', 0)->get();
+            if (count($relation) > 0) {
+                Friend::where('sender_id', '=', $sender_id)->where('receive_id', '=', $receive_id)->where('delete_at', '=', 0)->update(['delete_at' => 1]);
+            } else {
+                Friend::where('sender_id', '=', $receive_id)->where('receive_id', '=', $sender_id)->where('delete_at', '=', 0)->update(['delete_at' => 1]);
             }
-            else
-            {
-                Friend::where('sender_id', '=', $receive_id)->where('receive_id', '=', $sender_id)->where('delete_at','=',0)->update(['delete_at'=>1]);
-            }
+            
             return Redirect()->back();
         }
     }
