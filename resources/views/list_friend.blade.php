@@ -31,10 +31,11 @@
                         ?>
                         <div class="col-md-6 card"  >
 
-                            <div class="inline"><img class="avatar1" src="{{ url('/') }}/imgs/{{$avatar}}">
-                                <span><a class="name inline" href="#" style="font-size:x-large;">{{$name}}</a></span>
-                                <div class="dropdown" style="text-align:right; ">
-                                    <button class="btn btn-success dropdown-toggle" type="button"
+                            <div class="inline">
+                                <div class="dropdown profileWrapper" >
+                                    <img class="avatar1" src="{{ url('/') }}/imgs/{{$avatar}}">
+                                    <span class="profileName"><a class="name inline" href="#" style="font-size:x-large;">{{$name}}</a></span>
+                                    <button class="btn btn-success dropdown-toggle right" type="button"
                                             id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
                                             aria-expanded="false">
                                         Bạn bè

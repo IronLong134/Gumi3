@@ -48,10 +48,10 @@
                                     }
                                     ?>
                                     @if($check == 'friend')
-                                        <div class="dropdown" style="text-align: center">
-                                            <button class="btn btn-success dropdown-toggle" type="button"
+                                        <div class="dropdown profilePeople" >
+                                            <button class="btn btn-success dropdown-toggle profilePeople" type="button"
                                                     id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
-                                                    aria-expanded="false"><i class="fas fa-arrow-left"></i>
+                                                    aria-expanded="false"><i class="fas fa-user-friends"></i>
                                                 Bạn bè
                                             </button>
                                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
@@ -61,8 +61,8 @@
                                             </div>
                                         </div>
                                     @elseif($check == 'sended')
-                                        <div class="dropdown" style="text-align: center">
-                                            <button class="btn btn-danger dropdown-toggle" type="button"
+                                        <div class="dropdown profilePeople" >
+                                            <button class="btn btn-danger dropdown-toggle profilePeople" type="button"
                                                     id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
                                                     aria-expanded="false"><i class="fas fa-arrow-left"></i>
                                                 Bạn đã gửi lời mòi kết bạn
@@ -75,8 +75,8 @@
                                             </div>
                                         </div>
                                     @elseif($check == 'request' )
-                                        <div class="dropdown" style="text-align: center">
-                                            <button class="btn btn-danger dropdown-toggle" type="button"
+                                        <div class="dropdown profilePeople" >
+                                            <button class="btn btn-danger dropdown-toggle profilePeople" type="button"
                                                     id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
                                                     aria-expanded="false"><i class="fas fa-arrow-right"></i>
                                                 Đang chờ bạn xác nhận lời mời

@@ -91,7 +91,7 @@
                                     <li><a href="#settings" data-toggle="tab">Settings</a></li>
                                 </ul>
                                 <div class="tab-content">
-                                    <div class="active tab-pane card post" id="myTable">
+                                    <div class="active tab-pane card postWapper" id="myTable">
                                         <!-- Post -->
                                         @foreach ($datas as $data)
 
