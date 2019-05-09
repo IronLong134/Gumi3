@@ -51,6 +51,7 @@
                         <div class="row" style="margin-bottom:7px;">
                             <div class="col-md-1">
 
+                                {{--TODO: xử lý dưới backend --}}
                                 <?php
                                 $like = 'like';
                                 foreach ($post[0]->like as $value) {

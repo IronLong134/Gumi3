@@ -69,7 +69,7 @@
                                             </button>
                                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                                 <a class="dropdown-item" href="\accept\{{$user->id}}\{{$user1[0]->id}}">Chấp
-                                                    nhận lời mời
+                                                    nhận lời mời</a>
                                                     <a class="dropdown-item"
                                                        href="\refuse\{{$user->id}}\{{$user1[0]->id}}">Xóa</a>
                                             </div>
@@ -83,7 +83,7 @@
                                             </button>
                                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                                 <a class="dropdown-item" href="\accept\{{$user->id}}\{{$user1[0]->id}}">Chấp
-                                                    nhận lời mời
+                                                    nhận lời mời</a>
                                                     <a class="dropdown-item"
                                                        href="\refuse\{{$user->id}}\{{$user1[0]->id}}">Xóa</a>
                                             </div>

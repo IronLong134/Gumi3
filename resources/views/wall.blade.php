@@ -21,6 +21,7 @@
                             <!-- Profile Image -->
                             <div class="box box-primary">
                                 <div class="box-body box-profile bg-primary" style="padding-top:8px;">
+                                    {{--TODO: class 11111 ? --}}
                                     <img class="rounded mx-auto d-block avatar 11111"
                                          src="{{ url('/') }}/imgs/{{$user->avatar}}" alt="User profile picture">
                                     <h3 class="profile-username text-center text-white name1">{{$user->name}}</h3>
@@ -94,8 +95,6 @@
                                     <div class="active tab-pane card postWapper" id="myTable">
                                         <!-- Post -->
                                         @foreach ($datas as $data)
-
-
                                             <div class="post">
                                                 <div class="user-block">
                                                     <img class=" avatar1"
@@ -112,6 +111,7 @@
                                                 <p>
                                                     {{$data->content}}
                                                 </p>
+                                                {{--TODO: phần này nên sửa lại xử lý dưới backend --}}
                                                 <?php
                                                 $Like = 'Like';
                                                 foreach ($data->like as $value) {
@@ -121,6 +121,7 @@
                                                     }
                                                 }
                                                 ?>
+                                                {{-------}}
                                                 <div class="row">
                                                     <div class="col-md-1">
                                                         <div id="like{{$data->id}}">
@@ -542,6 +543,8 @@
 
         <!-- jQuery 3 -->
     </div>
+
+    {{--TODO: phần script này nên đưa xuống dưới chung với phần search --}}
     <script type="text/javascript">
         $(document).ready(function () {
 
