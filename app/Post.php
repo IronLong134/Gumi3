@@ -70,15 +70,19 @@ class Post extends Model {
 		$sender_ids = $friends->where('receive_id', '=', Auth::user()->id)->pluck('sender_id');
 		$list = array_merge($receive_ids->toArray(), $sender_ids->toArray());
 		array_push($list, $id);
-		$post = Post::whereIn('user_id', $list)
+		$posts = Post::whereIn('user_id', $list)
 					->with(['user', 'comment'])
 					->with(['like' => function ($q) {
 						$q->where('delete_at', '=', 0);
 					}])
 					->where('delete_at', '=', 0)
 					->orderBy('id', 'DESC')->get();
-
-		return $post;
+        foreach ($posts as $post)
+        {
+            $like=new Like();
+            $post['checkLike']=$like->checkLike($post->id,$id);
+        }
+		return $posts;
 	}
 
 	/**
@@ -122,22 +126,30 @@ class Post extends Model {
 	 * @return mixed
 	 */
 	public function getPostById($id) {
+	   
+	    $user_id= Auth::user()->id;
+	    $like= new Like();
+	    $check=$like->checkLike($id,$user_id);
 		$user_post = Post::where('id', '=', $id)
 						 ->where('delete_at', '=', 0)
 						 ->with('user', 'comment')
 						 ->with(['like' => function ($q) {
 							 $q->where('delete_at', '=', 0);
+							 
 						 }])->orderBy('updated_at', 'DESC')->get();
-
+        $user_post['checkLike']=$check;
+        //dd($user_post);
 		return $user_post;
 	}
+ 
 
+	
 	/**
 	 * @param $id
 	 */
 	public function deletePost($id) {
 		// TODO: nếu ko return gì thì ko nên tạo biến mới
-		$post = Post::where('id', '=', $id)->update(['delete_at' => 1]);
+        Post::where('id', '=', $id)->update(['delete_at' => 1]);
 
 
 	}

@@ -47,7 +47,7 @@ class Comment extends Model {
 	 */
 	public function deleteComment($post_id) {
 		// TODO: nếu ko return gì thì ko nên tạo biến mới
-		$new = Comment::where('post_id', '=', $post_id)->delete();
+		Comment::where('post_id', '=', $post_id)->delete();
 
 	}
 }

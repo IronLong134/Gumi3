@@ -31,7 +31,7 @@
             $id = $user1->id;
             $user = User::all();
             $count_friends = Friend::where(function ($q) {
-                $q->where('sender_id', '=', Auth::user()->id)->orWhere('receive_id', '=', Auth::user()->id);
+                $q->where('sender_id', '=', Auth::user()->id->orWhere('receive_id', '=', Auth::user()->id);
             })
                                    ->where('accept', '=', 1)
                                    ->where('delete_at', '=', 0)

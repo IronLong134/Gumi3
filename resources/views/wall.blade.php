@@ -21,8 +21,8 @@
                             <!-- Profile Image -->
                             <div class="box box-primary">
                                 <div class="box-body box-profile bg-primary" style="padding-top:8px;">
-                                    {{--TODO: class 11111 ? --}}
-                                    <img class="rounded mx-auto d-block avatar 11111"
+
+                                    <img class="rounded mx-auto d-block avatar"
                                          src="{{ url('/') }}/imgs/{{$user->avatar}}" alt="User profile picture">
                                     <h3 class="profile-username text-center text-white name1">{{$user->name}}</h3>
 
@@ -111,23 +111,15 @@
                                                 <p>
                                                     {{$data->content}}
                                                 </p>
-                                                {{--TODO: phần này nên sửa lại xử lý dưới backend --}}
-                                                <?php
-                                                $Like = 'Like';
-                                                foreach ($data->like as $value) {
-                                                    # code...
-                                                    if ($value->user_id == $user->id && $value->delete_at == 0) {
-                                                        $Like = "Liked";
-                                                    }
-                                                }
-                                                ?>
+
+
                                                 {{-------}}
                                                 <div class="row">
                                                     <div class="col-md-1">
                                                         <div id="like{{$data->id}}">
 
                                                             <a id="like_btn" href="javascript:void(0)"
-                                                               class="@if($Like == 'Like')btn btn-primary @elseif($Like=='Liked')btn btn-danger @endif"
+                                                               class="@if($data->checkLike!='liked')btn btn-primary @else btn btn-danger @endif"
                                                                post_id="{{$data->id}}"><i
                                                                     class="far fa-thumbs-up"></i> Like
                                                                 (<b>{{count($data->like)}}</b>)</a>
@@ -544,8 +536,10 @@
         <!-- jQuery 3 -->
     </div>
 
-    {{--TODO: phần script này nên đưa xuống dưới chung với phần search --}}
-    <script type="text/javascript">
+
+
+    </body>
+    <script>
         $(document).ready(function () {
 
             $(".row").on('click', '#like_btn', function () {
@@ -577,11 +571,9 @@
                 });
                 return false;
             });
-        });
-    </script>
-    </body>
-    <script>
-        $(document).ready(function () {
+
+            //tìm kiếm
+
             $('#myInput').on('keyup', function (event) {
                 event.preventDefault();
                 /* Act on the event */

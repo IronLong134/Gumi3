@@ -50,20 +50,9 @@
                         <br>
                         <div class="row" style="margin-bottom:7px;">
                             <div class="col-md-1">
-
-                                {{--TODO: xử lý dưới backend --}}
-                                <?php
-                                $like = 'like';
-                                foreach ($post[0]->like as $value) {
-                                    if ($value->user_id == $user->id) {
-                                        $like = 'liked';
-                                    }
-
-                                }
-                                ?>
                                 <div>
                                     <a id="like_btn" href="javascript:void(0)"
-                                       class="@if($like == 'like')btn btn-primary @elseif($like=='liked') btn btn-danger @endif "
+                                       class="@if($post['checkLike']!='liked')btn btn-primary @else btn btn-danger @endif "
                                        action="0"
                                        post_id="{{$post[0]->id}}"><i class="far fa-thumbs-up"></i>
                                         Like(<b>{{count($post[0]->like)}}</b>)</a>
@@ -139,7 +128,9 @@
                         $('b').html(res.data.likes);
                     }
                 });
+                return false;
             });
         });
+
     </script>
 @endsection

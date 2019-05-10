@@ -73,7 +73,6 @@ class PostController extends Controller
     {
         $user = Auth::user();
         $post = new Post();
-        //  $post1 = App\Posts::leftjoin('users', 'posts.user_id', '=', 'users.id')->where('posts.id', '=', $id)->get();
         $comments = $post->getCmtPost($id);
         $post1 = $post->getPostById($id);
     
@@ -94,7 +93,6 @@ class PostController extends Controller
     {
         $new_comment = new Comment();
         $new_comment->addComment($rq);
-        $id = $rq->post_id;
         return redirect()->back();
 
     }
@@ -104,7 +102,6 @@ class PostController extends Controller
     public function update(Request $request)
     {
         $new = User::find($request->id);
-        //******* */
         $this->validate($request, [
             'select_file' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:10048',
         ]);
@@ -131,7 +128,6 @@ class PostController extends Controller
         $comments->deleteComment($post_id);
         $post->deletePost($post_id);
         // Schema::enableForeignKeyConstraints();
-
         return Redirect()->back();
     }
 
@@ -145,23 +141,5 @@ class PostController extends Controller
         return response()->json([
             'data' => $like->addLike($post_id)
         ]);
-    }
-    function checkLike($post_id, $user_id) {
-        $check = 'no';
-        $data = Like::where('post_id', '=', $post_id)->where('user_id', '=', $user_id)->count();
-        $data1 = Like::where('post_id', '=', $post_id)->where('user_id', '=', $user_id)->where('delete_at', '=', 1)->count();
-        $data2 = Like::where('post_id', '=', $post_id)->where('user_id', '=', $user_id)->where('delete_at', '=', 0)->count();
-        if ($data > 0) {
-            if ($data2 > 0 && $data1 == 0) {
-                $check = 'liked';
-            } else if ($data1 > 0) {
-                $check = 'unlike';
-            }
-            
-        } else if ($data == 0) {
-            $check = 'no';
-        }
-        
-        echo $check;
     }
 }
