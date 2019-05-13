@@ -12,42 +12,26 @@
                 <div class="row" id="myTable">
 
                     @foreach($friends as $friend)
-                        <?php
-                        $avatar = 'null';
-                        $name = 'null';
-                        $updated_at = 'null';
-                        if ($friend->sender_id == Auth::user()->id) {
-                            $id = $friend->receive->id;
 
-                            $avatar = $friend->receive->avatar;
-                            $name = $friend->receive->name;
-                            $updated_at = $friend->receive->updated_at;
-                        } else if ($friend->receive_id == Auth::user()->id) {
-                            $id = $friend->sender->id;
-                            $avatar = $friend->sender->avatar;
-                            $name = $friend->sender->name;
-                            $updated_at = $friend->sender->updated_at;
-                        }
-                        ?>
                         <div class="col-md-6 card"  >
 
                             <div class="inline">
                                 <div class="dropdown profileWrapper" >
-                                    <img class="avatar1" src="{{ url('/') }}/imgs/{{$avatar}}">
-                                    <span class="profileName"><a class="name inline" href="#" style="font-size:x-large;">{{$name}}</a></span>
+                                    <img class="avatar1" src="{{ url('/') }}/imgs/{{$friend['friend']->avatar}}">
+                                    <span class="profileName"><a class="name inline" href="\profile_friend\{{$friend['friend']->id}}" style="font-size:x-large;">{{$friend['friend']->name}}</a></span>
                                     <button class="btn btn-success dropdown-toggle right" type="button"
                                             id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
                                             aria-expanded="false">
                                         Bạn bè
                                     </button>
                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                        <a class="dropdown-item" href="\profile_friend\{{$id}}\{{Auth::user()->id}}">Xem trang cá nhân</a>
+                                        <a class="dropdown-item" href="\profile_friend\{{$friend['friend']->id}}">Xem trang cá nhân</a>
                                             <a class="dropdown-item"
-                                               href="\refuse\{{$id}}\{{Auth::user()->id}}">Hủy kết bạn</a>
+                                               href="\refuse\{{$friend['friend']->id}}\{{Auth::user()->id}}">Hủy kết bạn</a>
                                     </div>
                                 </div>
                             </div>
-                            <div class="description">Đã là bạn bè từ&ensp; {{$updated_at}}</div>
+                            <div class="description">Đã là bạn bè từ&ensp; {{$friend->updated_at}}</div>
 
                         </div>
                     @endforeach

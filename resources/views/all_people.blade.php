@@ -29,72 +29,51 @@
                                             <b>Friends</b> <a class="pull-right">13,287</a>
                                         </li>
                                     </ul>
-                                    <?php
-                                    $check = 'no';
-                                    foreach ($user1[0]->sender as $value) {
-                                        if ($value->receive_id == $user->id && $value->accept == 1 && $value->delete_at == 0) {
-                                            $check = 'friend';
-
-                                        } else if ($value->receive_id == $user->id && $value->accept == 0 && $value->delete_at == 0) {
-                                            $check = 'sended';
-                                        }
-                                    }
-                                    foreach ($user->sender as $friend) {
-                                        if ($friend->receive_id == $user1[0]->id && $friend->accept == 0 && $friend->delete_at == 0) {
-                                            $check = 'request';
-                                        } else if ($friend->receive_id == $user1[0]->id && $friend->accept == 1 && $friend->delete_at == 0) {
-                                            $check = 'friend';
-                                        }
-                                    }
-                                    ?>
-                                    @if($check == 'friend')
-                                        <div class="dropdown profilePeople" >
-                                            <button class="btn btn-success dropdown-toggle profilePeople" type="button"
-                                                    id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
-                                                    aria-expanded="false"><i class="fas fa-user-friends"></i>
-                                                Bạn bè
-                                            </button>
-                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-
+                                    @if($user['check']=='no')
+                                        <a href="\send_rq\{{$user->id}}" class="btn btn-primary btn-block">Gửi
+                                            lời
+                                            mời
+                                            kết bạn</a>
+                                    @else
+                                    <div class="dropdown profilePeople">
+                                        <button class= "
+                                                @if($user['check']=='friend')
+                                            btn btn-success
+                                        @elseif($user['check']=='sended')
+                                            btn btn btn-danger
+                                         @elseif($user['check']=='request')
+                                            btn btn-danger
+                                         @endif
+                                            dropdown-toggle profilePeople" type="button"
+                                                id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+                                                aria-expanded="false">
+                                            @if($user['check']=='friend')
+                                                <i class="fas fa-user-friends"></i>Bạn bè
+                                            @elseif($user['check']=='sended')
+                                                <i class="fas fa-arrow-left"></i>Bạn đã gửi lời mời kết bạn
+                                            @elseif($user['check']=='request')
+                                                <i class="fas fa-arrow-left"></i>Đang chờ bạn xác nhận
+                                            @endif
+                                        </button>
+                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                @if($user['check']=='friend')
+                                                    <a class="dropdown-item" href="\friend\">Xem trang cá nhân</a>
                                                     <a class="dropdown-item"
                                                        href="\refuse\{{$user->id}}\{{$user1[0]->id}}">Hủy kết bạn</a>
-                                            </div>
-                                        </div>
-                                    @elseif($check == 'sended')
-                                        <div class="dropdown profilePeople" >
-                                            <button class="btn btn-danger dropdown-toggle profilePeople" type="button"
-                                                    id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
-                                                    aria-expanded="false"><i class="fas fa-arrow-left"></i>
-                                                Bạn đã gửi lời mòi kết bạn
-                                            </button>
-                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                <a class="dropdown-item" href="\accept\{{$user->id}}\{{$user1[0]->id}}">Chấp
-                                                    nhận lời mời</a>
+                                                @elseif($user['check']=='sended')
                                                     <a class="dropdown-item"
                                                        href="\refuse\{{$user->id}}\{{$user1[0]->id}}">Xóa</a>
-                                            </div>
-                                        </div>
-                                    @elseif($check == 'request' )
-                                        <div class="dropdown profilePeople" >
-                                            <button class="btn btn-danger dropdown-toggle profilePeople" type="button"
-                                                    id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
-                                                    aria-expanded="false"><i class="fas fa-arrow-right"></i>
-                                                Đang chờ bạn xác nhận lời mời
-                                            </button>
-                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                <a class="dropdown-item" href="\accept\{{$user->id}}\{{$user1[0]->id}}">Chấp
-                                                    nhận lời mời</a>
+                                                @elseif($user['check']=='request')
+                                                    <a class="dropdown-item"
+                                                       href="\accept\{{$user->id}}\{{$user1[0]->id}}">Chấp
+                                                        nhận lời mời</a>
                                                     <a class="dropdown-item"
                                                        href="\refuse\{{$user->id}}\{{$user1[0]->id}}">Xóa</a>
+                                                @endif
+
                                             </div>
-                                        </div>
 
-                                    @elseif($check == 'no')
-
-                                        <a href="\send_rq\{{$user->id}}" class="btn btn-primary btn-block"><b>Gửi lời
-                                                mời
-                                                kết bạn</b></a>
-
+                                    </div>
                                     @endif
                                     {{--<div>{{$check}}</div>--}}
                                     {{--<div>{{$user->id}}</div>--}}

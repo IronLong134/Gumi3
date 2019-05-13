@@ -12,7 +12,7 @@
                 <section class="content">
 
                     <div class="row">
-                        <div class="col-md-3">
+                        <div class="col-md-3 profileWrapper1">
                             <div class="center">
                                 <h2 class="name1 text-primary">
                                     User Profile
@@ -101,7 +101,9 @@
                                                          src="{{ url('/') }}/imgs/{{$data->user->avatar}}"
                                                          alt="user image">
                                                     <span class="username">
-                                                    <a class="name" href="#">{{$data->user->name}}</a>
+
+                                                    <a class="name" href="@if($data->user->id==Auth::id(0))\profile_post\{{$user->id}}@else\profile_friend\{{$data->user->id}}@endif">{{$data->user->name}}</a>
+
                                                     <a href="#" class="pull-right btn-box-tool"></a>
                                                     </span>
                                                     <div class="description"><i class="fas fa-globe-americas"></i>Shared

@@ -1,0 +1,38 @@
+<?php
+
+namespace App\Http\Middleware;
+
+use Closure;
+use App\Friend;
+use App\User;
+use Illuminate\Support\Facades\Auth;
+
+class CheckUser
+{
+    /**
+     * Handle an incoming request.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \Closure  $next
+     * @return mixed
+     */
+    public function handle($request, Closure $next)
+    {
+        if(Auth::check())
+        {
+            if(Auth::id()==$request->user_id)
+            {
+                return $next($request);
+            }
+            else
+            {
+                return redirect()->back();
+            }
+        }
+        else
+        {
+            return redirect('/login');
+        }
+    
+    }
+}

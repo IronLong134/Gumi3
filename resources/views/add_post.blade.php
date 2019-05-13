@@ -8,11 +8,11 @@
                 </div>
             @endif
             <div class='row'>
-                <div class="col-md-4 card">
+                <div class="col-md-4 card ">
                     <div class="box box-primary">
                         <div class="box-body box-profile bg-primary">
-                            <img class="rounded mx-auto d-block avatar" src="{{ url('/') }}/imgs/{{$user->avatar}}"
-                                 alt="User profile picture">
+                            <div class="imgWrapper1"><img class="avatar" src="{{ url('/') }}/imgs/{{$user->avatar}}"
+                                      alt="User profile picture"></div>
                             <h3 class="profile-username text-center text-white name1">{{$user->name}}</h3>
                             <p class="text-center text-white">Software Engineer</p>
                             <ul class="list-group list-group-unbordered">

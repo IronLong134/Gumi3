@@ -3,6 +3,7 @@
     namespace App\Http\Controllers;
     
     use App\Friend;
+    use App\Post;
     use App\User;
     use Illuminate\Support\Facades\Auth;
     use Illuminate\Support\Facades\DB;
@@ -31,7 +32,7 @@
             $id = $user1->id;
             $user = User::all();
             $count_friends = Friend::where(function ($q) {
-                $q->where('sender_id', '=', Auth::user()->id->orWhere('receive_id', '=', Auth::user()->id);
+                $q->where('sender_id', '=', Auth::user()->id)->orWhere('receive_id', '=', Auth::user()->id);
             })
                                    ->where('accept', '=', 1)
                                    ->where('delete_at', '=', 0)
@@ -131,8 +132,10 @@
                              ->get();
             $count_friends = $friends;
             $request = Friend::where('receive_id', '=', $id)->where('accept', '=', 0)->where('delete_at', '=', 0)->get();
+            foreach ($friends as $friend) {
+                $friend['friend'] = $friend->receive->id == $user->id ? $friend->sender : $friend->receive;
+            }
             
-            //dd($friends);
             return view('list_friend')->with('friends', $friends)->with('user', $user)->with('count_friends', $count_friends)->with('request', $request);
         }
         
@@ -145,5 +148,26 @@
             }
             
             return Redirect()->back();
+        }
+        public function profile_friend($friend_id)
+        {
+            //echo abc;
+            $friend1= new Post();
+            $user = Auth::user();
+            $post = $friend1->getFriendPost($friend_id);
+            $friend2=new Friend();
+            $relationship= $friend2->GetRelationship($friend_id);
+            $count_friends = Friend::where(function ($q) {
+                $q->where('sender_id', '=', Auth::user()->id)->orWhere('receive_id', '=', Auth::user()->id);
+            })
+                                   ->where('accept', '=', 1)
+                                   ->where('delete_at', '=', 0)
+                                   ->get();
+            $request = Friend::where('receive_id', '=', Auth::user()->id)
+                             ->where('accept', '=', 0)
+                             ->where('delete_at', '=', 0)
+                             ->get();
+            //echo $relationship->updated_at;
+           return view('profile_friend')->with('user', $user)->with('data',$post)->with('count_friends', $count_friends)->with('request', $request)->with('relation',$relationship);
         }
     }

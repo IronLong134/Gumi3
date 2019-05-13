@@ -13,7 +13,7 @@
     //DEFAUNT
     Route::get('/', function () {
         return view('welcome');
-    });
+    })->name('welcome');
     //Test Db
     route::get('/testconnect', 'DemoController@testconnect')->name('testconnect');
     Auth::routes();
@@ -23,7 +23,7 @@
     Route::get('/home', 'HomeController@index')->name('home');
     
     //ADMIN
-    Route::get('/admin', 'DemoController@admin')->name('admin')->middleware('checkadmin');
+    Route::get('/admin', 'DemoController@admin')->name('admin')->middleware('checkadmin')->middleWare('checkUser');
     
 
     //MESSEGER - NOT COMPELETE
@@ -41,11 +41,12 @@
     
     //POST
     //get all post people,
-    Route::get('/all_people', 'DemoController@allPeople')->name('allPeople');
-    //post of one user
+    Route::get('/all_people', 'DemoController@allPeople')->name('allPeople')->middleWare('auth');
+    //post of one user-USER
     Route::get('/profile_post/{id}', 'PostController@profilePost')->name('profilePost');
-    Route::post('/add_post/{id}', 'PostController@addPost')->name('add_post');
-    Route::get('/post/{id}', 'PostController@getPost')->name('post');
+    //*****ROUTE TRANG CÁ NHÂN*****
+    Route::post('/add_post/{user_id}', 'PostController@addPost')->name('profile_post')->middleWare('checkUser');//TRANG CÁ NHÂN
+    Route::get('/post/{id}', 'PostController@getPost')->name('post')->middleWare('checkPost')->middleWare('auth');
     Route::get('/delete/{id}', 'PostController@delete')->name('delete');
     
     //LIKE, COMMNENT POST
@@ -55,9 +56,11 @@
    
    
     //FEATURE FRIEND
-    Route::get('/rq_friends/{id}', 'DemoController@getRqfriend')->name('rqfriend');
+    Route::get('/rq_friends/{user_id}', 'DemoController@getRqfriend')->name('rqfriend')->middleWare('checkUser');
     Route::get('/send_rq/{friend_id}', 'DemoController@addFriend')->name('addFriend');
-    Route::get('/list_friends/{user_id}', 'DemoController@listFriend')->name('list_friend');
+    Route::get('/list_friends/{user_id}', 'DemoController@listFriend')->name('list_friend')->middleWare('checkUser');
+    Route::get('/profile_friend/{friend_id}', 'DemoController@profile_friend')->name('profile_friend')->middleWare('checkFriend')->middleWare('auth');
+    
     //Accept- refure friend
     Route::get('/refuse/{sender_id}/{receive_id}', 'DemoController@refuse')->name('refuse');
     Route::get('/accept/{user_id}/{friend_id}', 'DemoController@accept')->name('accept');
