@@ -16,7 +16,7 @@
                                     <div class="rounded mx-auto d-block"><img class=" rounded mx-auto d-block avatar"
                                                                               src="{{ url('/') }}/imgs/{{$user->avatar}}"
                                                                               alt="User profile picture"></div>
-                                    <h3 class="profile-username text-center">{{$user->name}}</h3>
+                                    <h3 class="profile-username text-center"><a href="\profile_friend\{{$user->id}}">{{$user->name}}</a></h3>
                                     <p class="text-muted text-center">{{$user->email}}</p>
                                     <ul class="list-group list-group-unbordered">
                                         <li class="list-group-item">

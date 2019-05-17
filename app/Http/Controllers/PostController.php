@@ -8,6 +8,7 @@ use App\Post;
 use App\User;
 use App\Friend;
 use App\masterdata;
+use App\Image;;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
@@ -110,11 +111,14 @@ class PostController extends Controller
 
         $image = $request->file('select_file');
 
-        $new_name = rand().'.'.$image->getClientOriginalExtension();
+        $new_name = Auth::id()."-".rand().'.'.$image->getClientOriginalExtension();
 
         $image->move(public_path('imgs'), $new_name);
-        $new->avatar = $new_name;
-        $new->save();
+        //$new->avatar = $new_name;
+        //$new->save();
+        $image = new Image();
+        $image->addImage($new_name);
+     
         return Redirect()->back();
 
     }

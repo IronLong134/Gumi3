@@ -12,17 +12,18 @@
             <div class="card">
                 <div class="title1 bg-primary text-white text-center">CẬP NHẬT THÔNG TIN</div>
                 <div class="upload_picture">
-                    <div class="center"><img class="avatar_upload" src="{{ url('/') }}/imgs/{{$user->avatar}}"
+                    <div class="center"><img class="avatar_upload"
+                                             src="{{ url('/') }}/imgs/@if($user->avatar){{$user->avatar}}@elseif(!$user->avatar && $user->gender==1){{"avatar_male.jpg"}}@else{{"avatar_female.jpg"}}@endif"
                                              alt="User profile picture"></div>
                     <div class="container">
                         <form class="form-group" action="/update_avatar" method="POST" enctype="multipart/form-data">
                             {{csrf_field()}} {{-- Tên <br> --}}
-                            <input type="hidden" id="id" name="id" value="{{$user->id}}" ><br>
+                            <input type="hidden" id="id" name="id" value="{{$user->id}}"><br>
                             <div class="text-center text-primary"><i class="fas fa-user-tag"></i> Cập nhật ảnh đại diện
                             </div>
                             <div class="text-center"><input class="btn btn-primary" id="file" type="file"
                                                             name="select_file"
-                                                            value="{{ $user->avatar}}" /></div>{{--
+                                                            value="{{ $user->avatar}}"/></div>{{--
             <input class="btn btn-primary" type="button" onclick="enable()" name="edit" value="sửa thông tin"><br> --}}
                             <div class="text-center"><input class="btn btn-primary"
                                                             onclick="return confirm('xác nhận thông tin sửa');"
@@ -31,6 +32,8 @@
                             </div>
                         </form>
                     </div>
+                    <div class="text-center margin-bottom"><a class="btn btn-primary" href="/images/{{Auth::id()}}">Chọn
+                            từ ảnh của bạn</a></div>
                 </div>
                 <div>
                     <form method="POST" class="form" action="/update_info/{{$user->id}}">
@@ -42,10 +45,11 @@
                             <div class="col-md-6">
                                 <input id="nick_name" type="text"
                                        class="form-control"
-                                       name="nick_name" value="{{ $user->nick_name }}"  readonly>
+                                       name="nick_name" value="{{ $user->nick_name }}" readonly>
 
                             </div>
-                            <input class="btn btn-primary" type="button" id="btn-nick_name" onclick="Disable('nick_name')"
+                            <input class="btn btn-primary" type="button" id="btn-nick_name"
+                                   onclick="Disable('nick_name')"
                                    name="edit" value="Thay đổi">
                         </div>
                         <div class="form-group row">
@@ -55,7 +59,7 @@
                             <div class="col-md-6">
                                 <input id="intro" type="text"
                                        class="form-control{{ $errors->has('intro') ? ' is-invalid' : '' }}"
-                                       name="intro" value="{{ $user->intro  }}"  readonly>
+                                       name="intro" value="{{ $user->intro  }}" readonly>
 
                                 @if ($errors->has('intro'))
                                     <span class="invalid-feedback" role="alert">
@@ -74,7 +78,7 @@
                             <div class="col-md-6">
                                 <input id="mobile" type="text"
                                        class="form-control{{ $errors->has('mobile') ? ' is-invalid' : '' }}"
-                                       name="mobile" value="{{ $user->mobile  }}"  readonly>
+                                       name="mobile" value="{{ $user->mobile  }}" readonly>
 
                                 @if ($errors->has('mobile'))
                                     <span class="invalid-feedback" role="alert">
@@ -94,7 +98,7 @@
                             <div class="col-md-6">
                                 <input id="birthday" type="date"
                                        class="form-control{{ $errors->has('birthday') ? ' is-invalid' : '' }}"
-                                       name="birthday" value="{{$user->birthday }}"  readonly>
+                                       name="birthday" value="{{$user->birthday }}" readonly>
 
                                 @if ($errors->has('birthday'))
                                     <span class="invalid-feedback" role="alert">
@@ -113,7 +117,7 @@
                             <div class="col-md-6">
                                 <input id="job" type="text"
                                        class="form-control{{ $errors->has('job') ? ' is-invalid' : '' }}"
-                                       name="job" value="{{$user->job }}"  readonly>
+                                       name="job" value="{{$user->job }}" readonly>
 
                                 @if ($errors->has('job'))
                                     <span class="invalid-feedback" role="alert">
@@ -132,7 +136,7 @@
                             <div class="col-md-6">
                                 <input id="adress" type="text"
                                        class="form-control{{ $errors->has('adress') ? ' is-invalid' : '' }}"
-                                       name="adress" value="{{$user->adress }}"  readonly>
+                                       name="adress" value="{{$user->adress }}" readonly>
 
                                 @if ($errors->has('adress'))
                                     <span class="invalid-feedback" role="alert">
@@ -151,7 +155,7 @@
                             <div class="col-md-6">
                                 <input id="favorite_1" type="text"
                                        class="form-control{{ $errors->has('favorite_1') ? ' is-invalid' : '' }}"
-                                       name="favorite_1" value="{{$user->favorite_1 }}"  readonly>
+                                       name="favorite_1" value="{{$user->favorite_1 }}" readonly>
 
                                 @if ($errors->has('favorite_1'))
                                     <span class="invalid-feedback" role="alert">
@@ -170,7 +174,7 @@
                             <div class="col-md-6">
                                 <input id="favorite_2" type="text"
                                        class="form-control{{ $errors->has('favorite_2') ? ' is-invalid' : '' }}"
-                                       name="favorite_2" value="{{$user->favorite_2 }}"  readonly>
+                                       name="favorite_2" value="{{$user->favorite_2 }}" readonly>
 
                                 @if ($errors->has('favorite_2'))
                                     <span class="invalid-feedback" role="alert">
@@ -189,7 +193,7 @@
                             <div class="col-md-6">
                                 <input id="favorite_3" type="text"
                                        class="form-control{{ $errors->has('favorite_3') ? ' is-invalid' : '' }}"
-                                       name="favorite_3" value="{{$user->favorite_3 }}"  readonly>
+                                       name="favorite_3" value="{{$user->favorite_3 }}" readonly>
 
                                 @if ($errors->has('favorite_3'))
                                     <span class="invalid-feedback" role="alert">
@@ -208,7 +212,7 @@
                             <div class="col-md-6">
                                 <input id="personal_id" type="text"
                                        class="form-control{{ $errors->has('personal_id') ? ' is-invalid' : '' }}"
-                                       name="personal_id" value="{{$user->personal_id }}"  readonly>
+                                       name="personal_id" value="{{$user->personal_id }}" readonly>
 
                                 @if ($errors->has('personal_id'))
                                     <span class="invalid-feedback" role="alert">
@@ -227,7 +231,7 @@
                             <div class="col-md-6">
                                 <input id="graduate" type="text"
                                        class="form-control{{ $errors->has('graduate') ? ' is-invalid' : '' }}"
-                                       name="graduate_year" value="{{$user->graduate_year }}"  readonly>
+                                       name="graduate_year" value="{{$user->graduate_year }}" readonly>
 
                                 @if ($errors->has('graduate'))
                                     <span class="invalid-feedback" role="alert">
@@ -246,7 +250,7 @@
                             <div class="col-md-6">
                                 <input id="university" type="text"
                                        class="form-control{{ $errors->has('university') ? ' is-invalid' : '' }}"
-                                       name="university" value="{{$user->university }}"  readonly>
+                                       name="university" value="{{$user->university }}" readonly>
 
                                 @if ($errors->has('university'))
                                     <span class="invalid-feedback" role="alert">
@@ -265,7 +269,7 @@
                             <div class="col-md-6">
                                 <input id="high_school" type="text"
                                        class="form-control{{ $errors->has('high_school') ? ' is-invalid' : '' }}"
-                                       name="high_school" value="{{$user->high_school }}"  readonly>
+                                       name="high_school" value="{{$user->high_school }}" readonly>
 
                                 @if ($errors->has('high_school'))
                                     <span class="invalid-feedback" role="alert">
@@ -284,7 +288,7 @@
                             <div class="col-md-6">
                                 <select id="gender" type="text" readonly
                                         class="form-control{{ $errors->has('gender') ? ' is-invalid' : '' }}"
-                                        name="gender" >
+                                        name="gender">
 
                                     <option @if($user->gender==1) selected='selected' @endif value='1'>Nam</option>
                                     <option @if($user->gender==0) selected='selected' @endif value='0'>Nữ</option>
@@ -306,7 +310,7 @@
                             <div class="col-md-6">
                                 <select id="blood" type="text"
                                         class="form-control{{ $errors->has('blood') ? ' is-invalid' : '' }}"
-                                        name="blood_type"  readonly="true" >
+                                        name="blood_type" readonly="true">
 
 
                                     @foreach($bloods as $blood)
@@ -314,7 +318,7 @@
                                                 @endif value={{$blood->value}}>{{$blood->name}}</option>
                                     @endforeach
                                     <option @if($user->blood_name=="")
-                                            selected="selected" @endif value="" >
+                                            selected="selected" @endif value="">
                                         Chưa chọn{{$user->blood_type}}
                                     </option>
 
@@ -345,12 +349,11 @@
                 </div>
             </div>
         </div>
-    </div>
-    <script>
-        function Disable(name) {
-            var _name = $('#' + name);
-            _name.attr('readonly', !_name.prop('readonly'));
-            $('#btn-' + name).val(_name.prop('readonly') ? 'Thay đổi' : 'Xong');
-        }
-    </script>
+        <script>
+            function Disable(name) {
+                var _name = $('#' + name);
+                _name.attr('readonly', !_name.prop('readonly'));
+                $('#btn-' + name).val(_name.prop('readonly') ? 'Thay đổi' : 'Xong');
+            }
+        </script>
 @endsection

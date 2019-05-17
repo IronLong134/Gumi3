@@ -50,6 +50,8 @@
     Route::post('/add_post/{user_id}', 'PostController@addPost')->name('profile_post')->middleWare('checkUser');//TRANG CÁ NHÂN
     Route::get('/post/{id}', 'PostController@getPost')->name('post')->middleWare('checkPost')->middleWare('auth');
     Route::get('/delete/{id}', 'PostController@delete')->name('delete');
+    Route::get('/images/{id}', 'DemoController@image')->name('image');
+    Route::post('/deleteImage', 'DemoController@deteteImage')->name('deteteImage');
     
     //LIKE, COMMNENT POST
     Route::post('/add_comment/{post_id}/{user_id}', 'PostController@addComment')->name('add_comment');
@@ -61,7 +63,7 @@
     Route::get('/rq_friends/{user_id}', 'DemoController@getRqfriend')->name('rqfriend')->middleWare('checkUser');
     Route::get('/send_rq/{friend_id}', 'DemoController@addFriend')->name('addFriend');
     Route::get('/list_friends/{user_id}', 'DemoController@listFriend')->name('list_friend')->middleWare('checkUser');
-    Route::get('/profile_friend/{friend_id}', 'DemoController@profile_friend')->name('profile_friend')->middleWare('checkFriend')->middleWare('auth');
+    Route::get('/profile_friend/{friend_id}', 'DemoController@profile_friend')->name('profile_friend')->middleWare('auth');
     
     //Accept- refure friend
     Route::get('/refuse/{sender_id}/{receive_id}', 'DemoController@refuse')->name('refuse');

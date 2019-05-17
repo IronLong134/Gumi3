@@ -14,11 +14,11 @@
                         <div class="row user-block">
                             <div class="col-md-3" style="text-align:right; ">
                                 <img class=" avatar1" src="{{ url('/') }}/imgs/{{$friend->sender->avatar}}"
-                                     alt="user image">
+                                     alt="">
                             </div>
                             <div class="col-md-5">
                                 <div class="row">
-                                    <div class="name1 text-primary">{{$friend->sender->name}}</div>
+                                    <a class="name1 text-primary" href="\profile_friend\{{$friend->sender->id}}">{{$friend->sender->name}}</a>
                                     <div style="margin-left:10px">đã gửi lời mởi kết bạn</div>
                                 </div>
                             </div>

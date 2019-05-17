@@ -18,7 +18,7 @@
          * @var array
          */
         protected $fillable = [
-            'name', 'email', 'password', 'style','birthday','gender','mobile','personal_id'
+            'name', 'email', 'password', 'style', 'birthday', 'gender', 'mobile', 'personal_id'
         ];
         
         /**
@@ -45,7 +45,10 @@
         public function post() {
             return $this->hasMany('App\Post');
         }
-        
+        public function image()
+        {
+            return $this->hasOne('App\Image');
+        }
         /**
          * @return mixed
          */
@@ -76,48 +79,47 @@
             $users = User::where('id', '!=', $id)->with('sender', 'comment')->orderBy('id', 'DESC')->get();
             $friend1 = new Friend();
             $friends = $friend1->getFriend();//Lấy danh sách bạn bè
-            $record= Friend::where(function ($q) {  // lấy tất cả những record chưa xóa trong bảng friends có id của mình .
+            $record = Friend::where(function ($q) {  // lấy tất cả những record chưa xóa trong bảng friends có id của mình .
                 $q->where('sender_id', '=', Auth::user()->id)
                   ->orWhere('receive_id', '=', Auth::user()->id);
             })
-                           ->orderBy('updated_at', 'DESC')
-                           ->where('accept', '=', 0)
-                           ->where('delete_at', '=', 0)
-                           ->get();
-            $receiveIds= $record->where('sender_id', '=', Auth::user()->id)->pluck('receive_id');// ta là ng gửi,lấy người nhận
-            $senderIds= $record->where('receive_id', '=', Auth::user()->id)->pluck('sender_id');//ta là người nhận, lấy người gửi
+                            ->orderBy('updated_at', 'DESC')
+                            ->where('accept', '=', 0)
+                            ->where('delete_at', '=', 0)
+                            ->get();
+            $receiveIds = $record->where('sender_id', '=', Auth::user()->id)->pluck('receive_id');// ta là ng gửi,lấy người nhận
+            $senderIds = $record->where('receive_id', '=', Auth::user()->id)->pluck('sender_id');//ta là người nhận, lấy người gửi
             foreach ($users as $user) {
-                $user['check']='no';
-                foreach ($friends as $friend)
-                {
-                    if($user->id==$friend) // 1 3 5 7
+                $user['check'] = 'no';
+                foreach ($friends as $friend) {
+                    if ($user->id == $friend) // 1 3 5 7
                     {
-                        $user['check']='friend';
+                        $user['check'] = 'friend';
                     }
                 }
-                foreach ($receiveIds as $receiveId)
-                {
-                    if($user->id==$receiveId) // 1 3 5 7
+                foreach ($receiveIds as $receiveId) {
+                    if ($user->id == $receiveId) // 1 3 5 7
                     {
-                        $user['check']='sended';
+                        $user['check'] = 'sended';
                     }
                 }
-                foreach ($senderIds as $senderId)
-                {
-                    if($user->id==$senderId)
-                    {
-                        $user['check']='request';
+                foreach ($senderIds as $senderId) {
+                    if ($user->id == $senderId) {
+                        $user['check'] = 'request';
                     }
                 }
             }
-
-           return $users;
+            
+            return $users;
             
             //return $users;
         }
-        public function getInfoUser($id)
-        {
-            $info = User::where('id','=',$id)->with()->get();
+        
+        public function getInfoUser($id) {
+            $info = User::where('id', '=', $id)->with()->get();
+            
             return $info;
         }
+        
+     
     }

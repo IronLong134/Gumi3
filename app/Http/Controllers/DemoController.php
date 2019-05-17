@@ -3,9 +3,11 @@
     namespace App\Http\Controllers;
     
     use App\Friend;
+    use App\Image;
     use App\Masterdata;
     use App\Post;
     use App\User;
+    
     use Illuminate\Http\Request;
     use Illuminate\Support\Facades\Auth;
     use Illuminate\Support\Facades\DB;
@@ -154,11 +156,11 @@
         
         public function profile_friend($friend_id) {
             //echo abc;
-            $friend1 = new Post();
+            $friend1 = new Friend();
             $user = Auth::user();
             $post = $friend1->getFriendPost($friend_id);
-            $friend2 = new Friend();
-            $relationship = $friend2->GetRelationship($friend_id);
+            $post[0]['relationship'] = $friend1->getRelationship($friend_id);
+            
             $count_friends = Friend::where(function ($q) {
                 $q->where('sender_id', '=', Auth::user()->id)->orWhere('receive_id', '=', Auth::user()->id);
             })
@@ -170,8 +172,8 @@
                              ->where('delete_at', '=', 0)
                              ->get();
             
-            //echo $relationship->updated_at;
-            return view('profile_friend')->with('user', $user)->with('data', $post)->with('count_friends', $count_friends)->with('request', $request)->with('relation', $relationship);
+            //dd($post);;
+            return view('profile_friend')->with('user', $user)->with('data', $post)->with('count_friends', $count_friends)->with('request', $request);
         }
         
         public function edit_profile() {
@@ -215,5 +217,30 @@
                                  'blood_type' => $rq->blood_type!=""?$rq->blood_type:NULL]);
            // dd($rq->blood_type);
            return redirect()->route('profilePost', ['id' => Auth::id()]);
+        }
+        public function image()
+        {
+            $user=Auth::user();
+            $count_friends = Friend::where(function ($q) {
+                $q->where('sender_id', '=', Auth::user()->id)->orWhere('receive_id', '=', Auth::user()->id);
+            })
+                                   ->where('accept', '=', 1)
+                                   ->where('delete_at', '=', 0)
+                                   ->get();
+            $request = Friend::where('receive_id', '=', Auth::user()->id)
+                             ->where('accept', '=', 0)
+                             ->where('delete_at', '=', 0)
+                             ->get();
+            $image=Image::where('user_id','=',$user->id)->pluck('images');
+           // dd($image);
+            $images=explode (" ", $image[0]);
+            //dd($images);
+            return view('images')->with('user',$user)->with('images',$images)->with('count_friends', $count_friends)->with('request', $request);
+        }
+        public function deteteImage(Request $rq)
+        {
+            $img = new Image();
+            $img->DeleteImage($rq->images);
+            return 1;
         }
     }

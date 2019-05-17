@@ -128,8 +128,8 @@
                             <a class="nav-link text-white"
                                href="/profile_post/{{Auth::user()->id}}"><img
                                     class=" avatar1"
-                                    src="{{ url('/') }}/imgs/{{Auth::user()->avatar}}"
-                                    alt="user image"> {{Auth::user()->name}} <span
+                                    src="{{ url('/') }}/imgs/@if(Auth::user()->avatar){{Auth::user()->avatar}}@elseif(!Auth::user()->avatar && Auth::user()->gender==1){{"avatar_male.jpg"}}@else{{"avatar_female.jpg"}}@endif"
+                                    alt=""> {{Auth::user()->name}} <span
                                     class="sr-only">(current)</span></a>
                         </li>
                         <li class="nav-item">

@@ -23,7 +23,7 @@
                                 <div class="box-body box-profile bg-primary" style="padding-top:8px;">
 
                                     <img class="rounded mx-auto d-block avatar"
-                                         src="{{ url('/') }}/imgs/{{$user->avatar}}" alt="User profile picture">
+                                         src="{{ url('/') }}/imgs/@if($user->avatar){{$user->avatar}}@elseif(!$user->avatar && $user->gender==1){{"avatar_male.jpg"}}@else{{"avatar_female.jpg"}}@endif" alt="User profile picture">
                                     <h3 class="profile-username text-center text-white name1">{{$user->name}}</h3>
 
                                     <p class=" text-center text-white">Software Engineer</p>
@@ -99,7 +99,7 @@
                                                 <div class="user-block">
                                                     <img class=" avatar1"
                                                          src="{{ url('/') }}/imgs/{{$data->user->avatar}}"
-                                                         alt="user image">
+                                                         alt="">
                                                     <span class="username">
 
                                                     <a class="name" href="@if($data->user->id==Auth::id(0))\profile_post\{{$user->id}}@else\profile_friend\{{$data->user->id}}@endif">{{$data->user->name}}</a>

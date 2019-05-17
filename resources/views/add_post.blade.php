@@ -11,12 +11,18 @@
                 <div class="col-md-4 card ">
                     <div class="box box-primary">
                         <div class="box-body box-profile bg-primary">
-                            <div class="imgWrapper1"><img class="avatar" src="{{ url('/') }}/imgs/{{$user->avatar}}"
+                            <div class="imgWrapper1"><img class="avatar" src="{{ url('/') }}/imgs/@if($user->avatar){{$user->avatar}}@elseif(!$user->avatar && $user->gender==1){{"avatar_male.jpg"}}@else{{"avatar_female.jpg"}}@endif"
                                                           alt="User profile picture"></div>
                             <h3 class="profile-username text-center text-white name1">{{$user->name}}</h3>
-                            <h4 class="text-center text-white" >({{$user->nick_name}})</h4>
-                            <p class="text-center text-white intro">intro{{$user->intro}}</p>
+                            <h4 class="text-center text-white" >@if($user->nick_name)({{$user->nick_name}})@endif</h4>
+                            <p class="text-center text-white intro">{{$user->intro}}</p>
                             <ul class="list-group list-group-unbordered">
+                                <li class="list-group-item center">
+                                    <div>
+                                        <div class="icon text-primary"><i class="fas fa-venus-mars"></i><b>giới tính</b></div>
+                                        <div class="contentInfo"> <a class="pull-right">@if($user->gender==1)Nam @elseif($user->gender==0) Nữ @endif</a></div>
+                                    </div>
+                                </li>
                                 <li class="list-group-item center">
                                     <div>
                                         <div class="icon text-primary"><i class="fas fa-phone"></i><b>  Số điện thoại</b></div>
@@ -113,7 +119,7 @@
                             <div class="col-md-10">
                                 <div class="user-block">
                                     <img class=" avatar1" src="{{ url('/') }}/imgs/{{$key->user->avatar}}"
-                                         alt="user image">
+                                         alt="">
                                     <span class="username">
                                         <a class="name" href="#">{{$key->user->name}}</a>
                                     </span>

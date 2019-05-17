@@ -150,11 +150,5 @@
         }
         
         //lay post bạn bè
-        public function getFriendPost($id) {
-            $post = User::where('id', '=', $id)->with(['post' => function ($q) {
-                $q->where('delete_at', '=', 0)->with('user');
-            }])->get();
-            
-            return $post;
-        }
+      
     }

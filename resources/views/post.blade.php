@@ -13,7 +13,7 @@
                         <div class="box-body box-profile" style="margin-top:7px;">
                             <input type="hidden" name="csrf-token" content="{{ csrf_token() }}">
                             <img class="rounded mx-auto d-block avatar"
-                                 src="{{ url('/') }}/imgs/{{$post[0]->user->avatar}}" alt="User profile picture">
+                                 src="{{ url('/') }}/imgs/ @if($post[0]->user->avatar){{$post[0]->user->avatar}}@elseif(!$post[0]->user->avatar && $post[0]->user->gender==1){{"avatar_male.jpg"}}@else{{"avatar_female.jpg"}}@endif" alt="User profile picture">
                             <h3 class="profile-username text-center name1 text-primary">{{$post[0]->user->name}}</h3>
 
                             <p class="text-muted text-center">Software Engineer</p>
@@ -40,7 +40,7 @@
                 <div class="col-md-8 card">
                     <div class="user-block">
                         <div class="inline"><img class=" avatar1" src="{{ url('/') }}/imgs/{{$post[0]->user->avatar}}"
-                                                 alt="user image">
+                                                 alt="">
                             <a class="name" href="#" style="font-size:x-large;">{{$post[0]->user->name}}</a>
                             <div class="description">Shared publicly {{$post[0]['created_at']}}</div>
                         </div>
@@ -68,7 +68,7 @@
                         @foreach ($comments as $comment)
                             <div class="form-inline">
                                 <div class="inline"><img class=" avatar1" src="{{ url('/') }}/imgs/{{$comment->user->avatar}}"
-                                                         alt="user image"><a href="">{{$comment->user->name}}</a>
+                                                         alt=""><a href="">{{$comment->user->name}}</a>
                                     <span style="margin-left:11px;">{{$comment->content}}</span>
 
                                 </div>
