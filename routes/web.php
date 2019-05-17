@@ -37,7 +37,8 @@
     Route::get('/checklike/{post_id}/{user_id}','PostController@checkLike')->name('check_like');
     
     //CHANGE USER INFO
-    Route::post('/update_user', 'PostController@update')->name('update_user');
+    Route::post('/update_avatar', 'PostController@update')->name('update_avatar');
+    Route::post('/update_info/{user_id}', 'DemoController@update_info')->name('update_info');
     
     //POST
     //get all post people,
@@ -45,6 +46,7 @@
     //post of one user-USER
     Route::get('/profile_post/{id}', 'PostController@profilePost')->name('profilePost');
     //*****ROUTE TRANG CÁ NHÂN*****
+    Route::get('/edit_profile/{user_id}', 'DemoController@edit_profile')->name('edit_profile')->middleWare('checkUser');
     Route::post('/add_post/{user_id}', 'PostController@addPost')->name('profile_post')->middleWare('checkUser');//TRANG CÁ NHÂN
     Route::get('/post/{id}', 'PostController@getPost')->name('post')->middleWare('checkPost')->middleWare('auth');
     Route::get('/delete/{id}', 'PostController@delete')->name('delete');

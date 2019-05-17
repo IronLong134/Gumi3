@@ -12,41 +12,88 @@
                     <div class="box box-primary">
                         <div class="box-body box-profile bg-primary">
                             <div class="imgWrapper1"><img class="avatar" src="{{ url('/') }}/imgs/{{$user->avatar}}"
-                                      alt="User profile picture"></div>
+                                                          alt="User profile picture"></div>
                             <h3 class="profile-username text-center text-white name1">{{$user->name}}</h3>
-                            <p class="text-center text-white">Software Engineer</p>
+                            <h4 class="text-center text-white" >({{$user->nick_name}})</h4>
+                            <p class="text-center text-white intro">intro{{$user->intro}}</p>
                             <ul class="list-group list-group-unbordered">
-                                <li class="list-group-item center"><i class="fas fa-mail-bulk"></i>
-                                    <b>Gmail</b> <a class="pull-right">{{$user->email}}</a>
+                                <li class="list-group-item center">
+                                    <div>
+                                        <div class="icon text-primary"><i class="fas fa-phone"></i><b>  Số điện thoại</b></div>
+                                        <div class="contentInfo"> <a class="pull-right">{{$user->mobile}}</a></div>
+                                    </div>
                                 </li>
-                                <li class="list-group-item center"><i class="fas fa-users"></i>
-                                    <b>Tham gia từ</b> <a class="text-right">{{$user->created_at}}</a>
+                                <li class="list-group-item center">
+                                    <div>
+                                        <div class="icon text-primary"><i class="fas fa-mail-bulk"></i><b>Gmail</b></div>
+                                        <div class="contentInfo"> <a class="pull-right">{{$user->email}}</a></div>
+                                    </div>
+                                </li>
+                                <li class="list-group-item center">
+                                    <div>
+                                        <div class="icon text-primary"><i class="fas fa-birthday-cake"></i><b> Sinh nhật</b></div>
+                                        <div class="contentInfo"> <a class="pull-right">{{$user->birthday}}</a></div>
+                                    </div>
+                                </li>
+                                <li class="list-group-item center">
+                                    <div>
+                                        <div class="icon text-primary"><i class="fas fa-id-card-alt"></i><b> Chứng minh </b></div>
+                                        <div class="contentInfo"> <a class="pull-right">{{$user->personal_id}}</a></div>
+                                    </div>
+                                </li>
+                                <li class="list-group-item center">
+                                    <div>
+                                        <div class="icon text-primary"><i class="fas fa-briefcase"></i><b> Công việc </b></div>
+                                        <div class="contentInfo"> <a class="pull-right">{{$user->job}}</a></div>
+                                    </div>
+                                </li>
+                                <li class="list-group-item center">
+                                    <div>
+                                        <div class="icon text-primary"><i class="fas fa-futbol"></i><b> Sở thích </b></div>
+                                        <div class="contentInfo"> <a class="pull-right">{{$user->favorite_1}}&emsp;{{$user->favorite_2}}&emsp;{{$user->favarite_3}}</a></div>
+                                    </div>
+
+                                </li>
+                                <li class="list-group-item center">
+                                    <div>
+                                        <div class="icon text-primary"><i class="fas fa-graduation-cap"></i><b> Tốt nghiệp</b></div>
+                                        <div class="contentInfo"> <a class="pull-right">{{$user->graduate_year}}</a></div>
+                                    </div>
+                                </li>
+                                <li class="list-group-item center">
+                                    <div>
+                                        <div class="icon text-primary"><i class="fas fa-school"></i><b> Đã học tại</b></div>
+                                        <div class="contentInfo"> <a class="pull-right">{{$user->university}}</a></div>
+                                    </div>
+                                </li>
+                                <li class="list-group-item center">
+                                    <div>
+                                        <div class="icon text-primary"><i class="fas fa-school"></i><b> Đã học tại</b></div>
+                                        <div class="contentInfo"> <a class="pull-right">{{$user->high_school}}</a></div>
+                                    </div>
+                                </li>
+
+                                <li class="list-group-item center">
+                                    <div>
+                                        <div class="icon text-primary"><i class="fas fa-tint"></i><b> Nhóm máu</b></div>
+                                        <div class="contentInfo"> <a class="pull-right">{{$user->blood_name}}</a></div>
+                                    </div>
+                                </li>
+                                <li class="list-group-item center">
+                                    <div>
+                                        <div class="icon text-primary"><i class="fas fa-sign-in-alt"></i><b> Tham gia từ</b></div>
+                                        <div class="contentInfo"> <a>{{$user->created_at}}</a></div>
+                                    </div>
                                 </li>
                             </ul>
                         </div>
                         <!-- /.box-body -->
                     </div>
-                    <a class="btn btn-primary" href="/home"><i class="fas fa-newspaper"></i>Bảng
-                        Tin</a><br> @if($user->style=="admin")
+                    <a class="btn btn-primary" href="/edit_profile/{{$user->id}}"><i class="fas fa-newspaper"></i>Cập nhật thông tin</a><br> @if($user->style=="admin")
                         <a class="btn btn-primary" href="/admin"><i class="fas fa-address-book"></i>Quản trị thành viên</a>
                         <br> @endif
                     <label></label>
-                    <div class="container">
-                        <form class="form-group" action="/update_user" method="POST" enctype="multipart/form-data">
-                            {{csrf_field()}} {{-- Tên <br> --}}
-                            <input type="hidden" id="id" name="id" value="{{$user->id}}" required><br>
-                            <div class="text-center text-primary"><i class="fas fa-user-tag"></i> Cập nhật ảnh đại diện
-                            </div>
-                            <input class="btn btn-primary" id="file" type="file" name="select_file"
-                                   value="{{ $user->avatar}}" required/> {{--
-            <input class="btn btn-primary" type="button" onclick="enable()" name="edit" value="sửa thông tin"><br> --}}
-                            <div style="margin:12px;" class="text-center"><input class="btn btn-primary"
-                                                                                 onclick="return confirm('xác nhận thông tin sửa');"
-                                                                                 type="submit" id="ok" name="ok"
-                                                                                 value="cập nhật ảnh đại diện"><br>
-                            </div>
-                        </form>
-                    </div>
+
                 </div>
                 <div class="col-md-8 card">
                     <form action="/add_post/{{$user_id}}" method="POST" style="margin-top:16px;">

@@ -7,6 +7,7 @@ use App\Like;
 use App\Post;
 use App\User;
 use App\Friend;
+use App\masterdata;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
@@ -23,15 +24,16 @@ class PostController extends Controller
         $user = Auth::user();
         $post = new Post();
         $data = $post->getPostID($user_id);
-    
         $id=Auth::user()->id;
+        $blood1=new Masterdata();
+        $user['blood_name']= $blood1->getBloodName($user->blood_type);
         $count_friends=Friend::where(function ($q) {
             $q->where('sender_id','=',Auth::user()->id)->orWhere('receive_id','=',Auth::user()->id);})
                              ->where('accept', '=', 1)
                              ->where('delete_at','=',0)
                              ->get();
         $request=Friend::where('receive_id','=',$id)->where('accept','=',0)->where('delete_at','=',0)->get();
-        
+        //dd($user['blood_name']);
         return view('add_post')->with('user_id', $user_id)->with('data', $data)->with('user', $user)->with('count_friends',$count_friends)->with('request',$request);
     }
     /**

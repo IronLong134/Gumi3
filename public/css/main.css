@@ -274,3 +274,40 @@ div .post:not(:last-child) {
 .post1{
     margin-top: 3%;
 }
+.icon {
+    display: inline;
+    float: left;
+}
+.contentInfo
+{
+   display: inline;
+    float: right;
+}
+.avatar_upload
+{
+    vertical-align: middle;
+    width: 200px;
+
+    border-radius: 50% !important;
+    text-align: center;
+    margin-top: 4%;
+}
+.margin12
+{
+    margin: 12%;
+}
+.upload
+{
+    height: 10px;
+}
+.title1
+{
+    height: 50px;
+    font-weight: bold;
+    padding-top: 1%;
+}
+.form
+{
+    margin-bottom: 12%;
+    padding-right:12%;
+}

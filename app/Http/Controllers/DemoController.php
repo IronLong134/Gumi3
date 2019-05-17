@@ -3,11 +3,13 @@
     namespace App\Http\Controllers;
     
     use App\Friend;
+    use App\Masterdata;
     use App\Post;
     use App\User;
+    use Illuminate\Http\Request;
     use Illuminate\Support\Facades\Auth;
     use Illuminate\Support\Facades\DB;
-    use Illuminate\Support\Facades\Request;
+    
     
     class DemoController extends Controller {
         //
@@ -149,14 +151,14 @@
             
             return Redirect()->back();
         }
-        public function profile_friend($friend_id)
-        {
+        
+        public function profile_friend($friend_id) {
             //echo abc;
-            $friend1= new Post();
+            $friend1 = new Post();
             $user = Auth::user();
             $post = $friend1->getFriendPost($friend_id);
-            $friend2=new Friend();
-            $relationship= $friend2->GetRelationship($friend_id);
+            $friend2 = new Friend();
+            $relationship = $friend2->GetRelationship($friend_id);
             $count_friends = Friend::where(function ($q) {
                 $q->where('sender_id', '=', Auth::user()->id)->orWhere('receive_id', '=', Auth::user()->id);
             })
@@ -167,7 +169,51 @@
                              ->where('accept', '=', 0)
                              ->where('delete_at', '=', 0)
                              ->get();
+            
             //echo $relationship->updated_at;
-           return view('profile_friend')->with('user', $user)->with('data',$post)->with('count_friends', $count_friends)->with('request', $request)->with('relation',$relationship);
+            return view('profile_friend')->with('user', $user)->with('data', $post)->with('count_friends', $count_friends)->with('request', $request)->with('relation', $relationship);
+        }
+        
+        public function edit_profile() {
+            // $user=new User();
+            $user = Auth::user();
+            $blood1 = new Masterdata();
+            $user['blood_name'] = $blood1->getBloodName($user->blood_type);
+            $bloods = $blood1->getAllBlood();
+            $count_friends = Friend::where(function ($q) {
+                $q->where('sender_id', '=', Auth::user()->id)->orWhere('receive_id', '=', Auth::user()->id);
+            })
+                                   ->where('accept', '=', 1)
+                                   ->where('delete_at', '=', 0)
+                                   ->get();
+            $request = Friend::where('receive_id', '=', Auth::user()->id)
+                             ->where('accept', '=', 0)
+                             ->where('delete_at', '=', 0)
+                             ->get();
+            //dd($user->blood_name);
+          return view('edit_profile')->with('user', $user)->with('bloods', $bloods)->with('count_friends', $count_friends)->with('request', $request);
+        }
+        
+        public function update_info(Request $rq) {
+            $user = User::where('id', '=', Auth::id())
+                        ->where('delete_at', '=', 0)
+                        ->update(['intro' => $rq->intro,
+                                 'nick_name' => $rq->nick_name,
+                                 'mobile' => $rq->mobile,
+                                 'birthday' => $rq->birthday,
+                                 'job' => $rq->job,
+                                 'adress' => $rq->adress,
+                                 'favorite_1'=> $rq->favorite_1,
+                                 'favorite_2' => $rq->favorite_2,
+                                 'favorite_3' => $rq->favorite_3,
+                                 'personal_id' => $rq->personal_id,
+                                 'graduate_year' => $rq->graduate_year,
+                                 'university' => $rq->university,
+                                 'high_school' => $rq->high_school,
+                                 'mobile' => $rq->mobile,
+                                 'gender' => $rq->gender,
+                                 'blood_type' => $rq->blood_type!=""?$rq->blood_type:NULL]);
+           // dd($rq->blood_type);
+           return redirect()->route('profilePost', ['id' => Auth::id()]);
         }
     }
