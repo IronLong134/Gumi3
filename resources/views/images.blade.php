@@ -11,7 +11,7 @@
                 <input type="hidden" name="csrf-token" content="{{ csrf_token() }}">
                 <div class="title1 bg-primary text-white text-center">CẬP NHẬT THÔNG TIN</div>
                 <div class="upload_picture">
-                    <div class="center"><img class="avatar_upload"
+                    <div class="center"><img id="avatar" class="avatar_upload"
                                              src="{{ url('/') }}/imgs/@if($user->avatar){{$user->avatar}}@elseif(!$user->avatar && $user->gender==1){{"avatar_male.jpg"}}@else{{"avatar_female.jpg"}}@endif"
                                              alt="User profile picture"></div>
                     <div class="container">
@@ -27,28 +27,31 @@
                             <div class="text-center"><input class="btn btn-primary"
                                                             onclick="return confirm('xác nhận thông tin sửa');"
                                                             type="submit" id="ok" name="ok"
-                                                            value="cập nhật ảnh đại diện"><br>
+                                                            value="Thêm ảnh"><br>
                             </div>
                         </form>
                     </div>
                     <div class="container text-center">
                         <div class="row">
+                            @if($images)
+                                @foreach($images as $key=>$image)
+                                    <div class="col-md-3" id="{{$key}}">
+                                        <img class="avatar_upload list-img" data="{{$image}}"
+                                             src="{{ url('/') }}/imgs/{{$image}}"
+                                             alt="User profile picture">
+                                        <div>
+                                            <button class="btn btn-primary">Xóa ảnh</button>
+                                            <button class="btn btn-success btn-avatar">cập nhật làm ảnh đại diện</button>
+                                        </div>
+                                    </div>
 
-                            @foreach($images as $key=>$image)
-                                <div class="col-md-3" id="{{$key}}">
-                                    <img class="avatar_upload list-img" data="{{$image}}"
-                                         src="{{ url('/') }}/imgs/{{$image}}"
-                                         alt="User profile picture">
-                                    <div><button class="btn btn-primary">Xóa ảnh </button></div>
-
-                                </div>
-
-                            @endforeach
+                                @endforeach
+                            @endif
                         </div>
+
                     </div>
 
                 </div>
-
 
             </div>
         </div>
@@ -57,9 +60,9 @@
     <script>
         $(document).ready(function () {
             $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('input[name="csrf-token"]').attr('content')
-            }
+                headers: {
+                    'X-CSRF-TOKEN': $('input[name="csrf-token"]').attr('content')
+                }
             });
             $('div .row').on('click', '.btn-primary', function (e) {
                 e.preventDefault();
@@ -82,6 +85,37 @@
                     dataType: "json",
                     data: {
                         images: newListImg
+                    },
+                    success: function (res) {
+                        console.log(res);
+                    }
+                });
+                return false;
+
+            })
+            $('div .row').on('click', '.btn-avatar', function (e) {
+                e.preventDefault();
+               // $(this).parent().parent().remove();
+
+                var listImg = $(this).parent().parent().find('img');
+                var image= listImg.attr('data');
+                $('#avatar').attr('src',"http://localhost:8000/imgs/"+ image);
+                // var newListImg = '';
+                //
+                // listImg.each(function (idx, val) {
+                //     newListImg += $(val).attr('data') + ' ';
+                // });
+
+                //newListImg.substr(newListImg.length - 1, newListImg.length);
+
+                var url = '/updateAvatar';
+                $.ajax
+                ({
+                    url: url,
+                    method: "POST",
+                    dataType: "json",
+                    data: {
+                        image: image
                     },
                     success: function () {
 
