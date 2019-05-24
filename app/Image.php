@@ -43,4 +43,5 @@ class Image extends Model
     {
         Image::where('user_id','=',Auth::id())->update(['images'=>$images]);
     }
+
 }

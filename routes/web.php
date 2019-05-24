@@ -51,7 +51,8 @@
     Route::get('/post/{id}', 'PostController@getPost')->name('post')->middleWare('checkPost')->middleWare('auth');
     Route::get('/delete/{id}', 'PostController@delete')->name('delete');
     Route::get('/images/{id}', 'DemoController@image')->name('image');
-    Route::post('/deleteImage', 'DemoController@deteteImage')->name('deteteImage');
+    Route::post('/deleteImage', 'DemoController@deleteImage')->name('deleteImage');
+    Route::post('/updateAvatar', 'DemoController@updateAvatar')->name('updateAvatar');
     
     //LIKE, COMMNENT POST
     Route::post('/add_comment/{post_id}/{user_id}', 'PostController@addComment')->name('add_comment');
