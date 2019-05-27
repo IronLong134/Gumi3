@@ -13,7 +13,8 @@
                         <div class="box-body box-profile" style="margin-top:7px;">
                             <input type="hidden" name="csrf-token" content="{{ csrf_token() }}">
                             <img class="rounded mx-auto d-block avatar"
-                                 src="{{ url('/') }}/imgs/ @if($post[0]->user->avatar){{$post[0]->user->avatar}}@elseif(!$post[0]->user->avatar && $post[0]->user->gender==1){{"avatar_male.jpg"}}@else{{"avatar_female.jpg"}}@endif" alt="User profile picture">
+                                 src="{{ url('/') }}/imgs/@if($post[0]->user->avatar){{$post[0]->user->avatar}}@elseif(!$post[0]->user->avatar && $post[0]->user->gender==1){{"avatar_male.jpg"}}@else{{"avatar_female.jpg"}}@endif"
+                                 alt="User profile picture">
                             <h3 class="profile-username text-center name1 text-primary">{{$post[0]->user->name}}</h3>
 
                             <p class="text-muted text-center">Software Engineer</p>
@@ -31,6 +32,8 @@
                             </ul>
                         </div>
                         <!-- /.box-body -->
+
+
                     </div>
                     <a class="btn btn-primary" href="/home">Trang chủ</a><br>
                     <label></label>
@@ -60,14 +63,15 @@
                             </div>
                             <div class="col-md-2" style="margin-left:40px">
                                 <button class="btn btn-primary"><i
-                                        class="fas fa-comments"></i>Comments({{count($post[0]->comment)}})
+                                            class="fas fa-comments"></i>Comments({{count($post[0]->comment)}})
                                 </button>
                             </div>
                         </div>
 
                         @foreach ($comments as $comment)
                             <div class="form-inline">
-                                <div class="inline"><img class=" avatar1" src="{{ url('/') }}/imgs/{{$comment->user->avatar}}"
+                                <div class="inline"><img class=" avatar1"
+                                                         src="{{ url('/') }}/imgs/{{$comment->user->avatar}}"
                                                          alt=""><a href="">{{$comment->user->name}}</a>
                                     <span style="margin-left:11px;">{{$comment->content}}</span>
 

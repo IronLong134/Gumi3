@@ -98,6 +98,7 @@
                     <a class="btn btn-primary" href="/edit_profile/{{$user->id}}"><i class="fas fa-newspaper"></i>Cập nhật thông tin</a><br> @if($user->style=="admin")
                         <a class="btn btn-primary" href="/admin"><i class="fas fa-address-book"></i>Quản trị thành viên</a>
                         <br> @endif
+                    <a class="btn btn-primary" href="/list_block/{{$user->id}}"><i class="fas fa-user-lock"></i>Danh sách chặn</a><br>
                     <label></label>
 
                 </div>

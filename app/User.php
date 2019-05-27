@@ -76,7 +76,13 @@
          */
         public function getAll() {
             $id = Auth::id();
-            $users = User::where('id', '!=', $id)->with('sender', 'comment')->orderBy('id', 'DESC')->get();
+            $new = new Friend();
+            $list = $new->getIdBlock();
+            $users = User::where('id', '!=', $id)
+                         ->whereNotIn('id',$list )
+                         ->with('sender', 'comment')
+                         ->orderBy('id', 'DESC')
+                         ->get();
             $friend1 = new Friend();
             $friends = $friend1->getFriend();//Lấy danh sách bạn bè
             $record = Friend::where(function ($q) {  // lấy tất cả những record chưa xóa trong bảng friends có id của mình .
@@ -87,6 +93,7 @@
                             ->where('accept', '=', 0)
                             ->where('delete_at', '=', 0)
                             ->get();
+        
             $receiveIds = $record->where('sender_id', '=', Auth::user()->id)->pluck('receive_id');// ta là ng gửi,lấy người nhận
             $senderIds = $record->where('receive_id', '=', Auth::user()->id)->pluck('sender_id');//ta là người nhận, lấy người gửi
             foreach ($users as $user) {

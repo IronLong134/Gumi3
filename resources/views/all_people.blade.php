@@ -14,7 +14,7 @@
                             <div class="box box-primary" style="margin-top:15px;">
                                 <div class="box-body box-profile">
                                     <div class="rounded mx-auto d-block"><img class=" rounded mx-auto d-block avatar"
-                                                                              src="{{ url('/') }}/imgs/{{$user->avatar}}"
+                                                                              src="{{ url('/') }}/imgs/@if($user->avatar){{$user->avatar}}@elseif(!$user->avatar && $user->gender==1){{"avatar_male.jpg"}}@else{{"avatar_female.jpg"}}@endif"
                                                                               alt="User profile picture"></div>
                                     <h3 class="profile-username text-center"><a href="\profile_friend\{{$user->id}}">{{$user->name}}</a></h3>
                                     <p class="text-muted text-center">{{$user->email}}</p>
@@ -69,6 +69,7 @@
                                                         nhận lời mời</a>
                                                     <a class="dropdown-item"
                                                        href="\refuse\{{$user->id}}\{{$user1[0]->id}}">Xóa</a>
+
                                                 @endif
 
                                             </div>

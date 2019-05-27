@@ -130,17 +130,19 @@
                         <!-- /.box-body -->
                     </div>
                     <div>
-                        @if($data[0]->relationship=='no')
-                            <a href="\send_rq\{{$data[0]->id}}" class="btn btn-primary btn-block">Gửi
-                                lời
-                                mời
-                                kết bạn</a>
-                        @else
+                        {{--@if($data[0]->relationship=='no')--}}
+                            {{--<a href="\send_rq\{{$data[0]->id}}" class="btn btn-primary btn-block">Gửi--}}
+                                {{--lời--}}
+                                {{--mời--}}
+                                {{--kết bạn</a>--}}
+                        {{--@else--}}
                             <div class="dropdown profilePeople">
                                 <button class="
                                                 @if($data[0]->relationship=='friend')
                                     btn btn-success
-                                            @elseif($data[0]->relationship=='sended')
+                                                @elseif($data[0]->relationship=='no')
+                                        btn btn btn-primary
+                                                @elseif($data[0]->relationship=='sended')
                                     btn btn btn-danger
                                             @elseif($data[0]->relationship=='request')
                                     btn btn-danger
@@ -150,6 +152,8 @@
                                         aria-expanded="false">
                                     @if($data[0]->relationship=='friend')
                                         <i class="fas fa-user-friends"></i>Bạn bè
+                                    @elseif($data[0]->relationship=='no')
+                                        <i class="fas fa-arrow-left"></i>Hãy gửi lời mời kết bạn
                                     @elseif($data[0]->relationship=='sended')
                                         <i class="fas fa-arrow-left"></i>Bạn đã gửi lời mời kết bạn
                                     @elseif($data[0]->relationship=='request')
@@ -161,21 +165,32 @@
                                         <a class="dropdown-item" href="\profile_friend\{{$data[0]->id}}">Xem trang cá nhân</a>
                                         <a class="dropdown-item"
                                            href="\refuse\{{Auth::id()}}\{{$data[0]->id}}">Hủy kết bạn</a>
+                                        <a class="dropdown-item"
+                                           href="\block\{{Auth::id()}}\{{$data[0]->id}}">Chặn người này</a>
+                                    @elseif($data[0]->relationship=='no')
+                                        <a class="dropdown-item"
+                                           href="\send_rq\{{$data[0]->id}}">Gửi lời mời kết bạn </a>
+                                        <a class="dropdown-item"
+                                           href="\block\{{Auth::id()}}\{{$data[0]->id}}" onclick="return confirm('bạn chắc chắn muốn chặn người này chứ?');">Chặn người này</a>
                                     @elseif($data[0]->relationship=='sended')
                                         <a class="dropdown-item"
                                            href="\refuse\{{Auth::id()}}\{{$data[0]->id}}">Xóa</a>
+                                        <a class="dropdown-item"
+                                           href="\block\{{Auth::id()}}\{{$data[0]->id}}">Chặn người này</a>
                                     @elseif($data[0]->relationship=='request')
                                         <a class="dropdown-item"
                                            href="\accept\{{Auth::id()}}\{{$data[0]->id}}">Chấp
                                             nhận lời mời</a>
                                         <a class="dropdown-item"
                                            href="\refuse\{{Auth::id()}}\{{$data[0]->id}}">Xóa</a>
+                                        <a class="dropdown-item"
+                                           href="\block\{{Auth::id()}}\{{$data[0]->id}}">Chặn người này</a>
                                     @endif
 
                                 </div>
 
                             </div>
-                        @endif
+                        {{--@endif--}}
 
                     </div>
 

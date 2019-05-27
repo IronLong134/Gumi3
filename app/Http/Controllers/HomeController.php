@@ -39,9 +39,17 @@ class HomeController extends Controller
                              ->where('accept', '=', 1)
                              ->where('delete_at','=',0)
                              ->get();
-        $request=Friend::where('receive_id','=',$id)->where('accept','=',0)->where('delete_at','=',0)->get();
+        $request=Friend::where('receive_id','=',$id)
+                       ->where('accept','=',0)
+                       ->where('delete_at','=',0)
+                       ->get();
 
-        return view('wall')->with('user', $user)->with('datas', $data)->with('count_friends',$count_friends)->with('request',$request)->with('my_posts',$my_posts);
+        return view('wall')
+		        ->with('user', $user)
+		        ->with('datas', $data)
+		        ->with('count_friends',$count_friends)
+		        ->with('request',$request)
+		        ->with('my_posts',$my_posts);
        // return view('test')->with('user', $user)->with('datas', $data);
     }
     /**
