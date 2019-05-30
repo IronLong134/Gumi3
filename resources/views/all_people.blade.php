@@ -58,7 +58,7 @@
                                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                                 @if($user['check']=='friend')
                                                     <a class="dropdown-item" href="\friend\">Xem trang cá nhân</a>
-                                                    <a class="dropdown-item"
+                                                    <a class="dropdown-item" onclick="return confirm('bạn chắc chắn muốn chặn người này chứ?');"
                                                        href="\refuse\{{$user->id}}\{{$user1[0]->id}}">Hủy kết bạn</a>
                                                 @elseif($user['check']=='sended')
                                                     <a class="dropdown-item"

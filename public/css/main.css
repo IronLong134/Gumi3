@@ -319,3 +319,7 @@ div .post:not(:last-child) {
 {
     margin-left: auto;
 }
+.padding-2
+{
+    padding-top: 2%;
+}

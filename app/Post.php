@@ -70,8 +70,10 @@
 			$list = array_merge($receive_ids->toArray(), $sender_ids->toArray());
 			array_push($list, $id);//lấy được id những người đag là bạn bè và chính bạn
 			$posts = Post::whereIn('user_id', $list)
-			             ->with(['user', 'comment'])
-			             ->with(['like' => function ($q) {
+			             ->with(['user'])
+			             ->with(['comment' => function ($q) {
+				             $q->where('delete_at', '=', 0);
+					}])->with(['like' => function ($q) {
 				             $q->where('delete_at', '=', 0);
 			             }])
 			             ->where('delete_at', '=', 0)
@@ -102,19 +104,16 @@
 		 */
 		public function getCmtPost($id) {
 			$datas = Comment::where('post_id', '=', $id)
-			                ->where('delete_at','=',0)
+			                ->where('delete_at', '=', 0)
 			                ->with('user')
 			                ->get();
 			$user_id = Post::where('id', '=', $id)->get();
 			foreach ($datas as $data) {
 				if ($data->user_id == Auth::id()) {
 					$data['edit'] = 1;
-				}
-				else if($user_id[0]->user_id == Auth::id())
-				{
+				} else if ($user_id[0]->user_id == Auth::id()) {
 					$data['edit'] = 1;
-				}
-				else {
+				} else {
 					$data['edit'] = 0;
 				}
 			}

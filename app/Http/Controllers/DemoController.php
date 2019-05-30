@@ -142,16 +142,23 @@
 			
 			return view('list_friend')->with('friends', $friends)->with('user', $user)->with('count_friends', $count_friends)->with('request', $request);
 		}
-		
-		public function refuse($sender_id, $receive_id) {
+		public function refuse_test(Request $rq)
+		{
+			$sender_id=$rq->friend_id;
+			$receive_id=$rq->user_id;
+			$new = new Friend();
+			$new->refuse($sender_id,$receive_id);
+			return 1;
+		}
+		public function refuse($sender_id,$receive_id) {
 			$relation = Friend::where('sender_id', '=', $sender_id)->where('receive_id', '=', $receive_id)->where('delete_at', '=', 0)->get();
 			if (count($relation) > 0) {
 				Friend::where('sender_id', '=', $sender_id)->where('receive_id', '=', $receive_id)->where('delete_at', '=', 0)->update(['delete_at' => 1]);
 			} else {
 				Friend::where('sender_id', '=', $receive_id)->where('receive_id', '=', $sender_id)->where('delete_at', '=', 0)->update(['delete_at' => 1]);
 			}
-			
-			return Redirect()->back();
+			return 1;
+			//return Redirect()->back();
 		}
 		
 		public function profile_friend($friend_id) {

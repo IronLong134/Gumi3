@@ -163,9 +163,9 @@
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                     @if($data[0]->relationship=='friend')
                                         <a class="dropdown-item" href="\profile_friend\{{$data[0]->id}}">Xem trang cá nhân</a>
-                                        <a class="dropdown-item"
+                                        <a class="dropdown-item" onclick="return confirm('bạn chắc chắn muốn huỷ kết bạn người này chứ?');"
                                            href="\refuse\{{Auth::id()}}\{{$data[0]->id}}">Hủy kết bạn</a>
-                                        <a class="dropdown-item"
+                                        <a class="dropdown-item" onclick="return confirm('bạn chắc chắn muốn chặn người này chứ?');"
                                            href="\block\{{Auth::id()}}\{{$data[0]->id}}">Chặn người này</a>
                                     @elseif($data[0]->relationship=='no')
                                         <a class="dropdown-item"
@@ -175,7 +175,7 @@
                                     @elseif($data[0]->relationship=='sended')
                                         <a class="dropdown-item"
                                            href="\refuse\{{Auth::id()}}\{{$data[0]->id}}">Xóa</a>
-                                        <a class="dropdown-item"
+                                        <a class="dropdown-item" onclick="return confirm('bạn chắc chắn muốn chặn người này chứ?');"
                                            href="\block\{{Auth::id()}}\{{$data[0]->id}}">Chặn người này</a>
                                     @elseif($data[0]->relationship=='request')
                                         <a class="dropdown-item"
@@ -183,7 +183,7 @@
                                             nhận lời mời</a>
                                         <a class="dropdown-item"
                                            href="\refuse\{{Auth::id()}}\{{$data[0]->id}}">Xóa</a>
-                                        <a class="dropdown-item"
+                                        <a class="dropdown-item" onclick="return confirm('bạn chắc chắn muốn chặn người này chứ?');"
                                            href="\block\{{Auth::id()}}\{{$data[0]->id}}">Chặn người này</a>
                                     @endif
 

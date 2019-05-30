@@ -72,7 +72,8 @@
 	Route::get('/list_block/{user_id}', 'DemoController@list_block')->name('list_Block')->middleWare('auth');
 	
 	//Accept- refure friend
-	Route::get('/refuse/{sender_id}/{receive_id}', 'DemoController@refuse')->name('refuse');
+	Route::post('/refuse/{sender_id}/{receive_id}', 'DemoController@refuse')->name('refuse');
+	Route::post('/refuse_test', 'DemoController@refuse_test')->name('refuse_test');
 	Route::get('/accept/{user_id}/{friend_id}', 'DemoController@accept')->name('accept');
 	
 	//Error
