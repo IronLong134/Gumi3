@@ -315,3 +315,7 @@ div .post:not(:last-child) {
 .margin-bottom{
     margin-bottom:2% ;
 }
+.delete
+{
+    margin-left: auto;
+}

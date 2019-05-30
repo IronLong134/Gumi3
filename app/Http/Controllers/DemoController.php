@@ -273,7 +273,7 @@
 			$new = new Friend();
 			$new->addBlock($user_id, $friend_id);
 			
-			return redirect()->back();
+			return redirect()->route('list_Block',['id' => Auth::id()]);
 		}
 		
 		public function deleteBlock($user_id, $friend_id) {
@@ -297,5 +297,16 @@
 					->with('request', $request)
 					->with('user', $user)
 					->with('blocks', $blocks);
+		}
+		public function error()
+		{
+			$msg="Không tìm thấy trang này";
+			$new=new Friend();
+			$count_friends = $new->getCountFriend();
+			$request = $new->getCountRq();
+			return view('error')
+					->with('msg',$msg)
+					->with('count_friends', $count_friends)
+					->with('request', $request);
 		}
 	}
