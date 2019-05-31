@@ -320,4 +320,17 @@
 					->with('count_friends', $count_friends)
 					->with('request', $request);
 		}
+		public function realtime(Request $rq)
+		{
+			$new=new Friend();
+			$countfri=count($new->getCountFriend());
+			$countrq=count($new->getCountRq());
+			echo $countrq;
+			echo $countfri;
+			return response()->json([
+					                        'countfri' => $countfri,
+					                        'countrq'=>$countrq
+
+			                        ]);
+		}
 	}

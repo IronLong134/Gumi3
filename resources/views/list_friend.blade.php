@@ -19,7 +19,7 @@
                             <div class="inline">
                                 <div class="dropdown profileWrapper" >
 
-                                    <img class="avatar1" src="{{ url('/') }}/imgs/{{$friend['friend']->avatar}}">
+                                    <img class="avatar1" src="{{ url('/') }}/imgs/@if($friend['friend']->avatar){{$friend['friend']->avatar}}@elseif(!$friend['friend']->avatar &&$friend['friend']->gender==1){{"avatar_male.jpg"}}@else{{"avatar_female.jpg"}}@endif">
                                     <span class="profileName"><a class="name inline" href="\profile_friend\{{$friend['friend']->id}}" style="font-size:x-large;">{{$friend['friend']->name}}</a></span>
                                     <button class="btn btn-success dropdown-toggle right" type="button"
                                             id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"

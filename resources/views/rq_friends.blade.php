@@ -13,7 +13,7 @@
                     <div class="card request" >
                         <div class="row user-block">
                             <div class="col-md-3" style="text-align:right; ">
-                                <img class=" avatar1" src="{{ url('/') }}/imgs/{{$friend->sender->avatar}}"
+                                <img class=" avatar1" src="{{ url('/') }}/imgs/@if($friend->sender->avatar){{$friend->sender->avatar}}@elseif(!$friend->sender->avatar && $friend->sender->gender==1){{"avatar_male.jpg"}}@else{{"avatar_female.jpg"}}@endif"
                                      alt="">
                             </div>
                             <div class="col-md-5">

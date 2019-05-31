@@ -1,3 +1,12 @@
-$.ajaxSetup({ cache: false });
-// Thiết lập thời gian thực vòng lặp 1 giây
-setInterval(function() { $('.main-chat').load('\msgload'); }, 1000);
+$(document).ready(function(){
+	setInterval(function(){
+		$.ajax({
+			url: "/realtime",
+			success: function( res ) {
+				// update div
+				$('#countfri').html(res.countfri);
+				$('#countrq').html(res.countrq);
+			}
+		});
+	},1000);
+});

@@ -31,10 +31,10 @@
 
                   <ul class="list-group list-group-unbordered">
                     <li class="list-group-item">
-                      <b>Lời mời kết bạn</b> <a class="pull-right">{{count($request)}}</a>
+                      <b>Lời mời kết bạn</b> <a class="pull-right"><div id="r">{{count($request)}}</div></a>
                     </li>
                     <li class="list-group-item">
-                      <b>Friends</b> <a class="pull-right">{{count($count_friends)}}</a>
+                      <b>Friends</b> <a class="pull-right"><div id="f">{{count($count_friends)}}</div></a>
                     </li>
                   </ul>
 
@@ -238,5 +238,24 @@
 				});
 			});
 		});
+		setInterval(function(){
+			$.ajaxSetup({
+				headers: {
+					'X-CSRF-TOKEN': $('input[name="csrf-token"]').attr('content')
+				}
+			});
+			$.ajax({
+				url: "/realtime",
+				method: "POST",
+				dataType: "json",
+				data: {
+				},
+				success: function( res ) {
+					// update div
+					$('#f').html(res.countfri);
+					$('#r').html(res.countrq);
+				}
+			});
+		},1000);
   </script>
 @endsection

@@ -182,12 +182,12 @@
 		}
 		public function refuse($sender_id,$receive_id)
 		{
-			//$relation = Friend::where('sender_id', '=', $sender_id)->where('receive_id', '=', $receive_id)->where('delete_at', '=', 0)->get();
-			//if (count($relation) > 0) {
+			$relation = Friend::where('sender_id', '=', $sender_id)->where('receive_id', '=', $receive_id)->where('delete_at', '=', 0)->get();
+			if (count($relation) > 0) {
 				Friend::where('sender_id', '=', $sender_id)->where('receive_id', '=', $receive_id)->where('delete_at', '=', 0)->update(['delete_at' => 1]);
-			//} else {
+			} else {
 				Friend::where('sender_id', '=', $receive_id)->where('receive_id', '=', $sender_id)->where('delete_at', '=', 0)->update(['delete_at' => 1]);
-			//}
+			}
 		}
 		public function addFriend($friend_id)
 		{

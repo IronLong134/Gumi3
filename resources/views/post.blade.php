@@ -74,7 +74,7 @@
             @foreach ($comments as $comment)
                 <div class="form-inline post">
                   <div class="inline"><img class=" avatar1"
-                                           src="{{ url('/') }}/imgs/{{$comment->user->avatar}}"
+                                           src="{{ url('/') }}/imgs/@if($comment->user->avatar){{$comment->user->avatar}}@elseif(!$comment->user->avatar && $comment->user->gender==1){{"avatar_male.jpg"}}@else{{"avatar_female.jpg"}}@endif"
                                            alt=""><a
                         href="/profile_post/{{$comment->user->id}}">{{$comment->user->name}}</a>
                     <span style="margin-left:11px;">{{$comment->content}}</span>

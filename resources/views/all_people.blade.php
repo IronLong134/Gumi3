@@ -229,6 +229,7 @@
 					$(this).toggle($(this).text().toLowerCase().indexOf(tukhoa) > -1);
 				});
 			});
+
 		});
   </script>
 @endsection

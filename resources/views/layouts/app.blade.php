@@ -47,6 +47,7 @@
 
 <body>
 <div id="app">
+    <input type="hidden" name="csrf-token" content="{{ csrf_token() }}">
     <nav class="navbar navbar-expand-md navbar-light navbar-laravel">
         <div class="container">
             <a class="navbar-brand" href="{{ url('/') }}">
@@ -136,12 +137,12 @@
                             <a class="nav-link text-white"
                                href="/rq_friends/{{Auth::user()->id}}"><i
                                     class="fas fa-envelope-open-text"></i>Lời mời kết
-                                bạn<span class="badge badge-danger">{{count($request)}}</span></a>
+                                bạn<span class="badge badge-danger"><r id="countrq">{{count($request)}}</r></span></a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-white"
                                href="/list_friends/{{Auth::user()->id}}"><i
-                                    class="fas fa-user-friends"></i>Bạn bè({{count($count_friends)}})</a>
+                                    class="fas fa-user-friends"></i>Bạn bè(<f id="countfri">{{count($count_friends)}}</f>)</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-white" href="/all_people"><i
