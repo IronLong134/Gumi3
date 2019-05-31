@@ -69,22 +69,16 @@
 		}
 		
 		public function addFriend($friend_id) {
-			$id = Auth::id();
-			$friend = Friend::where('sender_id', '=', $id)->where('receive_id', '=', $friend_id)->get();
-			//$friend2= Friend::where('sender_id', '=', $friend_id)->where('receive_id','=',$id)->get();
-			if (count($friend) == 0) {
-				$rq_friend = new Friend();
-				$rq_friend->sender_id = $id;
-				$rq_friend->receive_id = $friend_id;
-				//dd($friend_id);
-				$rq_friend->save();
-			} else {
-				Friend::where('sender_id', '=', $id)->where('receive_id', '=', $friend_id)->update(['delete_at' => 0, 'accept' => 0]);
-			}
-			
+			$new= new Friend();
+			$new->addFriend($friend_id);
 			return redirect()->back();
 		}
-		
+		public function addFriend1(Request $rq)
+		{
+			$new= new Friend();
+			$new->addFriend($rq->friend_id);
+			return 1;
+		}
 		public function getRqfriend($id) {
 			$user = Auth::user();
 			
@@ -124,6 +118,16 @@
 			
 			return redirect()->back();
 		}
+		public function accept_ajax(Request $rq)
+		{
+			$new = new Friend();
+			$new ->accept($rq->friend_id,$rq->user_id);
+			return response()->json([
+					                        'user_id' => $rq->user_id,
+					                        'friend_id'=>$rq->friend_id
+			
+			                        ]);
+		}
 		
 		public function listFriend($id) {
 			$user = Auth::user();
@@ -157,8 +161,8 @@
 			} else {
 				Friend::where('sender_id', '=', $receive_id)->where('receive_id', '=', $sender_id)->where('delete_at', '=', 0)->update(['delete_at' => 1]);
 			}
-			return 1;
-			//return Redirect()->back();
+			
+			return Redirect()->back();
 		}
 		
 		public function profile_friend($friend_id) {

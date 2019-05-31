@@ -64,6 +64,7 @@
 	//FEATURE FRIEND
 	Route::get('/rq_friends/{user_id}', 'DemoController@getRqfriend')->name('rqfriend')->middleWare('checkUser');
 	Route::get('/send_rq/{friend_id}', 'DemoController@addFriend')->name('addFriend');
+	Route::post('/send_rq_test/{friend_id}', 'DemoController@addFriend1')->name('addFriend1');
 	Route::get('/list_friends/{user_id}', 'DemoController@listFriend')->name('list_friend')->middleWare('checkUser');
 	Route::get('/profile_friend/{friend_id}', 'DemoController@profile_friend')->name('profile_friend')->middleWare('auth')->middleWare('checkBlock');
 	//BLOCK
@@ -72,10 +73,13 @@
 	Route::get('/list_block/{user_id}', 'DemoController@list_block')->name('list_Block')->middleWare('auth');
 	
 	//Accept- refure friend
-	Route::post('/refuse/{sender_id}/{receive_id}', 'DemoController@refuse')->name('refuse');
+	Route::get('/refuse/{sender_id}/{receive_id}', 'DemoController@refuse')->name('refuse');
 	Route::post('/refuse_test', 'DemoController@refuse_test')->name('refuse_test');
 	Route::get('/accept/{user_id}/{friend_id}', 'DemoController@accept')->name('accept');
+	Route::post('/accept_ajax', 'DemoController@accept_ajax')->name('accept_ajax');// ajax
 	
 	//Error
 	Route::get('/error', 'DemoController@error')->name('error');
+	//AJAX
+ 
    

@@ -182,11 +182,29 @@
 		}
 		public function refuse($sender_id,$receive_id)
 		{
-			$relation = Friend::where('sender_id', '=', $sender_id)->where('receive_id', '=', $receive_id)->where('delete_at', '=', 0)->get();
-			if (count($relation) > 0) {
+			//$relation = Friend::where('sender_id', '=', $sender_id)->where('receive_id', '=', $receive_id)->where('delete_at', '=', 0)->get();
+			//if (count($relation) > 0) {
 				Friend::where('sender_id', '=', $sender_id)->where('receive_id', '=', $receive_id)->where('delete_at', '=', 0)->update(['delete_at' => 1]);
-			} else {
+			//} else {
 				Friend::where('sender_id', '=', $receive_id)->where('receive_id', '=', $sender_id)->where('delete_at', '=', 0)->update(['delete_at' => 1]);
+			//}
+		}
+		public function addFriend($friend_id)
+		{
+			$id = Auth::id();
+			$friend = Friend::where('sender_id', '=', $id)->where('receive_id', '=', $friend_id)->get();
+			//$friend2= Friend::where('sender_id', '=', $friend_id)->where('receive_id','=',$id)->get();
+			if (count($friend) == 0) {
+				$rq_friend = new Friend();
+				$rq_friend->sender_id = $id;
+				$rq_friend->receive_id = $friend_id;
+				//dd($friend_id);
+				$rq_friend->save();
+			} else {
+				Friend::where('sender_id', '=', $id)->where('receive_id', '=', $friend_id)->update(['delete_at' => 0, 'accept' => 0]);
 			}
+		}
+		public function accept($user_id, $friend_id){
+			Friend::where('sender_id', '=', $user_id)->where('receive_id', '=', $friend_id)->update(['accept' => 1]);
 		}
 	}
