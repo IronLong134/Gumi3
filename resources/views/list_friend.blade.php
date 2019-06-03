@@ -28,6 +28,7 @@
                                     </button>
                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                         <a class="dropdown-item" href="\profile_friend\{{$friend['friend']->id}}">Xem trang cá nhân</a>
+                                        <a class="dropdown-item" href="\chat_friend\{{$friend['friend']->id}}">Trò chuyện</a>
                                         <a class="dropdown-item" name="unfriend" user_id="{{Auth::id()}}" friend_id="{{$friend['friend']->id}}">Hủy kết bạn</a>
 
                                     </div>

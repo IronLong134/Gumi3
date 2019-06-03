@@ -5,6 +5,7 @@
   <div class="container">
     <div class="wrapper">
       <input type="hidden" name="csrf-token" content="{{ csrf_token() }}">
+      <input type="hidden" name="user_id" content="{{ Auth::user()->id}}">
       <!-- Content Wrapper. Contains page content -->
       <div class="content-wrapper">
         <!-- Content Header (Page header) -->
@@ -31,10 +32,10 @@
 
                   <ul class="list-group list-group-unbordered">
                     <li class="list-group-item">
-                      <b>Lời mời kết bạn</b> <a class="pull-right"><div id="r">{{count($request)}}</div></a>
+                      <b>Lời mời kết bạn</b> <a class="pull-right"><div class="rq">{{count($request)}}</div></a>
                     </li>
                     <li class="list-group-item">
-                      <b>Friends</b> <a class="pull-right"><div id="f">{{count($count_friends)}}</div></a>
+                      <b>Friends</b> <a class="pull-right"><div class="fri">{{count($count_friends)}}</div></a>
                     </li>
                   </ul>
 
@@ -238,24 +239,6 @@
 				});
 			});
 		});
-		setInterval(function(){
-			$.ajaxSetup({
-				headers: {
-					'X-CSRF-TOKEN': $('input[name="csrf-token"]').attr('content')
-				}
-			});
-			$.ajax({
-				url: "/realtime",
-				method: "POST",
-				dataType: "json",
-				data: {
-				},
-				success: function( res ) {
-					// update div
-					$('#f').html(res.countfri);
-					$('#r').html(res.countrq);
-				}
-			});
-		},1000);
+
   </script>
 @endsection

@@ -77,7 +77,8 @@
 	Route::post('/refuse_test', 'DemoController@refuse_test')->name('refuse_test');
 	Route::get('/accept/{user_id}/{friend_id}', 'DemoController@accept')->name('accept');
 	Route::post('/accept_ajax', 'DemoController@accept_ajax')->name('accept_ajax');// ajax
-	Route::post('/realtime', 'DemoController@realtime')->name('realtime');
+	Route::get('/realtime', 'DemoController@realtime')->name('realtime');
+	Route::get('/realtime2', 'DemoController@realtime2')->name('realtime2');
 	//Error
 	Route::get('/error', 'DemoController@error')->name('error');
 	//AJAX

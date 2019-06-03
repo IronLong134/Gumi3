@@ -8,6 +8,7 @@
                     {{ session('status') }}
                 </div>
             @endif
+            <div id="request_wrapper">
             @foreach($friends as $friend)
                 <div id="myTable">
                     <div class="card request" >
@@ -33,7 +34,7 @@
                     </div>
                 </div>
             @endforeach
-
+            </div>
 
         </div>
 

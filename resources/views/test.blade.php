@@ -130,6 +130,11 @@
 			}
 		}
 	}
+
+	$friend.each(function(key,value){
+		  var a = value.id;
+	})
+
 </script>
 
 

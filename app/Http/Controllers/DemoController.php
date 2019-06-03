@@ -320,17 +320,33 @@
 					->with('count_friends', $count_friends)
 					->with('request', $request);
 		}
-		public function realtime(Request $rq)
+		public function realtime()
 		{
 			$new=new Friend();
 			$countfri=count($new->getCountFriend());
 			$countrq=count($new->getCountRq());
-			echo $countrq;
-			echo $countfri;
+		//	$friends=$new->get
+			//echo $countrq;
+			//echo $countfri;
 			return response()->json([
 					                        'countfri' => $countfri,
 					                        'countrq'=>$countrq
 
 			                        ]);
+			
+			
+		}
+		public function realtime2()
+		{
+			$id=Auth::id();
+			$data = Friend::where('receive_id', '=', $id)
+			              ->where('accept', '=', 0)
+			              ->with('sender')
+			              ->where('delete_at', '=', 0)
+			              ->orderBy('id', 'desc')
+			              ->get();
+			$json= json_encode($data);
+			//echo $json;
+			return $json;
 		}
 	}

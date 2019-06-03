@@ -47,7 +47,7 @@
 
 <body>
 <div id="app">
-    <input type="hidden" name="csrf-token" content="{{ csrf_token() }}">
+
     <nav class="navbar navbar-expand-md navbar-light navbar-laravel">
         <div class="container">
             <a class="navbar-brand" href="{{ url('/') }}">
@@ -133,16 +133,17 @@
                                     alt=""> {{Auth::user()->name}} <span
                                     class="sr-only">(current)</span></a>
                         </li>
+                      <input type="hidden" id="id_user" value="{{Auth::user()->id}}">
                         <li class="nav-item">
                             <a class="nav-link text-white"
                                href="/rq_friends/{{Auth::user()->id}}"><i
                                     class="fas fa-envelope-open-text"></i>Lời mời kết
-                                bạn<span class="badge badge-danger"><r id="countrq">{{count($request)}}</r></span></a>
+                                bạn<span class="badge badge-danger"><r class="rq">{{count($request)}}</r></span></a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-white"
                                href="/list_friends/{{Auth::user()->id}}"><i
-                                    class="fas fa-user-friends"></i>Bạn bè(<f id="countfri">{{count($count_friends)}}</f>)</a>
+                                    class="fas fa-user-friends"></i>Bạn bè(<f class="fri">{{count($count_friends)}}</f>)</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-white" href="/all_people"><i
@@ -151,6 +152,7 @@
                     </ul>
                     <form class="form-inline my-2 my-lg-0">
                         {{csrf_field()}}
+                        <input type="hidden" name="user_id" content="{{ Auth::user()->id}}">
                         <input class="form-control mr-sm-2" id="myInput" type="search" placeholder="Search"
                                aria-label="Search" required>
                         <button class="btn btn-info my-2 my-sm-0" type="submit" >Search

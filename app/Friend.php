@@ -161,7 +161,7 @@
 			return $list;
 		}
 		
-		public function getCountRq() {
+		public function getCountFriend() {
 			$count_friends = Friend::where(function ($q) {
 				$q->where('sender_id', '=', Auth::user()->id)->orWhere('receive_id', '=', Auth::user()->id);
 			})
@@ -172,7 +172,7 @@
 			return $count_friends;
 		}
 		
-		public function getCountFriend() {
+		public function getCountRq() {
 			$request = Friend::where('receive_id', '=', Auth::user()->id)
 			                 ->where('accept', '=', 0)
 			                 ->where('delete_at', '=', 0)
