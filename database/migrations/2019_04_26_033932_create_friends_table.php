@@ -15,11 +15,11 @@ class CreateFriendsTable extends Migration
     {
         Schema::create('friends', function (Blueprint $table) {
             $table->integer('id')->autoIncrement();
-            $table->integer('user_id');
-            $table->integer('friend_id');
+            $table->integer('sender_id');
+            $table->integer('receiver_id');
             $table->integer('accept');
-            $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('friend_id')->references('id')->on('users');
+            $table->foreign('sender_id')->references('id')->on('users');
+            $table->foreign('receiver_id')->references('id')->on('users');
             $table->timestamps();
         });
     }

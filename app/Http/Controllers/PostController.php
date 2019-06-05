@@ -30,12 +30,12 @@
 			$blood1 = new Masterdata();
 			$user['blood_name'] = $blood1->getBloodName($user->blood_type);
 			$count_friends = Friend::where(function ($q) {
-				$q->where('sender_id', '=', Auth::user()->id)->orWhere('receive_id', '=', Auth::user()->id);
+				$q->where('sender_id', '=', Auth::user()->id)->orWhere('receiver_id', '=', Auth::user()->id);
 			})
 			                       ->where('accept', '=', 1)
 			                       ->where('delete_at', '=', 0)
 			                       ->get();
-			$request = Friend::where('receive_id', '=', $id)->where('accept', '=', 0)->where('delete_at', '=', 0)->get();
+			$request = Friend::where('receiver_id', '=', $id)->where('accept', '=', 0)->where('delete_at', '=', 0)->get();
 			
 			//dd($user['blood_name']);
 			return view('add_post')->with('user_id', $user_id)->with('data', $data)->with('user', $user)->with('count_friends', $count_friends)->with('request', $request);
@@ -83,12 +83,12 @@
 			
 			$id = Auth::user()->id;
 			$count_friends = Friend::where(function ($q) {
-				$q->where('sender_id', '=', Auth::user()->id)->orWhere('receive_id', '=', Auth::user()->id);
+				$q->where('sender_id', '=', Auth::user()->id)->orWhere('receiver_id', '=', Auth::user()->id);
 			})
 			                       ->where('accept', '=', 1)
 			                       ->where('delete_at', '=', 0)
 			                       ->get();
-			$request = Friend::where('receive_id', '=', $id)->where('accept', '=', 0)->where('delete_at', '=', 0)->get();
+			$request = Friend::where('receiver_id', '=', $id)->where('accept', '=', 0)->where('delete_at', '=', 0)->get();
 			//dd($comments);
 			return view('post')->with('comments', $comments)->with('post', $post1)->with('user', $user)->with('post_id', $id)->with('count_friends', $count_friends)->with('request', $request);
 		}

@@ -59,15 +59,15 @@
 			$id = Auth::user()->id;
 			$friends = Friend::where(function ($q) {
 				$q->where('sender_id', '=', Auth::user()->id)
-				  ->orWhere('receive_id', '=', Auth::user()->id);
+				  ->orWhere('receiver_id', '=', Auth::user()->id);
 			})
 			                 ->orderBy('updated_at', 'DESC')
 			                 ->where('accept', '=', 1)
 			                 ->where('delete_at', '=', 0)
 			                 ->get();
-			$receive_ids = $friends->where('sender_id', '=', Auth::user()->id)->pluck('receive_id');
-			$sender_ids = $friends->where('receive_id', '=', Auth::user()->id)->pluck('sender_id');//lấy id bạn bè qua 2 trường hợp , bạn là người gửi hoặc bạn là người nahanj
-			$list = array_merge($receive_ids->toArray(), $sender_ids->toArray());
+			$receiver_ids = $friends->where('sender_id', '=', Auth::user()->id)->pluck('receiver_id');
+			$sender_ids = $friends->where('receiver_id', '=', Auth::user()->id)->pluck('sender_id');//lấy id bạn bè qua 2 trường hợp , bạn là người gửi hoặc bạn là người nahanj
+			$list = array_merge($receiver_ids->toArray(), $sender_ids->toArray());
 			array_push($list, $id);//lấy được id những người đag là bạn bè và chính bạn
 			$posts = Post::whereIn('user_id', $list)
 			             ->with(['user'])

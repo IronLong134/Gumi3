@@ -36,12 +36,12 @@
 			$id = $user1->id;
 			$user = User::all();
 			$count_friends = Friend::where(function ($q) {
-				$q->where('sender_id', '=', Auth::user()->id)->orWhere('receive_id', '=', Auth::user()->id);
+				$q->where('sender_id', '=', Auth::user()->id)->orWhere('receiver_id', '=', Auth::user()->id);
 			})
 			                       ->where('accept', '=', 1)
 			                       ->where('delete_at', '=', 0)
 			                       ->get();
-			$request = Friend::where('receive_id', '=', $id)->where('accept', '=', 0)->where('delete_at', '=', 0)->get();
+			$request = Friend::where('receiver_id', '=', $id)->where('accept', '=', 0)->where('delete_at', '=', 0)->get();
 			
 			return view('admin')->with('user', $user)->with('user1', $user1)->with('count_friends', $count_friends)->with('request', $request);
 		}
@@ -58,12 +58,12 @@
 			$data = $user->getAll();
 			//dd($user1);
 			$count_friends = Friend::where(function ($q) {
-				$q->where('sender_id', '=', Auth::user()->id)->orWhere('receive_id', '=', Auth::user()->id);
+				$q->where('sender_id', '=', Auth::user()->id)->orWhere('receiver_id', '=', Auth::user()->id);
 			})
 			                       ->where('accept', '=', 1)
 			                       ->where('delete_at', '=', 0)
 			                       ->get();
-			$request = Friend::where('receive_id', '=', $id)->where('accept', '=', 0)->where('delete_at', '=', 0)->get();
+			$request = Friend::where('receiver_id', '=', $id)->where('accept', '=', 0)->where('delete_at', '=', 0)->get();
 			
 			return view('all_people')->with('users', $data)->with('user1', $user1)->with('count_friends', $count_friends)->with('request', $request);
 		}
@@ -82,7 +82,7 @@
 		public function getRqfriend($id) {
 			$user = Auth::user();
 			
-			$data = Friend::where('receive_id', '=', $id)
+			$data = Friend::where('receiver_id', '=', $id)
 			              ->where('accept', '=', 0)
 			              ->with('sender')
 			              ->where('delete_at', '=', 0)
@@ -91,12 +91,12 @@
 			//($data);
 			// dd($data);
 			$count_friends = Friend::where(function ($q) {
-				$q->where('sender_id', '=', Auth::user()->id)->orWhere('receive_id', '=', Auth::user()->id);
+				$q->where('sender_id', '=', Auth::user()->id)->orWhere('receiver_id', '=', Auth::user()->id);
 			})
 			                       ->where('accept', '=', 1)
 			                       ->where('delete_at', '=', 0)
 			                       ->get();
-			$request = Friend::where('receive_id', '=', $id)
+			$request = Friend::where('receiver_id', '=', $id)
 			                 ->where('accept', '=', 0)
 			                 ->where('delete_at', '=', 0)
 			                 ->get();
@@ -114,7 +114,7 @@
 			//        echo "Đây là user_id".$user_id."<br>";
 			//        echo "đây là friend_id ".$friend_id."<br>";
 			//        $id=Auth::id();
-			Friend::where('sender_id', '=', $user_id)->where('receive_id', '=', $friend_id)->update(['accept' => 1]);
+			Friend::where('sender_id', '=', $user_id)->where('receiver_id', '=', $friend_id)->update(['accept' => 1]);
 			
 			return redirect()->back();
 		}
@@ -132,16 +132,16 @@
 		public function listFriend($id) {
 			$user = Auth::user();
 			$friends = Friend::where(function ($q) {
-				$q->where('sender_id', '=', Auth::user()->id)->orWhere('receive_id', '=', Auth::user()->id);
+				$q->where('sender_id', '=', Auth::user()->id)->orWhere('receiver_id', '=', Auth::user()->id);
 			})
 			                 ->where('accept', '=', 1)
 			                 ->where('delete_at', '=', 0)
 			                 ->orderBy('updated_at', 'DESC')
 			                 ->get();
 			$count_friends = $friends;
-			$request = Friend::where('receive_id', '=', $id)->where('accept', '=', 0)->where('delete_at', '=', 0)->get();
+			$request = Friend::where('receiver_id', '=', $id)->where('accept', '=', 0)->where('delete_at', '=', 0)->get();
 			foreach ($friends as $friend) {
-				$friend['friend'] = $friend->receive->id == $user->id ? $friend->sender : $friend->receive;
+				$friend['friend'] = $friend->receiver->id == $user->id ? $friend->sender : $friend->receiver;
 			}
 			
 			return view('list_friend')->with('friends', $friends)->with('user', $user)->with('count_friends', $count_friends)->with('request', $request);
@@ -149,17 +149,17 @@
 		public function refuse_test(Request $rq)
 		{
 			$sender_id=$rq->friend_id;
-			$receive_id=$rq->user_id;
+			$receiver_id=$rq->user_id;
 			$new = new Friend();
-			$new->refuse($sender_id,$receive_id);
+			$new->refuse($sender_id,$receiver_id);
 			return 1;
 		}
-		public function refuse($sender_id,$receive_id) {
-			$relation = Friend::where('sender_id', '=', $sender_id)->where('receive_id', '=', $receive_id)->where('delete_at', '=', 0)->get();
+		public function refuse($sender_id,$receiver_id) {
+			$relation = Friend::where('sender_id', '=', $sender_id)->where('receiver_id', '=', $receiver_id)->where('delete_at', '=', 0)->get();
 			if (count($relation) > 0) {
-				Friend::where('sender_id', '=', $sender_id)->where('receive_id', '=', $receive_id)->where('delete_at', '=', 0)->update(['delete_at' => 1]);
+				Friend::where('sender_id', '=', $sender_id)->where('receiver_id', '=', $receiver_id)->where('delete_at', '=', 0)->update(['delete_at' => 1]);
 			} else {
-				Friend::where('sender_id', '=', $receive_id)->where('receive_id', '=', $sender_id)->where('delete_at', '=', 0)->update(['delete_at' => 1]);
+				Friend::where('sender_id', '=', $receiver_id)->where('receiver_id', '=', $sender_id)->where('delete_at', '=', 0)->update(['delete_at' => 1]);
 			}
 			
 			return Redirect()->back();
@@ -173,12 +173,12 @@
 			$post[0]['relationship'] = $friend1->getRelationship($friend_id);
 			
 			$count_friends = Friend::where(function ($q) {
-				$q->where('sender_id', '=', Auth::user()->id)->orWhere('receive_id', '=', Auth::user()->id);
+				$q->where('sender_id', '=', Auth::user()->id)->orWhere('receiver_id', '=', Auth::user()->id);
 			})
 			                       ->where('accept', '=', 1)
 			                       ->where('delete_at', '=', 0)
 			                       ->get();
-			$request = Friend::where('receive_id', '=', Auth::user()->id)
+			$request = Friend::where('receiver_id', '=', Auth::user()->id)
 			                 ->where('accept', '=', 0)
 			                 ->where('delete_at', '=', 0)
 			                 ->get();
@@ -198,12 +198,12 @@
 			$user['blood_name'] = $blood1->getBloodName($user->blood_type);
 			$bloods = $blood1->getAllBlood();
 			$count_friends = Friend::where(function ($q) {
-				$q->where('sender_id', '=', Auth::user()->id)->orWhere('receive_id', '=', Auth::user()->id);
+				$q->where('sender_id', '=', Auth::user()->id)->orWhere('receiver_id', '=', Auth::user()->id);
 			})
 			                       ->where('accept', '=', 1)
 			                       ->where('delete_at', '=', 0)
 			                       ->get();
-			$request = Friend::where('receive_id', '=', Auth::user()->id)
+			$request = Friend::where('receiver_id', '=', Auth::user()->id)
 			                 ->where('accept', '=', 0)
 			                 ->where('delete_at', '=', 0)
 			                 ->get();
@@ -243,12 +243,12 @@
 		public function image() {
 			$user = Auth::user();
 			$count_friends = Friend::where(function ($q) {
-				$q->where('sender_id', '=', Auth::user()->id)->orWhere('receive_id', '=', Auth::user()->id);
+				$q->where('sender_id', '=', Auth::user()->id)->orWhere('receiver_id', '=', Auth::user()->id);
 			})
 			                       ->where('accept', '=', 1)
 			                       ->where('delete_at', '=', 0)
 			                       ->get();
-			$request = Friend::where('receive_id', '=', Auth::user()->id)
+			$request = Friend::where('receiver_id', '=', Auth::user()->id)
 			                 ->where('accept', '=', 0)
 			                 ->where('delete_at', '=', 0)
 			                 ->get();
@@ -339,7 +339,7 @@
 		public function realtime2()
 		{
 			$id=Auth::id();
-			$data = Friend::where('receive_id', '=', $id)
+			$data = Friend::where('receiver_id', '=', $id)
 			              ->where('accept', '=', 0)
 			              ->with('sender')
 			              ->where('delete_at', '=', 0)

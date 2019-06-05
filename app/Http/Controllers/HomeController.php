@@ -35,11 +35,11 @@ class HomeController extends Controller
         $my_posts=$post->getPostID( Auth::user()->id);
         $id=Auth::user()->id;
         $count_friends=Friend::where(function ($q) {
-            $q->where('sender_id','=',Auth::user()->id)->orWhere('receive_id','=',Auth::user()->id);})
+            $q->where('sender_id','=',Auth::user()->id)->orWhere('receiver_id','=',Auth::user()->id);})
                              ->where('accept', '=', 1)
                              ->where('delete_at','=',0)
                              ->get();
-        $request=Friend::where('receive_id','=',$id)
+        $request=Friend::where('receiver_id','=',$id)
                        ->where('accept','=',0)
                        ->where('delete_at','=',0)
                        ->get();

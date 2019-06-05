@@ -1,32 +1,48 @@
 <?php
+	
+	namespace App\Http\Controllers;
+	
+	use App\Comment;
+	use App\Like;
+	use App\Post;
+	use App\User;
+	use App\Friend;
+	use App\masterdata;
+	use App\Image;
+	use App\Messenger;
+	use Illuminate\Http\Request;
+	use Illuminate\Support\Facades\Auth;
+	use Illuminate\Support\Facades\Redirect;
+	
+	class ChatController extends Controller {
+		/**
+		 * @param Request $rq
+		 */
+		
+		public function chat($friend_id) {
+			$user = Auth::user();
+			$new = new Messenger();
+			$new1 = new Friend();
+			$new3 = new User();
+			$friend= $new3->getInfoUser($friend_id);
+			$count_friends = $new1->getCountFriend();
+			$request = $new1->getCountRq();
+			$messengers = $new->getMessenger(Auth::id(), $friend_id);
+			
+			return view('chat')
+					->with('messengers', $messengers)
+					->with('user', $user)
+					->with('friend',$friend)
+					->with('count_friends', $count_friends)
+					->with('request', $request);
 
-namespace App\Http\Controllers;
-
-use App\Messenger;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-
-class ChatController extends Controller
-{
-    /**
-     * @param Request $rq
-     */
-    public function sendmsg(Request $rq)
-    {
-        $user = Auth::user();
-        $body_msg = $rq->body_msg;
-        // Xử lý chuỗi $body_msg
-        $body_msg = htmlentities($body_msg);
-        $body_msg = trim($body_msg);
-        $sender_id = $user->id;
-        $msg = new Messenger();
-        $msg->addMsg($sender_id, $body_msg);
-    }
-    public function loadmsg()
-    {
-        $msg = new Messenger();
-        $data = $msg->getMsg();
-        return view('chat')->with('data', $data);
-    }
-    //
-}
+		}
+		public function load(Request $rq)
+		{
+			$new = new Messenger();
+			$messengers = $new->getMessenger(Auth::id(), $rq->friend_id);
+			$json = json_encode($messengers);
+			return $json;
+		}
+		//
+	}

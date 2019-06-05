@@ -5,321 +5,312 @@ Licensed under MIT
 ***/
 
 body {
-    background: #F1F3FA;
+  background: #f1f3fa;
 }
 
 
 /* Profile container */
 
 .profile {
-    margin: 20px 0;
+  margin: 20px 0;
 }
 
 
 /* Profile sidebar */
 
 .profile-sidebar {
-    padding: 20px 0 10px 0;
-    background: #fff;
+  padding: 20px 0 10px 0;
+  background: #fff;
 }
 
 .profile-userpic img {
-    float: none;
-    margin: 0 auto;
-    width: 50%;
-    height: 50%;
-    -webkit-border-radius: 50% !important;
-    -moz-border-radius: 50% !important;
-    border-radius: 50% !important;
+  float: none;
+  margin: 0 auto;
+  width: 50%;
+  height: 50%;
+  -webkit-border-radius: 50% !important;
+  -moz-border-radius: 50% !important;
+  border-radius: 50% !important;
 }
 
 .profile-usertitle {
-    text-align: center;
-    margin-top: 20px;
+  text-align: center;
+  margin-top: 20px;
 }
 
 .profile-usertitle-name {
-    color: #5a7391;
-    font-size: 16px;
-    font-weight: 600;
-    margin-bottom: 7px;
+  color: #5a7391;
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 7px;
 }
 
 .profile-usertitle-job {
-    text-transform: uppercase;
-    color: #5b9bd1;
-    font-size: 12px;
-    font-weight: 600;
-    margin-bottom: 15px;
+  text-transform: uppercase;
+  color: #5b9bd1;
+  font-size: 12px;
+  font-weight: 600;
+  margin-bottom: 15px;
 }
 
 .profile-userbuttons {
-    text-align: center;
-    margin-top: 10px;
+  text-align: center;
+  margin-top: 10px;
 }
 
 .profile-userbuttons .btn {
-    text-transform: uppercase;
-    font-size: 11px;
-    font-weight: 600;
-    padding: 6px 15px;
-    margin-right: 5px;
+  text-transform: uppercase;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 6px 15px;
+  margin-right: 5px;
 }
 
 .profile-userbuttons .btn:last-child {
-    margin-right: 0px;
+  margin-right: 0px;
 }
 
 .profile-usermenu {
-    margin-top: 30px;
+  margin-top: 30px;
 }
 
 .profile-usermenu ul li {
-    border-bottom: 1px solid #f0f4f7;
+  border-bottom: 1px solid #f0f4f7;
 }
 
 .profile-usermenu ul li:last-child {
-    border-bottom: none;
+  border-bottom: none;
 }
 
 .profile-usermenu ul li a {
-    color: #93a3b5;
-    font-size: 14px;
-    font-weight: 400;
+  color: #93a3b5;
+  font-size: 14px;
+  font-weight: 400;
 }
 
 .profile-usermenu ul li a i {
-    margin-right: 8px;
-    font-size: 14px;
+  margin-right: 8px;
+  font-size: 14px;
 }
 
 .profile-usermenu ul li a:hover {
-    background-color: #fafcfd;
-    color: #5b9bd1;
+  background-color: #fafcfd;
+  color: #5b9bd1;
 }
 
 .profile-usermenu ul li.active {
-    border-bottom: none;
+  border-bottom: none;
 }
 
 .profile-usermenu ul li.active a {
-    color: #5b9bd1;
-    background-color: #f6f9fb;
-    border-left: 2px solid #5b9bd1;
-    margin-left: -2px;
+  color: #5b9bd1;
+  background-color: #f6f9fb;
+  border-left: 2px solid #5b9bd1;
+  margin-left: -2px;
 }
 
 
 /* Profile Content */
 
 .profile-content {
-    padding: 20px;
-    background: #fff;
-    min-height: 460px;
+  padding: 20px;
+  background: #fff;
+  min-height: 460px;
 }
 
 .avatar {
-    vertical-align: middle;
-    width: 100px;
-    height: 100px;
-    border-radius: 50% !important;
-    text-align: center;
-    margin-top: 4%;
+  vertical-align: middle;
+  width: 100px;
+  height: 100px;
+  border-radius: 50% !important;
+  text-align: center;
+  margin-top: 4%;
 
 }
-
+.avatar2{
+  vertical-align: middle;
+  width: 35px;
+  height: 35px;
+  border-radius: 50% !important;
+  text-align: center;
+  margin-right: 5px;
+}
 .avatar1 {
-    vertical-align: middle;
-    width: 30px;
-    height: 30px;
-    border-radius: 50% !important;
-    text-align: center;
+  vertical-align: middle;
+  width: 30px;
+  height: 30px;
+  border-radius: 50% !important;
+  text-align: center;
 
 }
 
 .center {
-    text-align: center;
+  text-align: center;
 }
-.imgWrapper
-{
-    text-align: center;
-    margin-top: 10%;
+.imgWrapper {
+  text-align: center;
+  margin-top: 10%;
 }
-
 
 
 /* Form chat */
 
 .box-chat {
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    border-top: 1px solid #e5e5e5;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  border-top: 1px solid #e5e5e5;
 }
-
-#formSendMsg input[type=text] {
-    width: calc(100% - 20px);
-    padding: 10px;
-    font-size: 15px;
-    color: #555;
-    border: 0;
-}
-
 
 /* Show chat */
 
-.main-chat {
-    height: auto;
-    padding: 67px 10px 38px 10px;
-}
-
-.main-chat .msg-user {
-    width: 100%;
-    text-align: right;
-    margin-bottom: 10px;
-}
-
-.main-chat .msg-user p {
-    background-color: #428bca;
-    color: #fff;
-    display: inline-block;
-    padding: 10px;
-    font-size: 15px;
-}
-
-.main-chat .msg {
-    width: 100%;
-    text-align: left;
-    margin-bottom: 10px;
-}
-
-.main-chat .msg p {
-    background-color: #f1f1f1;
-    color: #555;
-    display: inline-block;
-    padding: 10px;
-    font-size: 15px;
-}
-
-.main-chat .msg-user .info-msg-user,
-.main-chat .msg .info-msg {
-    font-size: 13px;
-    color: #666;
-    margin-top: 5px;
-}
 
 div .post:not(:last-child) {
-    border-bottom: 1px solid #cecece;
+  border-bottom: 1px solid #cecece;
 }
 .post {
-    padding: 10px 8px;
+  padding: 10px 8px;
 }
 
 .postWapper {
-    padding:10px;
+  padding: 10px;
 }
 .name {
-    font-size: 18px;
-    font-weight: bold;
+  font-size: 18px;
+  font-weight: bold;
 }
 
 .name1 {
-    font-weight: bold;
+  font-weight: bold;
 }
 
 .description {
-    margin-left: 30px;
-    margin-top: -9px;
-    opacity: 0.5;
-    font-size: 13px;
+  margin-left: 30px;
+  margin-top: -9px;
+  opacity: 0.5;
+  font-size: 13px;
 }
-.request
-{
-    height: 60px;
-    margin-top: 10px;
-    padding-top: 10px;
-    margin-bottom:10px;
-    text-align: center;
+.request {
+  height: 60px;
+  margin-top: 10px;
+  padding-top: 10px;
+  margin-bottom: 10px;
+  text-align: center;
 }
-.inline
-{
-    display: inline;
-    padding-top:10px;
-    padding-bottom: 15px;
+.inline {
+  display: inline;
+  padding-top: 10px;
+  padding-bottom: 15px;
 }
-.profileName
-{
-    width: 70%;
-    padding-left: 5%;
+.profileName {
+  width: 70%;
+  padding-left: 5%;
 }
-.right{
-    float: right;
+.right {
+  float: right;
 }
-.profileWrapper
-{
-    display: inline-flex;
-    width: 100%;
-    clear: both;
+.profileWrapper {
+  display: inline-flex;
+  width: 100%;
+  clear: both;
 
 }
-.profilePeople
-{
-    width: 100%;
+.profilePeople {
+  width: 100%;
 }
-.imgWrapper1
-{
-    text-align: center;
-    margin-top: 5%;
+.imgWrapper1 {
+  text-align: center;
+  margin-top: 5%;
 
 }
-.post1{
-    margin-top: 3%;
+.post1 {
+  margin-top: 3%;
 }
 .icon {
-    display: inline;
-    float: left;
+  display: inline;
+  float: left;
 }
-.contentInfo
-{
-   display: inline;
-    float: right;
+.contentInfo {
+  display: inline;
+  float: right;
 }
-.avatar_upload
-{
-    vertical-align: middle;
-    width: 200px;
-    height: 200px;
-    border-radius: 50% !important;
-    text-align: center;
-    margin-top: 4%;
+.avatar_upload {
+  vertical-align: middle;
+  width: 200px;
+  height: 200px;
+  border-radius: 50% !important;
+  text-align: center;
+  margin-top: 4%;
 }
-.margin12
-{
-    margin: 12%;
+.margin12 {
+  margin: 12%;
 }
-.upload
-{
-    height: 10px;
+.upload {
+  height: 10px;
 }
-.title1
-{
-    height: 50px;
-    font-weight: bold;
-    padding-top: 1%;
+.title1 {
+  height: 50px;
+  font-weight: bold;
+  padding-top: 1%;
 }
-.form
-{
-    margin-bottom: 12%;
-    padding-right:12%;
+.form {
+  margin-bottom: 12%;
+  padding-right: 12%;
 }
-.margin-bottom{
-    margin-bottom:2% ;
+.margin-bottom {
+  margin-bottom: 2%;
 }
-.delete
-{
-    margin-left: auto;
+.delete {
+  margin-left: auto;
 }
-.padding-2
-{
-    padding-top: 2%;
+.padding-2 {
+  padding-top: 2%;
+}
+.chat-box {
+  height: 700px;
+  width:  70%;
+  margin-bottom: 5%;
+  border-radius: 5%;
+  padding-left: 0px !important;
+  padding-right: 0px !important;
+}
+.text-chat {
+  height: 50px;
+  width: 85%;
+
+
+}
+.text-list {
+  height: 70%;
+  width: 85%;
+  display: auto;
+
+}
+.header-chat {
+  width: 100%;
+  height: 10%;
+  margin-bottom: 5%;
+  border-top-left-radius: 20px!important;
+  border-top-right-radius: 20px!important;
+
+}
+.me-chat{
+  width: 70%;
+  float:left;
+  padding-left: 8px;
+}
+.friend-chat{
+  width: 70%;
+  float: right;
+  padding-left: 8px;
+  float:right;
+}
+.chat-wrapper{
+  padding-top: 8px;
+}
+.img-chat{
+  float: left;
+}
+.img-chat2{
+  float: right;
 }

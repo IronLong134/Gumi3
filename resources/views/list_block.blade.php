@@ -24,7 +24,7 @@
                 </div>
               </div>
               <div class="col-md-2">
-                <a class="btn btn-primary" href="\delete_block\{{$user->id}}\{{$block->receive_id}}">Bỏ chặn</a>
+                <a class="btn btn-primary" href="\delete_block\{{$user->id}}\{{$block->receiver_id}}">Bỏ chặn</a>
               </div>
             </div>
           </div>

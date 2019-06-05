@@ -26,11 +26,6 @@
 	Route::get('/admin', 'DemoController@admin')->name('admin')->middleware('checkadmin')->middleWare('checkUser');
 	
 	
-	//MESSEGER - NOT COMPELETE
-	Route::View('/chat', 'chat')->name('chat');
-	Route::post('/sendmsg', 'ChatController@sendmsg')->name('sendmsg');
-	Route::get('/msgload', 'ChatController@loadmsg')->name('msgload');
-	
 	//TEST
 	Route::View('/test', 'test')->name('test');
 	Route::get('/test', 'PostController@test')->name('test');
@@ -73,7 +68,7 @@
 	Route::get('/list_block/{user_id}', 'DemoController@list_block')->name('list_Block')->middleWare('auth');
 	
 	//Accept- refure friend
-	Route::get('/refuse/{sender_id}/{receive_id}', 'DemoController@refuse')->name('refuse');
+	Route::get('/refuse/{sender_id}/{receiver_id}', 'DemoController@refuse')->name('refuse');
 	Route::post('/refuse_test', 'DemoController@refuse_test')->name('refuse_test');
 	Route::get('/accept/{user_id}/{friend_id}', 'DemoController@accept')->name('accept');
 	Route::post('/accept_ajax', 'DemoController@accept_ajax')->name('accept_ajax');// ajax
@@ -82,5 +77,18 @@
 	//Error
 	Route::get('/error', 'DemoController@error')->name('error');
 	//AJAX
+	//Chat
+	
+	// Controllers trong namespace "App\Http\Controllers\Admin"
+	Route::get('/chat', function () {
+		return view('chat');
+	})->name('chat');
+	Route::get('/test', function () {
+		return view('home');
+	})->name('test');
+	Route::get('/chat_friend/{friend_id}', 'ChatController@chat')->name('chat_friend');
+	Route::post('/load_chat', 'ChatController@load')->name('load');
+	
+
  
    

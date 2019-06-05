@@ -1,4 +1,5 @@
 @extends('layouts.app')
+<script src="{{ asset('js/autoload.js') }}" defer></script>
 @section('content')
   <div class="container">
     <div class="card-body container">
@@ -9,11 +10,42 @@
       @endif
       <div class="container">
         <input type="hidden" name="csrf-token" content="{{ csrf_token() }}">
-        <div class="text-center text-primary name">Danh sách bạn bè</div>
-        <div class="row" id="myTable">
-            <div class="col-md-6 card"  >
+        <div class="" id="myTable">
+          <div class="card container border-primary chat-box">
+            <div class="card-header bg-primary text-center name header-chat"><img class=" avatar2"
+                                                                                             src="{{ url('/') }}/imgs/@if($friend[0]->avatar){{$friend[0]->avatar}}@elseif(!$friend[0]->avatar && $user->gender==1){{"avatar_male.jpg"}}@else{{"avatar_female.jpg"}}@endif"
+                                                                                             alt="">{{$friend[0]->name}}</div>
+            <div class="container card  border-primary text-list">
+              @foreach($messengers as $messenger)
+                @if($messenger->from=='friend')
+                  <div class="chat-wrapper">
+                    <div class="img-chat"><img class=" avatar1"
+                                               src="{{ url('/') }}/imgs/@if($messenger['sender_info']->avatar){{$messenger['sender_info']->avatar}}@elseif(!$messenger['sender_info']->avatar && $messenger['sender_info']->gender==1){{"avatar_male.jpg"}}@else{{"avatar_female.jpg"}}@endif"
+                                               alt=""></div><div class="card border-primary me-chat">{{$messenger->content}}</div>
+                  </div>
+                 @elseif($messenger->from=='me')
+                  <div class="chat-wrapper">
+                    <div class="img-chat2"><img class=" avatar1"
+                                                src="{{ url('/') }}/imgs/@if($messenger['sender_info']->avatar){{$messenger['sender_info']->avatar}}@elseif(!$messenger['sender_info']->avatar && $messenger['sender_info']->gender==1){{"avatar_male.jpg"}}@else{{"avatar_female.jpg"}}@endif"
+                                                alt=""></div>
+                    <div class="bg-primary text-white card friend-chat">{{$messenger->content}}<i class="far fa-sad-tear"></i></div>
 
+                  </div>
+                  @endif
+                @endforeach
             </div>
+            <form class="form-chat">
+              <input type="hidden" id="data" user_id="{{Auth::id()}}" friend_id="{{$friend[0]->id}}">
+              <input type="text" class="form-control card container border-primary text-chat" friend_id="{{$friend[0]->id}}" user_id="{{Auth::id()}}" placeholder="Nhập tin nhắn đi nào" required autofocus>
+            </form>
+            <div class="text-center">
+              <button class="btn"><i class="far fa-sad-tear"></i></button>
+              <button class="btn"><i class="far fa-grin-squint"></i></button>
+              <button class="btn"><i class="far fa-kiss-wink-heart"></i></button>
+              <button class="btn"><i class="far fa-kiss-wink-heart"></i></button>
+            </div>
+
+          </div>
 
         </div>
 
@@ -21,17 +53,6 @@
     </div>
 
   </div>
-  <script>
-		$(document).ready(function () {
-			$('#myInput').on('keyup', function (event) {
-				event.preventDefault();
-				/* Act on the event */
-				var tukhoa = $(this).val().toLowerCase();
-				$('#myTable > div').filter(function () {
-					$(this).toggle($(this).text().toLowerCase().indexOf(tukhoa) > -1);
-				});
-			});
-		});
-  </script>
+  <script src="{{ asset('js/chat.js') }}" defer></script>
 
 @endsection

@@ -12,8 +12,10 @@
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
+    @if (!Route::has('register'))
     <script src="{{ asset('js/autoload.js') }}" defer></script>
     <script src="{{ asset('js/sendmsg.js') }}" defer></script>
+    @endif
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet" type="text/css">
@@ -80,7 +82,8 @@
             </div>
         </div>
     </nav>
-    @endif @else
+    @endif
+    @else
         <li class="nav-item dropdown">
             <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
                data-toggle="dropdown" aria-haspopup="true"
