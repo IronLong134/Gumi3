@@ -41,8 +41,28 @@
 		{
 			$new = new Messenger();
 			$messengers = $new->getMessenger(Auth::id(), $rq->friend_id);
+			$messengers['count']=count($messengers);
 			$json = json_encode($messengers);
 			return $json;
+		}
+		public function addMsg(Request $rq) {
+			$new = new Messenger();
+			if($new->addMsg($rq->user_id,$rq->friend_id,$rq->content))
+			{
+				return 1;
+			}
+			else
+			{
+				return 0;
+			}
+		}
+		public function getListMsg()
+		{
+			$new = new Messenger();
+			$messengers= $new->getListMsg();
+			dd($messengers);
+			//return $messengers;
+			
 		}
 		//
 	}

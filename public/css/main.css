@@ -283,7 +283,7 @@ div .post:not(:last-child) {
 .text-list {
   height: 70%;
   width: 85%;
-  display: auto;
+  overflow: auto;
 
 }
 .header-chat {
