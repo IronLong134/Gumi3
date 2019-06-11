@@ -1,5 +1,5 @@
 @extends('layouts.app')
-<script src="{{ asset('js/autoload.js') }}" defer></script>
+{{--<script src="{{ asset('js/autoload.js') }}" defer></script>--}}
 @section('content')
   <div class="container">
     <div class="card-body container">

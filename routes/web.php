@@ -86,6 +86,7 @@
 	Route::get('/test', function () {
 		return view('home');
 	})->name('test');
+	Route::get('/testchat','ChatController@testchat')->name('testchat');
 	
 	
 	Route::middleware(['auth'])->group(function () {
@@ -93,6 +94,7 @@
 		Route::post('/load_chat', 'ChatController@load')->name('load');
 		Route::post('/add_msg_ajax','ChatController@addMsg')->name('addMsg');
 		Route::get('/getMsg','ChatController@getListMsg')->name('getMsg');
+		Route::get('/list_chat/{user_id}','ChatController@listChat')->name('ListChat')->middleWare('checkUser');
 	});
 	
 

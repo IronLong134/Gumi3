@@ -9,35 +9,66 @@
       @endif
       <div class="container">
         <input type="hidden" name="csrf-token" content="{{ csrf_token() }}">
-        <div class="text-center text-primary name">Danh sách bạn bè</div>
+        <div class="text-center text-primary name">Tin nhắn</div>
         <div class="row" id="myTable">
+					<div class="col-md-6 card text-center">
+            <div class="text-center text-primary name">Chưa đọc </div>
+            @foreach($No_reads as $No_read)
+              <div class="card"  >
+                <div class="padding-2">
+                  <div class="inline">
+                    <div class="dropdown profileWrapper" >
 
-          @foreach($friends as $friend)
+                      <img class="avatar1" src="{{ url('/') }}/imgs/@if($No_read->avatar){{$No_read->avatar}}@elseif(!$No_read->avatar &&$No_read->gender==1){{"avatar_male.jpg"}}@else{{"avatar_female.jpg"}}@endif">
+                      <span class="profileName"><a class="name inline" href="\chat_friend\{{$No_read->id}}" style="font-size:x-large;">{{$No_read->name}}</a></span>  <span class="badge badge-danger">{{$No_read->count}}</span>
+                      <button class="btn btn-danger dropdown-toggle right" type="button"
+                              id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+                              aria-expanded="false">
+                        {{$No_read->count}}
+                      </button>
+                      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a class="dropdown-item" href="\profile_friend\{{$No_read->id}}">Xem trang cá nhân</a>
+                        <a class="dropdown-item" href="\chat_friend\{{$No_read->id}}">Trò chuyện</a>
 
-            <div class="col-md-6 card"  >
-              <div class="padding-2">
-                <div class="inline">
-                  <div class="dropdown profileWrapper" >
 
-                    <img class="avatar1" src="{{ url('/') }}/imgs/@if($friend['friend']->avatar){{$friend['friend']->avatar}}@elseif(!$friend['friend']->avatar &&$friend['friend']->gender==1){{"avatar_male.jpg"}}@else{{"avatar_female.jpg"}}@endif">
-                    <span class="profileName"><a class="name inline" href="\profile_friend\{{$friend['friend']->id}}" style="font-size:x-large;">{{$friend['friend']->name}}</a></span>
-                    <button class="btn btn-success dropdown-toggle right" type="button"
-                            id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
-                            aria-expanded="false">
-                      Bạn bè
-                    </button>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                      <a class="dropdown-item" href="\profile_friend\{{$friend['friend']->id}}">Xem trang cá nhân</a>
-                      <a class="dropdown-item" href="\chat_friend\{{$friend['friend']->id}}">Trò chuyện</a>
-                      <a class="dropdown-item" name="unfriend" user_id="{{Auth::id()}}" friend_id="{{$friend['friend']->id}}">Hủy kết bạn</a>
-
+                      </div>
                     </div>
                   </div>
+                  <div class="description">{{$No_read->last_msg[0]->content}}&ensp; </div>
                 </div>
-                <div class="description">Đã là bạn bè từ&ensp; {{$friend->updated_at}}</div>
               </div>
-            </div>
-          @endforeach
+            @endforeach
+          </div>
+					<div class="col-md-6 card text-center">
+            <div class="text-center text-primary name">Tin nhắn khác</div>
+            @foreach($Readeds as $Readed)
+              <div class="card"  >
+                <div class="padding-2">
+                  <div class="inline">
+                    <div class="dropdown profileWrapper" >
+
+                      <img class="avatar1" src="{{ url('/') }}/imgs/@if($Readed->avatar){{$Readed->avatar}}@elseif(!$Readed->avatar &&$Readed->gender==1){{"avatar_male.jpg"}}@else{{"avatar_female.jpg"}}@endif">
+                      <span class="profileName"><a class="name inline" href="\chat_friend\{{$Readed->id}}" style="font-size:x-large;">{{$Readed->name}}<msg class="abc"></msg></a></span>
+                      <button class="btn btn-success dropdown-toggle right" type="button"
+                              id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+                              aria-expanded="false">
+                        Tuỳ chọn
+                      </button>
+                      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a class="dropdown-item" href="\profile_friend\{{$Readed->id}}">Xem trang cá nhân</a>
+                        <a class="dropdown-item" href="\chat_friend\{{$Readed->id}}">Trò chuyện</a>
+                        <a class="dropdown-item" name="unfriend" user_id="" friend_id="">Hủy kết bạn</a>
+
+                      </div>
+                    </div>
+                  </div>
+                  <div class="description"></div>
+                  <div class="description">{{$Readed->last_msg[0]->content}}&ensp; </div>
+                </div>
+              </div>
+            @endforeach
+          </div>
+
         </div>
 
       </div>
@@ -46,37 +77,6 @@
   </div>
   <script>
 		$(document).ready(function () {
-
-			$("a[name='unfriend']").click(function (e) {
-				e.preventDefault();
-				var this_a = $(this);
-				var content =this_a.parent().parent().parent().parent().parent().remove();
-				var user_id=this_a.attr('user_id');
-				var friend_id=this_a.attr('friend_id');
-				var url ="/refuse_test";
-				$.ajaxSetup({
-					headers: {
-						'X-CSRF-TOKEN': $('input[name="csrf-token"]').attr('content')
-					}
-				});
-				$.ajax
-				({
-					url: url,
-					method: "POST",
-					dataType: "json",
-					data: {
-						user_id:user_id,
-						friend_id:friend_id
-					},
-					success: function (res) {
-						console.log(res);
-
-					}
-				});
-				return false;
-
-			});
-
 			$('#myInput').on('keyup', function (event) {
 				event.preventDefault();
 				/* Act on the event */

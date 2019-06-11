@@ -5,6 +5,7 @@
 	use App\Friend;
 	use App\Image;
 	use App\Masterdata;
+	use App\Messenger;
 	use App\Post;
 	use App\User;
 	
@@ -323,15 +324,18 @@
 		public function realtime()
 		{
 			$new=new Friend();
+			$msg=new Messenger();
 			$countfri=count($new->getCountFriend());
 			$countrq=count($new->getCountRq());
+			$countMsg=count($msg->getMsg_Noread_Jquery());
+			
 		//	$friends=$new->get
 			//echo $countrq;
 			//echo $countfri;
 			return response()->json([
 					                        'countfri' => $countfri,
-					                        'countrq'=>$countrq
-
+					                        'countrq'=>$countrq,
+																	'countmsg'=>$countMsg
 			                        ]);
 			
 			

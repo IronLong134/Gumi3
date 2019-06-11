@@ -12,7 +12,7 @@
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
-    @if (!Route::has('register'))
+    @if(Auth::check())
     <script src="{{ asset('js/autoload.js') }}" defer></script>
     <script src="{{ asset('js/sendmsg.js') }}" defer></script>
     @endif
@@ -142,6 +142,12 @@
                                href="/rq_friends/{{Auth::user()->id}}"><i
                                     class="fas fa-envelope-open-text"></i>Lời mời kết
                                 bạn<span class="badge badge-danger"><r class="rq">{{count($request)}}</r></span></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-white"
+                               href="/list_chat/{{Auth::user()->id}}"><i
+                                    class="fas fa-envelope-open-text"></i>
+                                Tin nhắn<span class="badge badge-danger"><msg class="msg"></msg></span></a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-white"

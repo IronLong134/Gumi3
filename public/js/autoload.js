@@ -16,6 +16,7 @@ setInterval(function(){
 			// update div
 			$('.fri').html(res.countfri);
 			$('.rq').html(res.countrq);
+			$('.msg').html(res.countmsg);
 		}
 	});
 	$.ajax({
