@@ -87,11 +87,11 @@
 				                  ->orderByRaw("FIELD(id, $lists_str)")->get();
 				foreach ($user_infos as $user_info) {
 					$user_id = $user_info->id;
-					$user_info['count']= Messenger::where(function ($q) use ($user_id) {
+					$user_info['count'] = Messenger::where(function ($q) use ($user_id) {
 						$q->where('receiver_id', '=', Auth::id())->where('sender_id', '=', $user_id);
 					})
-							->where('status','=',0)
-					                 ->count();
+					                               ->where('status', '=', 0)
+					                               ->count();
 					$last_msg = Messenger::where(function ($q) use ($user_id) {
 						$q->where('receiver_id', '=', Auth::id())->where('sender_id', '=', $user_id);
 					})
@@ -106,13 +106,66 @@
 			return $user_infos;
 		}
 		
-		public function getListMsg_Readed()// lấy thông tin của những người ddag ns chyện và ko có tin nhắn chưa đọc
-		{
+		public function getListMsg_Full() {
 			$id = Auth::id();
 			$messengers = Messenger::where(function ($q) {
 				$q->where('sender_id', '=', Auth::id())->orwhere('receiver_id', '=', Auth::id());
 			})
-			                       ->where('status', '=', 1)
+			                       ->orderBy('created_at', 'DESC')
+			                       ->get();
+			$lists = [];
+			if (count($messengers) > 0) {
+				foreach ($messengers as $messenger) {
+					if ($messenger->sender_id == $id) {
+						$messenger['from'] = 'me';
+						array_push($lists, $messenger->receiver_id);
+						
+					} else if ($messenger->receiver_id == $id) {
+						$messenger['from'] = 'friend';
+						array_push($lists, $messenger->sender_id);
+					}
+				}
+				$lists_str = implode(",", $lists);
+				$user_infos = User::whereIn('id', $lists)
+				                  ->orderByRaw("FIELD(id, $lists_str)")->get();
+				foreach ($user_infos as $user_info) {
+					$user_id = $user_info->id;
+					$last_msg = Messenger::where(function ($q) use ($user_id) {
+						$q->where('sender_id', '=', Auth::id())->where('receiver_id', '=', $user_id);
+					})
+					                     ->orwhere(function ($q) use ($user_id) {
+						                     $q->where('receiver_id', '=', Auth::id())->where('sender_id', '=', $user_id);
+					                     })
+					                     ->with(['sender_msg', 'receiver_msg'])
+					                     ->orderBy('created_at', 'DESC')
+					                     ->limit(1)->get();
+					$last_msg[0]->sender_msg->id == Auth::id() ? $last_msg['from'] = 'me' : $last_msg['from'] = 'friend';
+					if ($last_msg['from'] == 'friend') {
+						if ($last_msg[0]->status == 0) {
+							$user_info['seen'] = 'no';
+						}
+					} else {
+						$user_info['seen'] = '';
+					}
+					if ($user_info['seen'] == 'no') {
+						$user_info['count_no_seen'] = Messenger::where('sender_id', '=', $user_id)->where('receiver_id', '=', Auth::id())->where('status','=',0)->count();
+					}
+					$user_info->last_msg = $last_msg;
+				}
+			}
+			
+			return $user_infos;
+		}
+		
+		public function getListMsg_Readed()// lấy thông tin của những người ddag ns chyện và ko có tin nhắn chưa đọc
+		{
+			$id = Auth::id();
+			$messengers = Messenger::where(function ($q) {
+				$q->where('sender_id', '=', Auth::id());
+			})
+			                       ->orwhere(function ($q) {
+				                       $q->where('receiver_id', '=', Auth::id())->where('status', '=', 1);
+			                       })
 			                       ->orderBy('id', 'DESC')
 			                       ->get();
 			$lists = [];
@@ -164,6 +217,12 @@
 			
 			return $messengers;
 			
+		}
+		public function seen($user_id,$friend_id)
+		{
+			Messenger::where(function ($q)use($user_id,$friend_id){
+				$q->where('sender_id','=',$friend_id)->where('receiver_id','=',$user_id);
+			})->update(['status'=>1]);
 		}
 		
 	}

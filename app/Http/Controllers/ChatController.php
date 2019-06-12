@@ -66,22 +66,37 @@
 		
 		public function testchat() {
 			$new = new Messenger();
-			dd($new->getListMsg_NoRead());
+			dd($new->getListMsg_Full());
 		}
 		
 		public function listChat() {
 			$msg = new Messenger();
 			$new1 = new Friend();
-			$No_reads = $msg->getListMsg_NoRead();
-			$Readeds = $msg->getListMsg_Readed();
+//			$No_reads = $msg->getListMsg_NoRead();
+//			$Readeds = $msg->getListMsg_Readed();
+			$messengers=$msg->getListMsg_Full();
 			$count_friends = $new1->getCountFriend();
 			$request = $new1->getCountRq();
 			
 			return view('list-chat')
-					->with('No_reads', $No_reads)
-					->with('Readeds', $Readeds)
+					->with('messengers',$messengers)
 					->with('count_friends', $count_friends)
 					->with('request', $request);
+		}
+		public function update_listChat(){
+			$msg = new Messenger();
+			$messengers=$msg->getListMsg_Full();
+			$json = json_encode($messengers);
+			return $json;
+		}
+		public function seen(Request $rq){
+			$msg = new Messenger();
+			if($msg->seen($rq->user_id,$rq->friend_id)){
+				return 1;
+			}
+			else{
+				return 0;
+			}
 		}
 		//
 	}

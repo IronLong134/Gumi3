@@ -68,5 +68,5 @@ setInterval(function(){
 		}
 	});
 
-},5000);
+},4000);
 

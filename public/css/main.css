@@ -245,6 +245,9 @@ div .post:not(:last-child) {
 .margin12 {
   margin: 12%;
 }
+.margin-top-15{
+  margin-top: 15px;
+}
 .upload {
   height: 10px;
 }
@@ -314,3 +317,14 @@ div .post:not(:last-child) {
 .img-chat2{
   float: right;
 }
+.notification{
+  height:40px;
+  width: 40px;
+  font-size: 30px;
+  margin-left: 5%;
+  border-radius:50%;
+}
+.messenger{
+  width: 70%;
+}
+

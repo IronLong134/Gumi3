@@ -2,7 +2,31 @@ $(document).ready(function (e) {
 	$('#input-chat').click(function (e) {
 		e.preventDefault();
 		//$('#list-msg').get(0).scrollHeight;
+		$.ajaxSetup({
+			headers: {
+				'X-CSRF-TOKEN': $('input[name="csrf-token"]').attr('content')
+			}
+		});
+		var user_id=$('#data').attr('user_id');
+		var friend_id=$('#data').attr('friend_id');
 		$('#list-msg').scrollTop($('#list-msg').get(0).scrollHeight);
+		var url='/seen';
+		$.ajax({
+			url :url,
+			method: "POST",
+			dataType: "json",
+			data:{
+				friend_id:friend_id,
+				user_id:user_id,
+			},
+			success: function (res) {
+				
+				//console.log(res);
+				
+				
+			}
+		});
+		
 	});
 	$('.sticker').click(function (e) {
 		e.preventDefault();

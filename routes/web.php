@@ -95,6 +95,8 @@
 		Route::post('/add_msg_ajax','ChatController@addMsg')->name('addMsg');
 		Route::get('/getMsg','ChatController@getListMsg')->name('getMsg');
 		Route::get('/list_chat/{user_id}','ChatController@listChat')->name('ListChat')->middleWare('checkUser');
+		Route::get('/update_listChat','ChatController@update_listChat')->name('update_listChat');
+		Route::post('/seen','ChatController@seen')->name('seen');
 	});
 	
 
