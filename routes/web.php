@@ -84,7 +84,7 @@
 		return view('chat');
 	})->name('chat');
 	Route::get('/test', function () {
-		return view('home');
+		return view('test');
 	})->name('test');
 	Route::get('/testchat','ChatController@testchat')->name('testchat');
 	
