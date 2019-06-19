@@ -72,6 +72,13 @@
 		public function receiver_msg() {
 			return $this->hasMany('App\Messenger', 'receiver_id');
 		}
+		public function sender_report() {
+			return $this->hasMany('App\Report', 'sender_id');
+		}
+
+		public function receiver_report() {
+			return $this->hasMany('App\Report', 'receiver_id');
+		}
 		
 		/**
 		 * @return mixed
