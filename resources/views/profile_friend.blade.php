@@ -191,7 +191,7 @@
 
           </div>
           <div id="modal-report" class="modal">
-            <div class="modal-scrollable">
+            <div class="modal-scrollable ">
               @include('report')
             </div>
           </div>

@@ -37,7 +37,7 @@
 
   <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.min.js"></script>
 
-  <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+  {{--<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>--}}
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
 
@@ -145,7 +145,7 @@
               <a class="nav-link text-white"
                  href="/rq_friends/{{Auth::user()->id}}"><i
                     class="fas fa-envelope-open-text"></i>Lời mời kết
-                bạn<span class="badge badge-danger"><r class="rq">{{count($request)}}</r></span></a>
+                bạn<span class="badge badge-danger"><r class="rq"></r></span></a>
             </li>
             <li class="nav-item">
               <a class="nav-link text-white"
@@ -157,7 +157,7 @@
               <a class="nav-link text-white"
                  href="/list_friends/{{Auth::user()->id}}"><i
                     class="fas fa-user-friends"></i>Bạn bè(
-                <f class="fri">{{count($count_friends)}}</f>
+                <f class="fri"></f>
                 )</a>
             </li>
             <li class="nav-item">

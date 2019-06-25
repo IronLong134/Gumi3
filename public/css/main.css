@@ -355,3 +355,51 @@ div .post:not(:last-child) {
   padding-bottom: 15px;
   padding-top: 20px;
 }
+.top-bar-admin{
+  padding-top: 10px;
+  width:100%;
+  height: 50px;
+  font-size: 18px;
+  font-family: Nunito,sans-serif;
+  font-weight: bold;
+}
+.form-report1{
+  padding-top: 10%;
+  padding-bottom: 10%;
+  border-radius: 8px;
+  width: 50%;
+
+}
+.fix-modal{
+
+  width: 100%;
+  margin-top: 10%;
+}
+.fix-modal1{
+  padding-left: 35%;
+  width: 100%;
+  margin-top: 10%;
+}
+.exit-btn{
+  margin-top: 10%;
+}
+.tag-profile{
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+a.tag-admin:hover{
+  color:white;
+  background:#3490dc;
+}
+.name1{
+  font-family: Nunito,sans-serif;
+  font-weight: bold;
+  font-size: 25px;
+}
+.more{
+  padding-left: 30px;
+}
+.block-msg{
+  height: 30px;
+}

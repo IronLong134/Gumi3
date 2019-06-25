@@ -178,7 +178,7 @@ class DemoController extends Controller {
 										 ->where('delete_at', '=', 0)
 										 ->get();
 		$new = new Report();
-		$reports = $new->getReports();
+		$reports = $new->getReasonReports();
 
 		//dd($post);;
 		return view('profile_friend')

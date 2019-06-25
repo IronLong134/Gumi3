@@ -1,4 +1,4 @@
-<div class="container bg-white report-form ">
+<div class="container bg-white report-form fix-modal">
 <form>
   <div class="form-group">
     <input type="hidden" name="csrf-token" content="{{ csrf_token() }}">

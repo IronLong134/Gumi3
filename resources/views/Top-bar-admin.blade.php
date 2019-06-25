@@ -1,0 +1,1 @@
+<div class="top-bar-admin text-center text-white bg-primary">TRANG QUẢN TRỊ</div>

@@ -126,12 +126,14 @@
                             </div>
                           </div>
                           <div class="col-md-2" style="margin-left:40px">
-                            <a href="post/{{$data->id}}" class="btn btn-primary"> <i
+                            <a class="btn btn-primary text-white comment-btn"> <i
                                   class="fas fa-comments"></i>Comments(<c>{{count($data->comment)}}</c>
                               )</a>
                           </div>
+                          <div class="text-primary more"><i class="fas fa-chevron-circle-down"></i><a
+                                href="/post/{{$data->id}}">xem thêm</a></div>
                         </div>
-                        <form class="form-horizontal" style="margin-top:8px;"
+                        <form class="form-horizontal form-cmt" style="margin-top:8px;"
                               action="add_comment/{{$data->id}}/{{$user->id}}"
                               method="POST">
                           {{csrf_field()}}
@@ -166,79 +168,5 @@
     </div>
   </div>
   </body>
-  <script>
-		$(document).ready(function () {
-
-			$(".row").on('click', '#like_btn', function () {
-				var this_a = $(this);
-				var id = this_a.attr("post_id"); //lay id video\
-				var url = '/' + id + '/addLike';
-
-				$.ajaxSetup({
-					headers: {
-						'X-CSRF-TOKEN': $('input[name="csrf-token"]').attr('content')
-					}
-				});
-
-				$.ajax
-				({
-					url: url,
-					method: "POST",
-					dataType: "json",
-					data: {
-						id: id
-					},
-					success: function (res) {
-						var likeclass = res.data.success ? 'btn-danger' : 'btn-primary';
-						this_a.removeClass('btn-danger');
-						this_a.removeClass('btn-primary');
-						this_a.addClass(likeclass);
-						this_a.find('b').html(res.data.likes);
-					}
-				});
-				return false;
-			});
-			$("button[type='submit']").click(function (e) {
-				e.preventDefault();
-				var this_a = $(this);
-				var content =this_a.parent().parent().find('input[name=\'content\']').val();
-				var post_id = this_a.attr("post_id");
-				var user_id = this_a.attr("user_id");
-				var url = '/post/add_comment/' + post_id + '/' + user_id;
-				$.ajaxSetup({
-					headers: {
-						'X-CSRF-TOKEN': $('input[name="csrf-token"]').attr('content')
-					}
-				});
-				$.ajax
-				({
-					url: url,
-					method: "POST",
-					dataType: "json",
-					data: {
-						content: content,
-						post_id: post_id,
-						user_id: user_id
-					},
-					success: function (res) {
-						console.log(res);
-						$('c').html(res.count);
-					}
-				});
-				return false;
-
-			});
-			//tìm kiếm
-
-			$('#myInput').on('keyup', function (event) {
-				event.preventDefault();
-				/* Act on the event */
-				var tukhoa = $(this).val().toLowerCase();
-				$('#myTable > div').filter(function () {
-					$(this).toggle($(this).text().toLowerCase().indexOf(tukhoa) > -1);
-				});
-			});
-		});
-
-  </script>
+  <script src="{{ asset('js/wall.js') }}" defer></script>
 @endsection

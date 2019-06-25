@@ -51,6 +51,8 @@ class Kernel extends HttpKernel
      * @var array
      */
     protected $routeMiddleware = [
+				'CheckBlockAcount2'=>\App\Http\Middleware\CheckBlockAcount2::class,
+				'CheckBlockAcount'=>\App\Http\Middleware\CheckBlockAcount::class,
 		    'checkBlock'=>\App\Http\Middleware\CheckBlock::class,
         'checkPost'=>\App\Http\Middleware\CheckPost::class,
         'checkUser'=>\App\Http\Middleware\CheckUser::class,

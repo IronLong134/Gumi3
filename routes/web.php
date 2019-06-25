@@ -20,10 +20,9 @@ Auth::routes();
 
 
 //HOME
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/home', 'HomeController@index')->name('home')->middleWare('CheckBlockAcount');
 
 //ADMIN
-Route::get('/admin', 'DemoController@admin')->name('admin')->middleware('checkadmin');
 
 
 //TEST
@@ -86,7 +85,7 @@ Route::get('/chat', function () {
 Route::get('/test', function () {
 	return view('admin');
 })->name('test');
-Route::get('/testchat', 'ChatController@testchat')->name('testchat');
+Route::get('/test1', 'AdminController@getListBlock')->name('test');
 
 
 Route::middleware(['auth'])->group(function () {
@@ -97,9 +96,24 @@ Route::middleware(['auth'])->group(function () {
 	Route::get('/list_chat/{user_id}', 'ChatController@listChat')->name('ListChat')->middleWare('checkUser');
 	Route::get('/update_listChat', 'ChatController@update_listChat')->name('update_listChat');
 	Route::post('/seen', 'ChatController@seen')->name('seen');
-	Route::post('/addreport','DemoController@addReport')->name('addreport');
+	Route::post('/addreport', 'DemoController@addReport')->name('addreport');
 });
-	
+Route::middleware(['checkadmin'])->group(function () {
+	Route::group(['prefix' => 'admin'], function () {
+		Route::get('', 'AdminController@admin_report')->name('reports');
+		Route::get('update_report', 'AdminController@update_report')->name('update_report');
+		Route::get('report_nodelete', 'AdminController@admin_report_nodelete')->name('report_nodelete');
+		Route::get('report_delete', 'AdminController@admin_report_delete')->name('report_delete');
+		Route::get('members', 'AdminController@admin_member')->name('members');
+		Route::post('update_report', 'AdminController@update_report')->name('update_report');
+		Route::get('profile_friend/{id}', 'AdminController@profile_user')->name('admin-profile-friend');
+		Route::post('block_acount', 'AdminController@block_acount')->name('admin-block-acount');
+	});
+});
+Route::middleware(['CheckBlockAcount2'])->group(function () {
+	Route::get('/profile_friend/{friend_id}', 'DemoController@profile_friend')->name('profile_friend')->middleWare('auth')->middleWare('checkBlock');
+
+});
 
  
    

@@ -140,6 +140,19 @@
 			
 			return $info;
 		}
-		
-		
+		public function getAllPeople(){
+			$data=User::orderBy('created_at','DESC')->get();
+			return $data;
+		}
+		public function BlockAcount($id){
+			User::where('id','=',$id)->update(['block'=>1]);
+		}
+		public function UnBlockAcount($id){
+			User::where('id','=',$id)->update(['block'=>0]);
+		}
+		public function getListBlockAcount(){
+			$block=User::where('block','=',1)->get();
+//
+			return $block;
+		}
 	}

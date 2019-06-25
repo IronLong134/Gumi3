@@ -50,11 +50,12 @@
     <div class="text-primary bg-white title-admin-info"><img
           class=" avatar1"
           src="{{ url('/') }}/imgs/@if(Auth::user()->avatar){{Auth::user()->avatar}}@elseif(!Auth::user()->avatar && Auth::user()->gender==1){{"avatar_male.jpg"}}@else{{"avatar_female.jpg"}}@endif">{{Auth::user()->name}}
+      <small>(Quản trị viên)</small>
     </div>
-    <div class="text-primary title-admin "><i class="fas fa-exclamation-triangle"></i>&nbsp;Báo cáo</div>
-    <div class="text-primary title-admin"><i class="fas fa-users"></i>&nbsp;Thành viên</div>
-    <div class="text-primary title-admin"><i class="fas fa-times"></i>&nbsp;Thành viên bị khoá</div>
-    <div class="text-primary title-admin"><i class="fas fa-address-card"></i>&nbsp;Các quản trị viên</div>
+    <div class="text-primary title-admin " href="/admin/report" ><i class="fas fa-exclamation-triangle"></i>&nbsp;<a id="admin-reports" class="tag-admin" href="#report">Báo cáo</a></div>
+    <div class="text-primary title-admin"><i class="fas fa-users"></i>&nbsp<a id="admin-members" class="tag-admin" href="#members">Thành viên</a></div>
+    <div class="text-primary title-admin"><i class="fas fa-times"></i>&nbsp;<a id="admin-blocks" class="tag-admin" href="#block">Thành viên bị khoá</a></div>
+    <div class="text-primary title-admin"><i class="fas fa-address-card"></i>&nbsp;<a id="admin-managers" class="tag-admin" href="#managers">Các quản trị viên</a></div>
 
 
 
