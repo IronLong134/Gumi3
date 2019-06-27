@@ -133,10 +133,13 @@ class DemoController extends Controller {
 										 ->get();
 		$count_friends = $friends;
 		$request = Friend::where('receiver_id', '=', $id)->where('accept', '=', 0)->where('delete_at', '=', 0)->get();
-		foreach ($friends as $friend) {
+		$dem=0;
+		foreach ($friends as $key => &$friend) {
 			$friend['friend'] = $friend->receiver->id == $user->id ? $friend->sender : $friend->receiver;
+			if($friend->friend->block==1){
+				unset($friends[$key]);
+			}
 		}
-
 		return view('list_friend')->with('friends', $friends)->with('user', $user)->with('count_friends', $count_friends)->with('request', $request);
 	}
 
@@ -355,11 +358,11 @@ class DemoController extends Controller {
 	}
 
 	public function addReport(Request $rq) {
-			$new = new Report();
-			if($new->addReport($rq->user_id,$rq->friend_id,$rq->reason,$rq->content)){
-				return 1;
-			}else{
-				return 0;
-			}
+		$new = new Report();
+		if ($new->addReport($rq->user_id, $rq->friend_id, $rq->reason, $rq->content)) {
+			return 1;
+		} else {
+			return 0;
+		}
 	}
 }

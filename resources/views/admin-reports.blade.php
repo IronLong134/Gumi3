@@ -134,6 +134,8 @@
   </div>
   <script src="{{ asset('js/admin-report.js') }}" defer></script>
   <script src="{{ asset('js/admin-member.js') }}" defer></script>
+  <script src="{{ asset('js/list-block-acount.js') }}" defer></script>
+  <script src="{{ asset('js/list-admins.js') }}" defer></script>
   <!-- Remember to include jQuery :) -->
   {{--<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>--}}
 

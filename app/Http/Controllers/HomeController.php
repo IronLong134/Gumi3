@@ -52,6 +52,9 @@ class HomeController extends Controller
 		        ->with('my_posts',$my_posts);
        // return view('test')->with('user', $user)->with('datas', $data);
     }
+    public function error2($msg){
+    	return view('error2')->with('msg',$msg);
+		}
     /**
      * @param $user_id
      */

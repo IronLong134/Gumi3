@@ -25,16 +25,12 @@
 			$new1 = new Friend();
 			$new3 = new User();
 			$friend = $new3->getInfoUser($friend_id);
-			$count_friends = $new1->getCountFriend();
-			$request = $new1->getCountRq();
 			$messengers = $new->getMessenger(Auth::id(), $friend_id);
 			
 			return view('chat')
 					->with('messengers', $messengers)
 					->with('user', $user)
-					->with('friend', $friend)
-					->with('count_friends', $count_friends)
-					->with('request', $request);
+					->with('friend', $friend);
 			
 		}
 		
@@ -71,17 +67,9 @@
 		
 		public function listChat() {
 			$msg = new Messenger();
-			$new1 = new Friend();
-//			$No_reads = $msg->getListMsg_NoRead();
-//			$Readeds = $msg->getListMsg_Readed();
 			$messengers=$msg->getListMsg_Full();
-			$count_friends = $new1->getCountFriend();
-			$request = $new1->getCountRq();
-			
 			return view('list-chat')
-					->with('messengers',$messengers)
-					->with('count_friends', $count_friends)
-					->with('request', $request);
+					->with('messengers',$messengers);
 		}
 		public function update_listChat(){
 			$msg = new Messenger();

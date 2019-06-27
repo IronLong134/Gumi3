@@ -18,18 +18,18 @@ class CheckBlockAcount {
 	public function handle($request, Closure $next) {
 		$user1 = new User();
 		$blocks = $user1->getListBlockAcount();
-		$dem=0;
+		$dem = 0;
 		if ($blocks) {
 			foreach ($blocks as $block) {
 				if ($block->id == Auth::id()) {
 					$msg = "Tài khoản của bạn đã bị khoá";
 					Auth::logout();
 					$dem++;
-					return redirect('/login')->with('msg',$msg);
+					return redirect()->route('error2', ['msg' => $msg]);
 				}
 			}
 		}
-		if($dem==0){
+		if ($dem == 0) {
 			//return redirect()->route('home');
 			return $next($request);
 		}

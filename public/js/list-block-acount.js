@@ -1,6 +1,5 @@
 $(document).ready(function () {
-
-	$('#admin-members').click(function (e) {
+	$('#admin-blocks').click(function (e) {
 		e.preventDefault();
 		$.ajaxSetup({
 			headers: {
@@ -8,7 +7,7 @@ $(document).ready(function () {
 			}
 		});
 		$('#admin_content').empty();
-		var url = "admin/members";
+		var url = "admin/list-block";
 		var table = "<div class=\"container\">\n" +
 				"              <div class=\"row text-center member\">\n" +
 				"              </div>\n" +
@@ -62,4 +61,3 @@ $(document).ready(function () {
 		});
 	});
 });
-

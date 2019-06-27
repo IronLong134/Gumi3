@@ -8,8 +8,14 @@
         </div>
       @endif
       <div class="container">
-        <div class="text-center text-primary name"><h1>{{$msg}}</h1></div>
-        <div class="text-center text-white"><a class="btn btn-primary " href="/home">Trở về trang chủ</a><div>
+        <div class="card-body">
+          <div class="text-center text-primary name"><h1>{{$msg}}</h1></div>
+          <div class="text-center text-white"><a class="btn btn-primary " href="/home">Trở về trang chủ</a>
+            <div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
   <script>

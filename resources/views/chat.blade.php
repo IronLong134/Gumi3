@@ -38,7 +38,7 @@
               <input type="hidden" id="data" user_id="{{Auth::id()}}" friend_id="{{$friend[0]->id}}"
                      avatar="{{Auth::user()->avatar}}" gender="{{Auth::user()->gender}}">
               <input id="input-chat" type="text" class="form-control card container border-primary text-chat"
-                     placeholder="Nhập tin nhắn đi nào" required>
+                     placeholder=" @if($friend[0]->block==1) Tài khoản này đã bị khoá,bạn chỉ có thể xem cuộc trò chyện này @else Nhập tin nhắn đi nào @endif" required @if($friend[0]->block==1) disabled @endif>
             </form>
             <div class="text-center">
               <button class="btn sticker" icon="far fa-sad-tear"><i class="far fa-sad-tear"></i></button>

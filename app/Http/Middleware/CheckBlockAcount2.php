@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Middleware;
-
+use App\User;
 use Closure;
 
 class CheckBlockAcount2 {
@@ -16,15 +16,18 @@ class CheckBlockAcount2 {
 	public function handle($request, Closure $next) {
 		$user1 = new User();
 		$blocks = $user1->getListBlockAcount();
+		$friend_id=$request->friend_id;
+		$dem=0;
 		if ($blocks) {
 			foreach ($blocks as $block) {
-				if ($block->id == $request->user_id) {
+				if ($block->id == $friend_id) {
 					$msg = "trang bạn tìm thấy ko có ";
-
+					$dem++;
 					return redirect()->route('error', ['msg' => $msg]);
 				}
 			}
-		} else {
+		}
+		if($dem==0){
 			return $next($request);
 		}
 	}

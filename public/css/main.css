@@ -403,3 +403,9 @@ a.tag-admin:hover{
 .block-msg{
   height: 30px;
 }
+.error2{
+  padding-top: 20%;
+  font-family: Nunito,sans-serif;
+  font-size: 30px;
+  font-weight: bold;
+}

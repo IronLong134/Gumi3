@@ -71,8 +71,15 @@ class AdminController extends Controller {
 			return 2;
 		}
 	}
-	public function getListBlock(){
+	public function list_block(){
 		$user1 = new User();
-		dd($user1->getListBlockAcount());
+		$json=json_encode($user1->getListBlockAcount());
+		return $json;
 	}
+	public function list_admins(){
+		$user1 = new User();
+		$json=json_encode($user1->getListAdmins());
+		return $json;
+	}
+
 }

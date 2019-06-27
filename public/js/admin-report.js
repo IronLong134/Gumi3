@@ -190,7 +190,7 @@ $(document).ready(function () {
 							"                <td>" + report.reason_report + "</td>\n" +
 							"                <td>" + report.content + "</td>\n" +
 							"                <td>" + report.updated_at + "</td>\n" +
-							"                <td><button report_id='"+report.id+"' sender_id='"+report.sender_report.id+"' sender_name='"+report.sender_report.name+"' receiver_name='"+report.receiver_report.name+"' receiver_id='"+report.receiver_report.id+"' id=\"\" class=\"btn btn-danger btn-report\">Chưa giải quyết</button></td>\n" +
+							"                <td><button report_id='"+report.id+"' sender_id='"+report.sender_report.id+"' sender_name='"+report.sender_report.name+"' receiver_name='"+report.receiver_report.name+"' receiver_id='"+report.receiver_report.id+"' id=\"\" class=\"btn btn-danger \">Đã giải quyết</button></td>\n" +
 							"              </tr>"
 				});
 				var form_modal ="<div id=\"form-modal\">\n" +
