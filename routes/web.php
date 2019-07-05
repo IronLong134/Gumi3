@@ -31,11 +31,28 @@ Route::get('/chat', function () {
 	return view('chat');
 })->name('chat');
 Route::get('/test', function () {
-	return view('error2');
+	return view('demo');
 })->name('test');
+Route::get('/yield_c', function () {
+	return view('yield_c');
+})->name('yield_c');
+Route::get('/yield_b', function () {
+	return view('yield_b');
+})->name('yield_b');
+Route::get('admin/login','AdminController@get_login')->name('get_login');
+
+Route::post('admin/postLogin','AdminController@PostLogin')->name('postLogin');
+Route::get('success','AdminController@success')->name('success');
+Route::get('/demo_report', function () {
+	return view('admin-view.report');
+})->name('demo_report');
+Route::get('/demo_member', function () {
+	return view('admin-view.members');
+})->name('demo_member');
+
 Route::get('/test1', 'AdminController@getListBlock')->name('test');
 Route::get('/error', 'DemoController@error')->name('error');
-Route::get('error2/{msg}','HomeController@error2')->name('error2');
+Route::get('error2/{msg}', 'HomeController@error2')->name('error2');
 Route::middleware(['auth'])->group(function () {
 	Route::middleware(['CheckBlockAcount'])->group(function () {
 		Route::get('/home', 'HomeController@index')->name('home');
@@ -94,6 +111,7 @@ Route::middleware(['auth'])->group(function () {
 
 		Route::middleware(['checkadmin'])->group(function () {
 			Route::group(['prefix' => 'admin'], function () {
+
 				Route::get('', 'AdminController@admin_report')->name('reports');
 				Route::get('update_report', 'AdminController@update_report')->name('update_report');
 				Route::get('report_nodelete', 'AdminController@admin_report_nodelete')->name('report_nodelete');

@@ -37,8 +37,8 @@
 			                       ->get();
 			$request = Friend::where('receiver_id', '=', $id)->where('accept', '=', 0)->where('delete_at', '=', 0)->get();
 			
-			//dd($user['blood_name']);
-			return view('add_post')->with('user_id', $user_id)->with('data', $data)->with('user', $user)->with('count_friends', $count_friends)->with('request', $request);
+			//dd($data);
+			return view('add_post')->with('user_id', $user_id)->with('datas', $data)->with('user', $user)->with('count_friends', $count_friends)->with('request', $request);
 		}
 		/**
 		 * @param request $rq

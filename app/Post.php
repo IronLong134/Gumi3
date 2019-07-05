@@ -1,168 +1,189 @@
 <?php
-	
-	namespace App;
-	
-	use Illuminate\Database\Eloquent\Model;
-	use Illuminate\Http\Request;
-	use Illuminate\Support\Facades\Auth;
-	
-	class Post extends Model {
-		//
-		/**
-		 * @var string
-		 */
-		protected $table = 'posts';
-		/**
-		 * @var string
-		 */
-		protected $primaryKey = 'id';
-		//public $content='content';
-		
-		/**
-		 * @return mixed
-		 */
-		public function comment() {
-			return $this->hasMany('App\Comment');
+
+namespace App;
+
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+
+class Post extends Model {
+	//
+	/**
+	 * @var string
+	 */
+	protected $table = 'posts';
+	/**
+	 * @var string
+	 */
+	protected $primaryKey = 'id';
+	//public $content='content';
+
+	/**
+	 * @return mixed
+	 */
+	public function comment() {
+		return $this->hasMany('App\Comment');
+	}
+
+	/**
+	 * @return mixed
+	 */
+	public function like() {
+		return $this->hasMany('App\Like');
+	}
+
+	/**
+	 * @return mixed
+	 */
+	public function user() {
+		return $this->belongsTo('App\User', 'user_id');
+	}
+
+	/**
+	 * @param $user_id
+	 *
+	 * @return mixed
+	 */
+	public function getPostID($user_id) {
+		//			$data = Post::orderBy('created_at', 'desc')->whereHas('user', function ($query) use ($user_id) {
+		//				$query->where('id', $user_id)->where('delete_at', '=', 0);
+		//			})->get();
+		$like = new Like();
+		$datas = Post::where('user_id', '=', $user_id)
+								->where('delete_at', '=', 0)
+								->with(['comment' => function ($q) {
+									$q->where('delete_at', '=', 0);
+								}])->with(['like' => function ($q) {
+					       $q->where('delete_at', '=', 0);
+				        }])
+								->orderBy('created_at', 'DESC')->get();
+		foreach ($datas as $data){
+			$check=$like->checkLike($data->id,Auth::id());
+			$data['checkLike']=$check;
 		}
-		
-		/**
-		 * @return mixed
-		 */
-		public function like() {
-			return $this->hasMany('App\Like');
-		}
-		
-		/**
-		 * @return mixed
-		 */
-		public function user() {
-			return $this->belongsTo('App\User', 'user_id');
-		}
-		
-		/**
-		 * @param $user_id
-		 *
-		 * @return mixed
-		 */
-		public function getPostID($user_id) {
-			$data = Post::orderBy('created_at', 'desc')->whereHas('user', function ($query) use ($user_id) {
-				$query->where('id', $user_id)->where('delete_at', '=', 0);
-			})->get();
-			
-			return $data;
-		}
-		
-		/**
-		 * @return mixed
-		 */
-		public function getAllPost() {
-			$id = Auth::user()->id;
-			$friends = Friend::where(function ($q) {
-				$q->where('sender_id', '=', Auth::user()->id)
-				  ->orWhere('receiver_id', '=', Auth::user()->id);
-			})
-			                 ->orderBy('updated_at', 'DESC')
-			                 ->where('accept', '=', 1)
-			                 ->where('delete_at', '=', 0)
-			                 ->get();
-			$receiver_ids = $friends->where('sender_id', '=', Auth::user()->id)->pluck('receiver_id');
-			$sender_ids = $friends->where('receiver_id', '=', Auth::user()->id)->pluck('sender_id');//lấy id bạn bè qua 2 trường hợp , bạn là người gửi hoặc bạn là người nahanj
-			$list = array_merge($receiver_ids->toArray(), $sender_ids->toArray());
-			array_push($list, $id);//lấy được id những người đag là bạn bè và chính bạn
-			$posts = Post::whereIn('user_id', $list)
-			             ->with(['user'])
-			             ->with(['comment' => function ($q) {
-				             $q->where('delete_at', '=', 0);
-					}])->with(['like' => function ($q) {
-				             $q->where('delete_at', '=', 0);
-			             }])
-			             ->where('delete_at', '=', 0)
-			             ->orderBy('id', 'DESC')->get();
-			foreach ($posts as $post) {
-				$like = new Like();
-				$post['checkLike'] = $like->checkLike($post->id, $id);
-			}
-			
-			return $posts;
-		}
-		
-		/**
-		 * @param Request $rq
-		 */
-		public function addPost(Request $rq) {
-			$new_post = new Post();
-			//$new_post->post_id = $rq->id;
-			$new_post->user_id = $rq->user_id;
-			$new_post->content = $rq->content;
-			$new_post->save();
-		}
-		
-		/**
-		 * @param $id
-		 *
-		 * @return mixed
-		 */
-		public function getCmtPost($id) {
-			$datas = Comment::where('post_id', '=', $id)
-			                ->where('delete_at', '=', 0)
-			                ->with('user')
-			                ->get();
-			$user_id = Post::where('id', '=', $id)->get();
-			foreach ($datas as $data) {
-				if ($data->user_id == Auth::id()) {
-					$data['edit'] = 1;
-				} else if ($user_id[0]->user_id == Auth::id()) {
-					$data['edit'] = 1;
-				} else {
-					$data['edit'] = 0;
+		return $datas;
+	}
+
+	/**
+	 * @return mixed
+	 */
+	public function getAllPost() {
+		$id = Auth::user()->id;
+		$user = new User();
+		$friends = Friend::where(function ($q) {
+			$q->where('sender_id', '=', Auth::user()->id)
+				->orWhere('receiver_id', '=', Auth::user()->id);
+		})
+										 ->orderBy('updated_at', 'DESC')
+										 ->where('accept', '=', 1)
+										 ->where('delete_at', '=', 0)
+										 ->get();
+		$receiver_ids = $friends->where('sender_id', '=', Auth::user()->id)->pluck('receiver_id');
+		$sender_ids = $friends->where('receiver_id', '=', Auth::user()->id)->pluck('sender_id');//lấy id bạn bè qua 2 trường hợp , bạn là người gửi hoặc bạn là người nahanj
+		$list = array_merge($receiver_ids->toArray(), $sender_ids->toArray());
+		$blocks= $user->getListBlockAcount();
+		foreach ($blocks as $block){
+			foreach ($list as $key =>$user){
+				if($user == $block->id){
+					unset($list[$key]);
 				}
 			}
-			
-			//dd($data);
-			return $datas;
 		}
-		
-		/**
-		 * @param  $post_id
-		 *
-		 * @return mixed
-		 */
-		public function getLike($post_id) {
-			$data = Like::where('post_id', '=', $post_id)->where('delete_at', '=', 0)->count();
-			
-			return $data;
-		}
-		
-		/**
-		 * @param  $id
-		 *
-		 * @return mixed
-		 */
-		public function getPostById($id) {
-			$user_id = Auth::user()->id;
+		array_push($list, $id);//lấy được id những người đag là bạn bè và chính bạn
+		$posts = Post::whereIn('user_id', $list)
+								 ->with(['user'])
+								 ->with(['comment' => function ($q) {
+									 $q->where('delete_at', '=', 0);
+								 }])->with(['like' => function ($q) {
+					$q->where('delete_at', '=', 0);
+				}])
+								 ->where('delete_at', '=', 0)
+								 ->orderBy('id', 'DESC')->get();
+		foreach ($posts as $post) {
 			$like = new Like();
-			$check = $like->checkLike($id, $user_id);
-			$user_post = Post::where('id', '=', $id)
-			                 ->where('delete_at', '=', 0)
-			                 ->with('user', 'comment')
-			                 ->with(['like' => function ($q) {
-				                 $q->where('delete_at', '=', 0);
-				
-			                 }])->orderBy('updated_at', 'DESC')->get();
-			$user_post['checkLike'] = $check;
-			
-			//dd($user_post);
-			return $user_post;
+			$post['checkLike'] = $like->checkLike($post->id, $id);
 		}
-		
-		/**
-		 * @param $id
-		 */
-		public function deletePost($id) {
-			// TODO: nếu ko return gì thì ko nên tạo biến mới
-			Post::where('id', '=', $id)->update(['delete_at' => 1]);
-		}
-		
-		//lay post bạn bè
-		
+
+		return $posts;
 	}
+
+	/**
+	 * @param Request $rq
+	 */
+	public function addPost(Request $rq) {
+		$new_post = new Post();
+		//$new_post->post_id = $rq->id;
+		$new_post->user_id = $rq->user_id;
+		$new_post->content = $rq->content;
+		$new_post->save();
+	}
+
+	/**
+	 * @param $id
+	 *
+	 * @return mixed
+	 */
+	public function getCmtPost($id) {
+		$datas = Comment::where('post_id', '=', $id)
+										->where('delete_at', '=', 0)
+										->with('user')
+										->get();
+		$user_id = Post::where('id', '=', $id)->get();
+		foreach ($datas as $data) {
+			if ($data->user_id == Auth::id()) {
+				$data['edit'] = 1;
+			} else if ($user_id[0]->user_id == Auth::id()) {
+				$data['edit'] = 1;
+			} else {
+				$data['edit'] = 0;
+			}
+		}
+
+		//dd($data);
+		return $datas;
+	}
+
+	/**
+	 * @param  $post_id
+	 *
+	 * @return mixed
+	 */
+	public function getLike($post_id) {
+		$data = Like::where('post_id', '=', $post_id)->where('delete_at', '=', 0)->count();
+
+		return $data;
+	}
+
+	/**
+	 * @param  $id
+	 *
+	 * @return mixed
+	 */
+	public function getPostById($id) {
+		$user_id = Auth::user()->id;
+		$like = new Like();
+		$check = $like->checkLike($id, $user_id);
+		$user_post = Post::where('id', '=', $id)
+										 ->where('delete_at', '=', 0)
+										 ->with('user', 'comment')
+										 ->with(['like' => function ($q) {
+											 $q->where('delete_at', '=', 0);
+
+										 }])->orderBy('updated_at', 'DESC')->get();
+		$user_post['checkLike'] = $check;
+
+		//dd($user_post);
+		return $user_post;
+	}
+
+	/**
+	 * @param $id
+	 */
+	public function deletePost($id) {
+		// TODO: nếu ko return gì thì ko nên tạo biến mới
+		Post::where('id', '=', $id)->update(['delete_at' => 1]);
+	}
+
+	//lay post bạn bè
+
+}

@@ -409,3 +409,25 @@ a.tag-admin:hover{
   font-size: 30px;
   font-weight: bold;
 }
+
+.cmt_like{
+  margin-left: -20px;
+  font-weight: bold;
+  font-size:16px;
+}
+.tag_like{
+  padding-left: 10%;
+  padding-right: 10%;
+  /*margin-left: 12%;*/
+  /*padding-left: 6%;*/
+}
+.mypost{
+  margin-bottom: 5%;
+}
+a.tag_like:hover{
+  background: #e6e9eb;
+}
+a.tag_like.non-textdecoration{
+  color: red;
+  text-decoration: none;
+}
