@@ -255,10 +255,13 @@ class DemoController extends Controller {
 										 ->where('delete_at', '=', 0)
 										 ->get();
 		$image = Image::where('user_id', '=', $user->id)->pluck('images');
-		$image = trim($image[0]);
+		if(count($image)>0){
+			$image = trim($image[0]);
+			$images = $image == '' ? NULL : explode(" ", $image);
+		}else{
+			$images=NULL;
+		}
 		//dd($image);
-		$images = $image == '' ? NULL : explode(" ", $image);
-
 		//dd($images);
 		return view('images')
 				->with('user', $user)

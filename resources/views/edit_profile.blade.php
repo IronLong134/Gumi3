@@ -21,15 +21,15 @@
                             <input type="hidden" id="id" name="id" value="{{$user->id}}"><br>
                             <div class="text-center text-primary"><i class="fas fa-user-tag"></i> Cập nhật ảnh đại diện
                             </div>
-                            <div class="text-center"><input class="btn btn-primary" id="file" type="file"
-                                                            name="select_file"
-                                                            value="{{ $user->avatar}}"/></div>{{--
-            <input class="btn btn-primary" type="button" onclick="enable()" name="edit" value="sửa thông tin"><br> --}}
-                            <div class="text-center"><input class="btn btn-primary"
-                                                            onclick="return confirm('xác nhận thông tin sửa');"
-                                                            type="submit" id="ok" name="ok"
-                                                            value="cập nhật ảnh đại diện"><br>
-                            </div>
+                            {{--<div class="text-center"><input class="btn btn-primary" id="file" type="file"--}}
+                                                            {{--name="select_file"--}}
+                                                            {{--value="{{ $user->avatar}}"/></div>--}}{{----}}
+            {{--<input class="btn btn-primary" type="button" onclick="enable()" name="edit" value="sửa thông tin"><br> --}}
+                            {{--<div class="text-center"><input class="btn btn-primary"--}}
+                                                            {{--onclick="return confirm('xác nhận thông tin sửa');"--}}
+                                                            {{--type="submit" id="ok" name="ok"--}}
+                                                            {{--value="cập nhật ảnh đại diện"><br>--}}
+                            {{--</div>--}}
                         </form>
                     </div>
                     <div class="text-center margin-bottom"><a class="btn btn-primary" href="/images/{{Auth::id()}}">Chọn
@@ -356,4 +356,5 @@
                 $('#btn-' + name).val(_name.prop('readonly') ? 'Thay đổi' : 'Xong');
             }
         </script>
+    </div>
 @endsection

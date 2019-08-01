@@ -1,5 +1,7 @@
 
 @extends('admin-view.admin-view-master')
+<link href="{{ asset('css/admin-login.css') }}" rel="stylesheet">
+
 {{--@extends('demo')--}}
 <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
@@ -12,12 +14,16 @@
     <div class="">
       <img src="{{url('imgs/ironman_icon.png')}}" id="icon" alt="User Icon" />
     </div>
-    @if($errors->has('errorlogin'))
-      <div class="alert alert-danger">
-        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-        {{$errors->first('errorlogin')}}
-      </div>
-    @endif
+    <div id="error_wrapper">
+      @if($errors->has('errorlogin'))
+        <div class="alert alert-danger">
+          <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+          {{$errors->first('errorlogin')}}
+        </div>
+
+      @endif
+    </div>
+
     <!-- Login Form -->
     <form id='admin-login' action="{{url('admin\postLogin')}}" method="POST">
       {{ csrf_field ()}}
@@ -42,7 +48,7 @@
   </div>
 
   </div>
+<script src="{{ asset('js/admin-login.js') }}" defer></script>
 
-<link href="{{ asset('css/admin-login.css') }}" rel="stylesheet">
 
 

@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Admin;
+use Cookie;
 use App\Report;
+use Illuminate\Http\Response;
 use App\Friend;
 use App\Image;
 use App\Masterdata;
@@ -30,36 +32,75 @@ class AdminController extends Controller {
 				'password' => 'required|string|min:8'
 		];
 		$messages = [
-				'email.required'      => 'Email là trường bắt buộc',
-				'email.email'         => 'Email không đúng định dạng',
-				'email.unique:admins' => 'email này đã được sử dụng',
-				'password.required'   => 'Mật khẩu là trường bắt buộc',
-				'password.min'        => 'Mật khẩu phải chứa ít nhất 8 ký tự',
+				'email.required'    => 'Email là trường bắt buộc',
+				'email.email'       => 'Email không đúng định dạng',
+				//				'email.unique:admins' => 'email này đã được sử dụng',
+				'password.required' => 'Mật khẩu là trường bắt buộc',
+				'password.min'      => 'Mật khẩu phải chứa ít nhất 8 ký tự',
 		];
 		$validator = Validator::make($request->all(), $rules, $messages);
 
 		if ($validator->fails()) {
-			return redirect()->back()->withErrors($validator);
+			$error = $validator->errors()->first();
+			//return redirect()->back()->withErrors($validator);
+			$json = json_encode($error);
+
+			return $json;
+
 		} else {
 			$email = $request->email;
 			$password = $request->password;
-			if (count($admin->checklogin($email, $password))>0) {
+			if (count($admin->checklogin($email, $password)) > 0) {
 				//dd($admin->checklogin($email,$password));
-				session(['email' => $email,'password'=>$password]);
-				return redirect()->route('success');
+				session(['email' => $email, 'password' => $password]);
+
+				return 1;
+				//				$new = new Report();
+				//				$reports = $new->getReport_Nodelete();
+				//				$reports_delete = $new->getReport_delete();
+				//				return view('admin-view.report')->with('reports', $reports)
+				//																				->with('reports_delete', $reports_delete);
 			} else {
-				$errors = new MessageBag(['errorlogin' => 'Email hoặc mật khẩu không đúng']);
-				return redirect()->back()->withInput()->withErrors($errors);
+				//$errors = new MessageBag(['errorlogin' => 'Email hoặc mật khẩu không đúng']);
+				$json = json_encode("Email hoặc mật khẩu không đúng");
+
+				//				return redirect()->back()->withInput()->withErrors($errors);
+				return $json;
 			}
-//				dd($email);
+			//				dd($email);
 		}
 
 	}
-	public function success(Request $request){
-	    return view('admin-view.top-bar');
+
+	public function success(Request $request) {
+		$value = $request->session()->get('email', '0');
+		echo $value;
+
+		return view('admin-view.success');
 	}
 
-	//
+	public function Report2() {
+		$new = new Report();
+		$reports = $new->getReport_Nodelete();
+		$reports_delete = $new->getReport_delete();
+
+		return view('admin-view.report')->with('reports', $reports)
+																		->with('reports_delete', $reports_delete);
+	}
+
+	public function Member2() {
+		return view('admin-view.members');
+	}
+
+	public function logout(Request $request) {
+		$request->session()->forget(['email', 'password']);
+
+		$value = $request->session()->get('email', '0');
+
+		return view('admin-view.admin-login');
+
+	}
+
 	public function admin_member() {
 		$user1 = Auth::user();
 		$id = $user1->id;
@@ -70,6 +111,7 @@ class AdminController extends Controller {
 		//dd($users);
 		return $json;
 	}
+
 
 	public function admin_report() {
 		$new = new Report();
@@ -90,6 +132,7 @@ class AdminController extends Controller {
 		return $reports_nodelete;
 	}
 
+
 	public function admin_report_delete() {
 		$new = new Report();
 		$reports = $new->getReport_delete();
@@ -100,8 +143,10 @@ class AdminController extends Controller {
 
 	public function update_report(Request $rq) {
 		$new = new Report();
+		$new->update_report($rq->report_id);
+		$report = $new->getReport($rq->report_id);
+		return json_encode($report);
 
-		return $new->update_report($rq->report_id);
 	}
 
 	public function profile_user($id) {

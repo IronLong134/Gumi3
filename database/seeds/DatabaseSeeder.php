@@ -10,8 +10,8 @@
 		 */
 		public function run() {
 			// $this->call(TruncateTable::class);
-			//$this->call(masterDataTable::class);
-			$this->call(messengersTable::class);
+			$this->call(masterDataTable::class);
+//			$this->call(messengersTable::class);
 			
 		}
 	}

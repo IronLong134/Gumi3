@@ -17,7 +17,7 @@ class CreateFriendsTable extends Migration
             $table->integer('id')->autoIncrement();
             $table->integer('sender_id');
             $table->integer('receiver_id');
-            $table->integer('accept');
+            $table->integer('accept')->default(0);
             $table->foreign('sender_id')->references('id')->on('users');
             $table->foreign('receiver_id')->references('id')->on('users');
             $table->timestamps();

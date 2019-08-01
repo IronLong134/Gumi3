@@ -20,6 +20,8 @@ class masterDataTable extends Seeder
             [0, 1, 'A',1],
             [0, 2, 'B',2],
             [0, 3, 'AB',3],
+						[1,0,'Tài khoản giả mạo',0],
+						[1,0,'Spam',0]
         ];
     
         foreach ($masterdatas as $masterdata) {

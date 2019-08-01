@@ -66,4 +66,12 @@ class Report extends Model {
 	public function update_report($id) {
 		Report::where('id','=',$id)->update(['status'=>1]);
 	}
+	public function getReport($report_id){
+		$data = Report::where('id','=',$report_id)->with(['sender_report','receiver_report'])->first();
+		$reason_report = Masterdata::where('kind', '=', 1)
+															 ->where('value', '=', $data->reason)
+															 ->pluck('name');
+		$data['reason_report']=$reason_report;
+		return $data;
+	}
 }

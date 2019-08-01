@@ -45,8 +45,8 @@
   <link href="{{ asset('css/app.css') }}" rel="stylesheet">
   <link href="{{ asset('css/main.css') }}" rel="stylesheet">
 
-  {{--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css"/>--}}
-  <!-- new -->
+{{--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css"/>--}}
+<!-- new -->
 
 
 </head>
@@ -109,15 +109,11 @@
     </li>
 
     </ul>
-</div>
-</div>
+ </div>
 </nav>
 <div>
   <section class="content-header">
-
-
     <div class="container">
-
       <nav class="navbar navbar-expand-lg navbar-light bg-primary ">
         <button class="navbar-toggler" type="button" data-toggle="collapse"
                 data-target="#navbarTogglerDemo03"
@@ -128,8 +124,6 @@
         <a class="navbar-brand text-white" href="\home"><i
               class="far fa-newspaper"></i> Bảng tin
         </a>
-
-
         <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
           <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
             <li class="nav-item active">
@@ -182,11 +176,8 @@
 
 
 @endguest
-
-
-</div>
-</body>
 <main class="py-4">
   @yield('content')
 </main>
+</body>
 </html>

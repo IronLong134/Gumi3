@@ -39,10 +39,11 @@ Route::get('/yield_c', function () {
 Route::get('/yield_b', function () {
 	return view('yield_b');
 })->name('yield_b');
-Route::get('admin/login','AdminController@get_login')->name('get_login');
+Route::get('admin/login','AdminController@get_login')->name('get_login_admin');
 
 Route::post('admin/postLogin','AdminController@PostLogin')->name('postLogin');
-Route::get('success','AdminController@success')->name('success');
+Route::get('success','AdminController@success')->name('success')->middleware('CheckAdmin2');
+
 Route::get('/demo_report', function () {
 	return view('admin-view.report');
 })->name('demo_report');
@@ -53,6 +54,15 @@ Route::get('/demo_member', function () {
 Route::get('/test1', 'AdminController@getListBlock')->name('test');
 Route::get('/error', 'DemoController@error')->name('error');
 Route::get('error2/{msg}', 'HomeController@error2')->name('error2');
+
+Route::middleware(['CheckAdmin2'])->group(function (){
+	Route::group(['prefix' => 'admin2'], function () {
+		Route::get('/report', 'AdminController@Report2')->name('admin2_report');
+		Route::get('/member', 'AdminController@Member2')->name('admin2_member');
+		Route::get('/logout','AdminController@logout')->name('admin2_logout');
+		Route::post('update_report', 'AdminController@update_report')->name('update_report2');
+	});
+});
 Route::middleware(['auth'])->group(function () {
 	Route::middleware(['CheckBlockAcount'])->group(function () {
 		Route::get('/home', 'HomeController@index')->name('home');

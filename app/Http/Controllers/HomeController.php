@@ -26,10 +26,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        
         $user = Auth::user();
-        
-        
         $post = new Post();
         $data = $post->getAllPost();
         $my_posts=$post->getPostID( Auth::user()->id);
