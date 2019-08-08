@@ -50,7 +50,7 @@ Route::get('/demo_report', function () {
 Route::get('/demo_member', function () {
 	return view('admin-view.members');
 })->name('demo_member');
-
+//route::put('/test/id)
 Route::get('/test1', 'AdminController@getListBlock')->name('test');
 Route::get('/error', 'DemoController@error')->name('error');
 Route::get('error2/{msg}', 'HomeController@error2')->name('error2');

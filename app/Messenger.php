@@ -152,9 +152,13 @@
 					}
 					$user_info->last_msg = $last_msg;
 				}
+			}else
+			{
+				$user_infos=[];
 			}
 			
 			return $user_infos;
+			//dd($user_infos);
 		}
 		
 		public function getListMsg_Readed()// lấy thông tin của những người ddag ns chyện và ko có tin nhắn chưa đọc
